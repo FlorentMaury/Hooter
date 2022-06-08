@@ -1,25 +1,41 @@
-import logo from './logo.svg';
+// Librairies
+import React             from 'react';
+import { Routes, Route } from 'react-router-dom';
 import './App.css';
 
+// Composants
+import Layout from './HOC/Layout/Layout';
+import Home   from './Containers/Home/Home';
+
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+    // State
+    // const [user, setUser] = useState('');
+
+    // ComponentDidMount
+    // useEffect(() => {
+    //     authListener();
+    // }, []);
+
+    // const authListener = () => {
+    //     fire.auth().onAuthStateChanged(user => {
+    //         if(user) {
+    //             setUser(user);
+    //         } else {
+    //             setUser('');
+    //         }
+    //     });
+    // };
+
+    return (
+        <div className="App">
+            <Layout>
+                <Routes>
+                    <Route path='/' element={ <Home /> } />
+                </Routes>
+            </Layout>
+        </div>
+    );
 }
 
 export default App;
