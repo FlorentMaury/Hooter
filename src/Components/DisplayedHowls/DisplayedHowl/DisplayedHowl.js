@@ -4,19 +4,17 @@ import { Link }  from 'react-router-dom';
 import routes    from '../../../config/routes';
 import PropTypes from 'prop-types'
 
-function DisplayedHolw(props) {
+function DisplayedHowl(props) {
     return (
-        <Link to={routes.DASHBOARD}>
-            <div>
-                <p>{props.holw.contenu}</p>
-                <small>{props.holw.auteur}</small>
-            </div>
-        </Link>
+        <div>
+            <p>{props.howl.contenu}</p>
+            <small>{props.howl.auteur}</small>
+        </div>
     );
 };
 
-DisplayedHolw.propTypes = {
-    holw: PropTypes.object
+DisplayedHowl.propTypes = {
+    howl: PropTypes.object
 };
 
-export default DisplayedHolw;
+export default DisplayedHowl;

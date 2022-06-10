@@ -10,7 +10,7 @@ import { toast }                      from 'react-toastify';
 // Composants
 import Input from '../../../Components/UI/Input/Input';
 
-export default function ManageHolws(props) {
+export default function ManageHowls() {
 
     const navigate     = useNavigate();
     const location     = useLocation();
@@ -92,7 +92,7 @@ export default function ManageHolws(props) {
             .then(token => {
 
                 if(howlState !== null && howlState.howl) {
-                    axios.put('/holws/' + howlState.howl.id + '.json?auth=' + token, howl)
+                    axios.put('/howls/' + howlState.howl.id + '.json?auth=' + token, howl)
                     .then(() => {
                         toast.success('Article modifié avec succès !', {
                             hideProgressBar: false,
@@ -100,13 +100,13 @@ export default function ManageHolws(props) {
                             pauseOnHover   : true,
                             draggable      : true,
                         });
-                        navigate(routes.ARTICLES + '/' + howlState.howl.slug);
+                        navigate(routes.DASHBOARD + '/' + howlState.howl.slug);
                     })
                     .catch(error => {
                         console.log(error);
                     }); 
                 } else {
-                    axios.post('/holws.json?auth=' + token, howl)
+                    axios.post('/howls.json?auth=' + token, howl)
                     .then(() => {
                         toast.success('Article ajouté avec succès !')
                         navigate(routes.DASHBOARD);

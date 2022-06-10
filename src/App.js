@@ -6,13 +6,13 @@ import fire                           from './config/firebase';
 import './App.css';
 
 // Composants
-import Layout    from './HOC/Layout/Layout';
-import Home      from './Containers/Home/Home';
-import Connexion from './Containers/Security/Connexion/Connexion';
-import Dashboard from './Containers/Dashboard/Dashboard';
-import NotFound  from './Components/NotFound/NotFound';
-import Contact   from './Components/Contact/Contact';
-import ManageHolws from './Containers/Admin/ManageHowls/ManageHowls';
+import Layout      from './HOC/Layout/Layout';
+import Home        from './Containers/Home/Home';
+import Connexion   from './Containers/Security/Connexion/Connexion';
+import Dashboard   from './Containers/Dashboard/Dashboard';
+import NotFound    from './Components/NotFound/NotFound';
+import Contact     from './Components/Contact/Contact';
+import ManageHowls from './Containers/Admin/ManageHowls/ManageHowls';
 
 function App() {
 
@@ -41,7 +41,7 @@ function App() {
                     { !user && <Route path={routes.HOME}      element={ <Home /> } /> }
                     { !user && <Route path={routes.CONNEXION} element={ <Connexion /> } /> }
                     { user &&  <Route path={routes.DASHBOARD} element={ <Dashboard /> } > 
-                        <Route path={routes.MANAGEHOWLS}      element={ <ManageHolws /> } />
+                        <Route path={routes.MANAGEHOWLS}      element={ <ManageHowls /> } />
                     </Route> }
                     <Route path={routes.CONTACT}   element= { <Contact /> } />
                     <Route path='*'                element={ <NotFound /> } />

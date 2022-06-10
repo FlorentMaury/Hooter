@@ -5,33 +5,31 @@ import routes                         from '../../config/routes';
 import axios                          from '../../config/axios-firebase';
 
 // Composants
-import ManageHolws    from '../Admin/ManageHowls/ManageHowls';
-import DisplayedHolws from '../../Components/DisplayedHowls/DisplayedHowls';
+import ManageHowls    from '../Admin/ManageHowls/ManageHowls';
+import DisplayedHowls from '../../Components/DisplayedHowls/DisplayedHowls';
 
 export default function Dashboard() {
 
     // State
-    const [holws, setHolws] = useState([]);
+    const [howls, setHowls] = useState([]);
 
     // ComponentDidMount ?
     useEffect(() => {
-        axios.get('/holws.json')
+        axios.get('/howls.json')
             .then(response => {
-                let holwsArray = [];
+                console.log(response);
+                let howlsArray = [];
                 for (let key in response.data) {
-                    holwsArray.push({
+                    howlsArray.push({
                         ...response.data[key],
                         id: key
                     });
                 }
 
                 // Chronologie
-                holwsArray.reverse();
+                howlsArray.reverse();
 
-                // Trier
-                holwsArray = holwsArray.filter(holw => holw.brouillon === 'false');
-
-                setHolws(holwsArray);
+                setHowls(howlsArray);
             })
             .catch(error => {
                 console.log(error)
@@ -49,9 +47,9 @@ export default function Dashboard() {
             <Link to={routes.MANAGEHOWLS}>
                 <button>Howlin</button>
             </Link>
-            <ManageHolws />
-            <h2>Holws</h2>
-            <DisplayedHolws holws={holws} />
+            <ManageHowls />
+            <h2>Howls</h2>
+            <DisplayedHowls howls={howls} />
         </>
     );
 };

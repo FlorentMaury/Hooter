@@ -1,19 +1,19 @@
 // Librairies
 import React            from 'react';
-import DisplayedHolw    from './DisplayedHowl/DisplayedHowl';
+import DisplayedHowl    from './DisplayedHowl/DisplayedHowl';
 
-export default function DisplayedHolws(props) {
+export default function DisplayedHowls(props) {
 
-    let holws = props.holws.map(holw => (
-        <DisplayedHolw 
-            key={holw.id} 
-            holw={holw} 
+    let howls = props.howls.map(howl => (
+        <DisplayedHowl 
+            key={howl.id} 
+            howl={howl} 
         />
     ));
 
     return (
         <section className='container'>
-            {holws}
+            {howls}
         </section>
     );
 };
