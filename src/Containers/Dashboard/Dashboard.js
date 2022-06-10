@@ -5,8 +5,8 @@ import routes                         from '../../config/routes';
 import axios                          from '../../config/axios-firebase';
 
 // Composants
-import ManageHolws    from '../Admin/ManageHolws/ManageHolws';
-import DisplayedHolws from '../../Components/DisplayedHolws/DisplayedHolws';
+import ManageHolws    from '../Admin/ManageHowls/ManageHowls';
+import DisplayedHolws from '../../Components/DisplayedHowls/DisplayedHowls';
 
 export default function Dashboard() {
 

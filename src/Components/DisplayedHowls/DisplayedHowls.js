@@ -1,6 +1,6 @@
 // Librairies
 import React            from 'react';
-import DisplayedHolw    from './DisplayedHolw/DisplayedHolw';
+import DisplayedHolw    from './DisplayedHowl/DisplayedHowl';
 
 export default function DisplayedHolws(props) {
 

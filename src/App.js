@@ -12,7 +12,7 @@ import Connexion from './Containers/Security/Connexion/Connexion';
 import Dashboard from './Containers/Dashboard/Dashboard';
 import NotFound  from './Components/NotFound/NotFound';
 import Contact   from './Components/Contact/Contact';
-import ManageHolws from './Containers/Admin/ManageHolws/ManageHolws';
+import ManageHolws from './Containers/Admin/ManageHowls/ManageHowls';
 
 function App() {
 

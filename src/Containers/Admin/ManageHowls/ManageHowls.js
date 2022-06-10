@@ -14,16 +14,16 @@ export default function ManageHolws(props) {
 
     const navigate     = useNavigate();
     const location     = useLocation();
-    const articleState = location.state;
+    const howlState = location.state;
 
     // States
     const [inputs, setInputs] = useState({
         contenu: {
             elementType  : 'textarea',
             elementConfig: {},
-            value        : articleState !== null ? articleState.article.contenu : '',
+            value        : howlState !== null ? howlState.howl.contenu : '',
             label        : 'Contenu de l\'article',
-            valid        : articleState !== null && articleState.article ? true : false,
+            valid        : howlState !== null && howlState.howl ? true : false,
             validation   : {
                 required: true
             },
@@ -36,9 +36,9 @@ export default function ManageHolws(props) {
                 type       : 'text',
                 placeholder: 'Auteur de l\'article'
             },
-            value     : articleState !== null ? articleState.article.auteur : '',
+            value     : howlState !== null ? howlState.howl.auteur : '',
             label     : 'Auteur',
-            valid     : articleState !== null && articleState.article ? true : false,
+            valid     : howlState !== null && howlState.howl ? true : false,
             validation: {
                 required: true
             },
@@ -47,7 +47,7 @@ export default function ManageHolws(props) {
         }
     });
 
-    const [valid, setValid] = useState(articleState !== null && articleState.article ? true : false);
+    const [valid, setValid] = useState(howlState !== null && howlState.howl ? true : false);
 
     // ComponentDidUpdate
     useEffect(() => {
@@ -82,7 +82,7 @@ export default function ManageHolws(props) {
 
         event.preventDefault();
 
-        const article = {
+        const howl = {
             contenu  : inputs.contenu.value,
             auteur   : inputs.auteur.value,
             date     : Date.now(),
@@ -91,8 +91,8 @@ export default function ManageHolws(props) {
         const token = fire.auth().currentUser.getIdToken()
             .then(token => {
 
-                if(articleState !== null && articleState.article) {
-                    axios.put('/holws/' + articleState.article.id + '.json?auth=' + token, article)
+                if(howlState !== null && howlState.howl) {
+                    axios.put('/holws/' + howlState.howl.id + '.json?auth=' + token, howl)
                     .then(() => {
                         toast.success('Article modifié avec succès !', {
                             hideProgressBar: false,
@@ -100,13 +100,13 @@ export default function ManageHolws(props) {
                             pauseOnHover   : true,
                             draggable      : true,
                         });
-                        navigate(routes.ARTICLES + '/' + articleState.article.slug);
+                        navigate(routes.ARTICLES + '/' + howlState.howl.slug);
                     })
                     .catch(error => {
                         console.log(error);
                     }); 
                 } else {
-                    axios.post('/holws.json?auth=' + token, article)
+                    axios.post('/holws.json?auth=' + token, howl)
                     .then(() => {
                         toast.success('Article ajouté avec succès !')
                         navigate(routes.DASHBOARD);
@@ -150,7 +150,7 @@ export default function ManageHolws(props) {
             <div>
                 <input 
                     type     = 'submit'
-                    value    = {articleState !== null && articleState.article ? 'Modifier un article' : 'Ajouter un article'}
+                    value    = {howlState !== null && howlState.howl ? 'Modifier un article' : 'Ajouter un article'}
                     disabled = {!valid}
                 />
             </div>
@@ -159,7 +159,7 @@ export default function ManageHolws(props) {
 
     return (
         <div className='container'>
-            {articleState !== null ? 
+            {howlState !== null ? 
             <h1>Modifier</h1>
             :
             <h1>Ajouter</h1>
