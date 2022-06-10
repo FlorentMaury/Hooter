@@ -1,18 +1,29 @@
 // Librairies
-import React from 'react';
+import React           from 'react';
+import routes          from '../../../config/routes';
+import fire            from '../../../config/firebase';
+import { useNavigate } from 'react-router-dom';
+
 
 // Composants
 import NavigationItem from './NavigationItem/NavigationItem';
 
-export default function Navigation() {
+export default function Navigation(props) {
+
+    const navigate = useNavigate();
+
+    // Fonction
+    const logoutClickedHandler = () => {
+        fire.auth().signOut();
+        navigate(routes.HOME);
+    }
+
     return (
         <ul >
-        <NavigationItem to='/'>Accueil</NavigationItem>
-        <NavigationItem to='/'>Articles</NavigationItem>
-        <NavigationItem to='/'>Contact</NavigationItem>
-        <NavigationItem to='/'>Authentification</NavigationItem>
-        <NavigationItem to='/'>Ajouter</NavigationItem>
-        <button>Déconnexion</button>
+        { !props.user && <NavigationItem to={routes.HOME}>Accueil</NavigationItem> }
+        { props.user && <NavigationItem to={routes.DASHBOARD}>Profil</NavigationItem> }
+        <NavigationItem to={routes.CONTACT}>Contact</NavigationItem>
+        { props.user && <button onClick={logoutClickedHandler}>Déconnexion</button> }
     </ul>
     );
 };

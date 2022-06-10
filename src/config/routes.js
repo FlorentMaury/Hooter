@@ -1,7 +1,9 @@
 const routes = {
-    HOME            : '/',
-    CONTACT         : '/contact',
-    AUTHENTIFICATION: '/authentification'
+    HOME       : '/',
+    CONTACT    : '/contact',
+    CONNEXION  : '/connexion',
+    DASHBOARD  : '/dashboard',
+    MANAGEHOWLS: '/dashboard/howlin',
 };
 
 export default routes;
