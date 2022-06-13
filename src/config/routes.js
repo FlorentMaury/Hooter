@@ -3,7 +3,9 @@ const routes = {
     CONTACT    : '/contact',
     CONNEXION  : '/connexion',
     DASHBOARD  : '/dashboard',
-    MANAGEHOWLS: '/dashboard/howlin',
+    MANAGEHOOTS: '/dashboard/hootin',
+    PROFILE    : '/profile',
+    HOOT       : '/hoot'
 };
 
 export default routes;

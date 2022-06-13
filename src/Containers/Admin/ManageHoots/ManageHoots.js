@@ -10,20 +10,20 @@ import { toast }                      from 'react-toastify';
 // Composants
 import Input from '../../../Components/UI/Input/Input';
 
-export default function ManageHowls() {
+export default function ManageHoots(props) {
 
-    const navigate     = useNavigate();
-    const location     = useLocation();
-    const howlState = location.state;
+    const navigate  = useNavigate();
+    const location  = useLocation();
+    const hootState = location.state;
 
     // States
     const [inputs, setInputs] = useState({
         contenu: {
             elementType  : 'textarea',
             elementConfig: {},
-            value        : howlState !== null ? howlState.howl.contenu : '',
+            value        : hootState !== null ? hootState.hoot.contenu : '',
             label        : 'Contenu de l\'article',
-            valid        : howlState !== null && howlState.howl ? true : false,
+            valid        : hootState !== null && hootState.hoot ? true : false,
             validation   : {
                 required: true
             },
@@ -36,9 +36,9 @@ export default function ManageHowls() {
                 type       : 'text',
                 placeholder: 'Auteur de l\'article'
             },
-            value     : howlState !== null ? howlState.howl.auteur : '',
+            value     : hootState !== null ? hootState.hoot.auteur : '',
             label     : 'Auteur',
-            valid     : howlState !== null && howlState.howl ? true : false,
+            valid     : hootState !== null && hootState.hoot ? true : false,
             validation: {
                 required: true
             },
@@ -47,12 +47,7 @@ export default function ManageHowls() {
         }
     });
 
-    const [valid, setValid] = useState(howlState !== null && howlState.howl ? true : false);
-
-    // ComponentDidUpdate
-    useEffect(() => {
-        document.title = 'Gérer un article';
-    });
+    const [valid, setValid] = useState(hootState !== null && hootState.hoot ? true : false);
 
     // Méthodes
         // checkValidity
@@ -82,40 +77,32 @@ export default function ManageHowls() {
 
         event.preventDefault();
 
-        const howl = {
+        let date = new Date();
+
+        const hoot = {
             contenu  : inputs.contenu.value,
             auteur   : inputs.auteur.value,
-            date     : Date.now(),
+            date     : date.toLocaleString(navigator.language, {
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric'
+            })
         };
 
         const token = fire.auth().currentUser.getIdToken()
             .then(token => {
-
-                if(howlState !== null && howlState.howl) {
-                    axios.put('/howls/' + howlState.howl.id + '.json?auth=' + token, howl)
+                    axios.post('/hoots.json?auth=' + token, hoot)
                     .then(() => {
-                        toast.success('Article modifié avec succès !', {
-                            hideProgressBar: false,
-                            closeOnClick   : true,
-                            pauseOnHover   : true,
-                            draggable      : true,
-                        });
-                        navigate(routes.DASHBOARD + '/' + howlState.howl.slug);
+                        window.location.reload()
+                        toast.success('Article ajouté avec succès !');
                     })
                     .catch(error => {
                         console.log(error);
                     }); 
-                } else {
-                    axios.post('/howls.json?auth=' + token, howl)
-                    .then(() => {
-                        toast.success('Article ajouté avec succès !')
-                        navigate(routes.DASHBOARD);
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    }); 
-                }
-            })
+                })
             .catch(error => {
                 console.log(error);
             });
@@ -150,7 +137,7 @@ export default function ManageHowls() {
             <div>
                 <input 
                     type     = 'submit'
-                    value    = {howlState !== null && howlState.howl ? 'Modifier un article' : 'Ajouter un article'}
+                    value    = {hootState !== null && hootState.hoot ? 'Modifier un article' : 'Ajouter un article'}
                     disabled = {!valid}
                 />
             </div>
@@ -159,7 +146,7 @@ export default function ManageHowls() {
 
     return (
         <div className='container'>
-            {howlState !== null ? 
+            {hootState !== null ? 
             <h1>Modifier</h1>
             :
             <h1>Ajouter</h1>

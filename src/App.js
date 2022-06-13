@@ -12,7 +12,8 @@ import Connexion   from './Containers/Security/Connexion/Connexion';
 import Dashboard   from './Containers/Dashboard/Dashboard';
 import NotFound    from './Components/NotFound/NotFound';
 import Contact     from './Components/Contact/Contact';
-import ManageHowls from './Containers/Admin/ManageHowls/ManageHowls';
+import ManageHoots from './Containers/Admin/ManageHoots/ManageHoots';
+import Profile     from './Containers/Profile/Profile';
 
 function App() {
 
@@ -38,10 +39,11 @@ function App() {
         <div className="App">
             <Layout user={user}>
                 <Routes>
-                    { !user && <Route path={routes.HOME}      element={ <Home /> } /> }
+                    <Route path={routes.HOME}      element={ <Home /> } />
                     { !user && <Route path={routes.CONNEXION} element={ <Connexion /> } /> }
-                    { user &&  <Route path={routes.DASHBOARD} element={ <Dashboard /> } > 
-                        <Route path={routes.MANAGEHOWLS}      element={ <ManageHowls /> } />
+                    { user && <Route path={routes.PROFILE}    element={ <Profile user={user} /> } /> }
+                    { user &&  <Route path={routes.DASHBOARD} element={ <Dashboard user={user} /> } > 
+                        <Route path={routes.MANAGEHOOTS}      element={ <ManageHoots user={user} /> } />
                     </Route> }
                     <Route path={routes.CONTACT}   element= { <Contact /> } />
                     <Route path='*'                element={ <NotFound /> } />

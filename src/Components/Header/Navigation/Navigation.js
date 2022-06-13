@@ -21,7 +21,8 @@ export default function Navigation(props) {
     return (
         <ul >
         { !props.user && <NavigationItem to={routes.HOME}>Accueil</NavigationItem> }
-        { props.user && <NavigationItem to={routes.DASHBOARD}>Profil</NavigationItem> }
+        { props.user && <NavigationItem to={routes.DASHBOARD}>Dashboard</NavigationItem> }
+        { props.user && <NavigationItem to={routes.PROFILE}>Profil</NavigationItem> }
         <NavigationItem to={routes.CONTACT}>Contact</NavigationItem>
         { props.user && <button onClick={logoutClickedHandler}>Déconnexion</button> }
     </ul>

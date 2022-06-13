@@ -5,31 +5,31 @@ import routes                         from '../../config/routes';
 import axios                          from '../../config/axios-firebase';
 
 // Composants
-import ManageHowls    from '../Admin/ManageHowls/ManageHowls';
-import DisplayedHowls from '../../Components/DisplayedHowls/DisplayedHowls';
+import ManageHoots    from '../Admin/ManageHoots/ManageHoots';
+import DisplayedHoots from '../../Components/DisplayedHoots/DisplayedHoots';
 
-export default function Dashboard() {
+export default function Dashboard(props) {
 
     // State
-    const [howls, setHowls] = useState([]);
+    const [hoots, setHoots]   = useState([]);
+    const [hootin, setHootin] = useState(false);
 
     // ComponentDidMount ?
     useEffect(() => {
-        axios.get('/howls.json')
+        axios.get('/hoots.json')
             .then(response => {
-                console.log(response);
-                let howlsArray = [];
+                let hootsArray = [];
                 for (let key in response.data) {
-                    howlsArray.push({
+                    hootsArray.push({
                         ...response.data[key],
                         id: key
                     });
                 }
 
                 // Chronologie
-                howlsArray.reverse();
+                hootsArray.reverse();
 
-                setHowls(howlsArray);
+                setHoots(hootsArray);
             })
             .catch(error => {
                 console.log(error)
@@ -40,16 +40,27 @@ export default function Dashboard() {
         document.title = 'Article';
     });
 
+    // Fonctions 
+    const hootinClickedhandler = () => {
+        if (hootin) {
+            setHootin(false)
+        } else {
+            setHootin(true)
+        }
+    };
 
     return (
         <>
             <h1>Dashboard</h1>
-            <Link to={routes.MANAGEHOWLS}>
-                <button>Howlin</button>
-            </Link>
-            <ManageHowls />
-            <h2>Howls</h2>
-            <DisplayedHowls howls={howls} />
+                <button onClick={hootinClickedhandler}>
+                    { !hootin ? 'Hoot' : 'Fermer' }
+                </button>
+            {hootin && <ManageHoots /> }
+            <h2>Hoots</h2>
+            <DisplayedHoots 
+                hoots={hoots} 
+                user={props.user}
+            />
         </>
     );
 };

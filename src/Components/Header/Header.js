@@ -1,7 +1,7 @@
 // Librairies
-import React  from 'react';
-import styled from 'styled-components';
-import { useNavigate, Link } from 'react-router-dom';
+import React    from 'react';
+import styled   from 'styled-components';
+import { Link } from 'react-router-dom';
 
 
 // Composants
@@ -20,13 +20,12 @@ const StyledHeader = styled.header`
 
 export default function Header(props) {
 
-    // Variables
-    const navigate = useNavigate();
-
     return (
         <StyledHeader>
         <div>
-            Believitter
+            <Link to={routes.HOME}>
+                Hooting Owl
+            </Link>
         </div> 
         <nav>
             <Navigation user={props.user} />
