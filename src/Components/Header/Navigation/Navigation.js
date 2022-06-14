@@ -22,7 +22,7 @@ export default function Navigation(props) {
         <ul >
         { !props.user && <NavigationItem to={routes.HOME}>Accueil</NavigationItem> }
         { props.user && <NavigationItem to={routes.DASHBOARD}>Dashboard</NavigationItem> }
-        { props.user && <NavigationItem to={routes.PROFILE}>Profil</NavigationItem> }
+        { props.user && <NavigationItem to={routes.MANAGEPROFILE}>Paramètres</NavigationItem> }
         <NavigationItem to={routes.CONTACT}>Contact</NavigationItem>
         { props.user && <button onClick={logoutClickedHandler}>Déconnexion</button> }
     </ul>

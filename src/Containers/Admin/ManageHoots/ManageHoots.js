@@ -10,11 +10,13 @@ import { toast }                      from 'react-toastify';
 // Composants
 import Input from '../../../Components/UI/Input/Input';
 
-export default function ManageHoots(props) {
+export default function ManageHoots() {
 
     const navigate  = useNavigate();
     const location  = useLocation();
     const hootState = location.state;
+
+    const userEmail = fire.auth().currentUser.email;
 
     // States
     const [inputs, setInputs] = useState({
@@ -25,25 +27,11 @@ export default function ManageHoots(props) {
             label        : 'Contenu de l\'article',
             valid        : hootState !== null && hootState.hoot ? true : false,
             validation   : {
-                required: true
+                required: true,
+                maxLength: 280
             },
             touched     : false,
-            errorMessage: 'Le contenu ne doit pas être vide.'
-        },
-        auteur: {
-            elementType  : 'input',
-            elementConfig: {
-                type       : 'text',
-                placeholder: 'Auteur de l\'article'
-            },
-            value     : hootState !== null ? hootState.hoot.auteur : '',
-            label     : 'Auteur',
-            valid     : hootState !== null && hootState.hoot ? true : false,
-            validation: {
-                required: true
-            },
-            touched     : false,
-            errorMessage: 'Il doit y avoir un auteur pour cet article.'
+            errorMessage: 'Le contenu ne doit pas être vide, ni dépasser 280 caractères.'
         }
     });
 
@@ -72,6 +60,24 @@ export default function ManageHoots(props) {
         setValid(formIsValid);
     };
 
+    const genSlug = (str) => {
+        str = str.replace(/^\s+|\s+$/g, ''); // trim
+        str = str.toLowerCase();
+      
+        // remove accents, swap ñ for n, etc
+        var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
+        var to   = "aaaaeeeeiiiioooouuuunc------";
+        for (var i=0, l=from.length ; i<l ; i++) {
+            str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+        }
+    
+        str = str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
+            .replace(/\s+/g, '-') // collapse whitespace and replace by -
+            .replace(/-+/g, '-'); // collapse dashes
+    
+        return str;
+    };
+
     // Envoyer les données sur FireBase
     const formHandler = event => {
 
@@ -79,29 +85,49 @@ export default function ManageHoots(props) {
 
         let date = new Date();
 
+        const slug = genSlug(userEmail) + Math.floor(Math.random() * 10000) + '_hoot';
+
         const hoot = {
             contenu  : inputs.contenu.value,
-            auteur   : inputs.auteur.value,
+            auteur   : userEmail,
             date     : date.toLocaleString(navigator.language, {
-                year: 'numeric',
-                month: 'numeric',
-                day: 'numeric',
-                hour: 'numeric',
+                year  : 'numeric',
+                month : 'numeric',
+                day   : 'numeric',
+                hour  : 'numeric',
                 minute: 'numeric',
                 second: 'numeric'
-            })
+            }),
+            slug: slug
         };
 
         const token = fire.auth().currentUser.getIdToken()
             .then(token => {
-                    axios.post('/hoots.json?auth=' + token, hoot)
+
+                if(hootState !== null && hootState.hoot) {
+                    axios.put('/hoots/' + hootState.hoot.id + '.json?auth=' + token, hoot)
                     .then(() => {
-                        window.location.reload()
-                        toast.success('Article ajouté avec succès !');
+                        toast.success('Hoot modifié avec succès !', {
+                            hideProgressBar: false,
+                            closeOnClick   : true,
+                            pauseOnHover   : true,
+                            draggable      : true,
+                        });
+                        navigate(routes.DASHBOARD);
                     })
                     .catch(error => {
                         console.log(error);
                     }); 
+                } else {
+                    axios.post('/hoots.json?auth=' + token, hoot)
+                    .then(() => {
+                        window.location.reload()
+                        toast.success('Hoot ajouté avec succès !');
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    }); 
+                }
                 })
             .catch(error => {
                 console.log(error);

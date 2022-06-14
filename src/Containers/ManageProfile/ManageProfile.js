@@ -4,7 +4,7 @@ import fire      from '../../config/firebase';
 import { toast } from 'react-toastify';
 
 
-export default function Profile(props) {
+export default function ManageProfile(props) {
 
     // Fonctions
     const updateProfile = () => {
