@@ -3,7 +3,7 @@
     position: absolute;
     left: 35%;
     top: 31.6%;
-    animation: rotation 4s infinite linear;
+    animation: rotation 6s infinite linear;
 }
 
 .spiral2 {
@@ -11,7 +11,7 @@
     position: absolute;
     right: 35%;
     top: 31.6%;
-    animation: rotation2 4s infinite linear;
+    animation: rotation2 5s infinite linear;
 }
 
 @keyframes rotation {
