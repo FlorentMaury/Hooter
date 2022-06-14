@@ -16,7 +16,7 @@ export default function Dashboard(props) {
 
     // ComponentDidMount ?
     useEffect(() => {
-        axios.get('/hoots.json')
+        axios.get('/hoots.json?orderBy="date"')
             .then(response => {
                 let hootsArray = [];
                 for (let key in response.data) {

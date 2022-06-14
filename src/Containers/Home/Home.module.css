@@ -1,0 +1,33 @@
+.spiral1 {
+    width: 15%;
+    position: absolute;
+    left: 35%;
+    top: 31.6%;
+    animation: rotation 4s infinite linear;
+}
+
+.spiral2 {
+    width: 15%;
+    position: absolute;
+    right: 35%;
+    top: 31.6%;
+    animation: rotation2 4s infinite linear;
+}
+
+@keyframes rotation {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(359deg);
+    }
+  }
+
+@keyframes rotation2 {
+    from {
+      transform: rotate(359deg);
+    }
+    to {
+      transform: rotate(0deg);
+    }
+  }

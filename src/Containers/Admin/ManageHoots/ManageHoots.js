@@ -89,7 +89,7 @@ export default function ManageHoots() {
 
         const hoot = {
             contenu  : inputs.contenu.value,
-            auteur   : userEmail,
+            auteur   : fire.auth().currentUser.displayName,
             date     : date.toLocaleString(navigator.language, {
                 year  : 'numeric',
                 month : 'numeric',

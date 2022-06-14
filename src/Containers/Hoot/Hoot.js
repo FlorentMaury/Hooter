@@ -25,7 +25,7 @@ export default function Hoot() {
 
     const { slug }  = useParams();
     const navigate  = useNavigate();
-    const userEmail = fire.auth().currentUser.email;
+    const userEmail = fire.auth().currentUser.displayName;
 
     // ComponentDidMount
     useEffect(() => {
