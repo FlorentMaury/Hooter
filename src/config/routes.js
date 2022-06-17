@@ -5,6 +5,7 @@ const routes = {
     DASHBOARD    : '/dashboard',
     MANAGEHOOTS  : '/dashboard/hootin',
     MANAGEPROFILE: '/manage_profile',
+    PROFILE      : '/profile',
     HOOT         : '/hoot'
 };
 

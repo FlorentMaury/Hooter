@@ -1,12 +1,11 @@
 // Librairies
 import React, { useEffect, useState } from 'react';
-import { Link }                       from 'react-router-dom';
-import routes                         from '../../config/routes';
 import axios                          from '../../config/axios-firebase';
 
 // Composants
 import ManageHoots    from '../Admin/ManageHoots/ManageHoots';
 import DisplayedHoots from '../../Components/DisplayedHoots/DisplayedHoots';
+import Spinner        from '../../Components/UI/Spinner/Spinner';
 
 export default function Dashboard(props) {
 
@@ -32,7 +31,7 @@ export default function Dashboard(props) {
                 setHoots(hootsArray);
             })
             .catch(error => {
-                console.log(error)
+                console.log(error);
             })
     }, []);
 

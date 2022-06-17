@@ -1,9 +1,9 @@
 // Librairies
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useLocation, useNavigate }   from 'react-router-dom';
 import axios                          from '../../../config/axios-firebase';
 import routes                         from '../../../config/routes';
-import { checkValidity }              from '../../../shared/utility';
+import { checkValidity, genSlug }     from '../../../shared/utility';
 import fire                           from '../../../config/firebase';
 import { toast }                      from 'react-toastify';
 
@@ -60,24 +60,6 @@ export default function ManageHoots() {
         setValid(formIsValid);
     };
 
-    const genSlug = (str) => {
-        str = str.replace(/^\s+|\s+$/g, ''); // trim
-        str = str.toLowerCase();
-      
-        // remove accents, swap ñ for n, etc
-        var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
-        var to   = "aaaaeeeeiiiioooouuuunc------";
-        for (var i=0, l=from.length ; i<l ; i++) {
-            str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
-        }
-    
-        str = str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
-            .replace(/\s+/g, '-') // collapse whitespace and replace by -
-            .replace(/-+/g, '-'); // collapse dashes
-    
-        return str;
-    };
-
     // Envoyer les données sur FireBase
     const formHandler = event => {
 
@@ -88,9 +70,10 @@ export default function ManageHoots() {
         const slug = genSlug(userEmail) + Math.floor(Math.random() * 10000) + '_hoot';
 
         const hoot = {
-            contenu  : inputs.contenu.value,
-            auteur   : fire.auth().currentUser.displayName,
-            date     : date.toLocaleString(navigator.language, {
+            contenu     : inputs.contenu.value,
+            auteur      : fire.auth().currentUser.displayName,
+            proprietaire: fire.auth().currentUser.uid,
+            date        : date.toLocaleString(navigator.language, {
                 year  : 'numeric',
                 month : 'numeric',
                 day   : 'numeric',
@@ -107,12 +90,7 @@ export default function ManageHoots() {
                 if(hootState !== null && hootState.hoot) {
                     axios.put('/hoots/' + hootState.hoot.id + '.json?auth=' + token, hoot)
                     .then(() => {
-                        toast.success('Hoot modifié avec succès !', {
-                            hideProgressBar: false,
-                            closeOnClick   : true,
-                            pauseOnHover   : true,
-                            draggable      : true,
-                        });
+                        toast.success('Hoot modifié avec succès !', {position: 'bottom-right'});
                         navigate(routes.DASHBOARD);
                     })
                     .catch(error => {
@@ -173,9 +151,9 @@ export default function ManageHoots() {
     return (
         <div className='container'>
             {hootState !== null ? 
-            <h1>Modifier</h1>
+            <h2>Modifier</h2>
             :
-            <h1>Ajouter</h1>
+            <h2>Ajouter</h2>
             }
             {form}
         </div>

@@ -1,26 +1,14 @@
 // Librairies
 import React     from 'react';
-import fire      from '../../config/firebase';
+import fire      from '../../../config/firebase';
 import { toast } from 'react-toastify';
 
 
 export default function ManageProfile(props) {
 
-    // Fonctions
-    // const updateProfile = () => {
-    //     props.user.updateProfile({
-    //         displayName: "Pomme",
-    //         photoURL: "https://example.com/jane-q-user/profile.jpg"
-    //       }).then(() => {
-    //         console.log(props.user.displayName)
-    //         console.log(props.user.photoURL)
-    //       }).catch((error) => {
-    //         console.log(error)
-    //       });
-    // };
-
     let userName = fire.auth().currentUser.displayName;
     let userImg = fire.auth().currentUser.photoURL;
+
 
     const formHandler = event => {
         event.preventDefault();
@@ -34,6 +22,7 @@ export default function ManageProfile(props) {
             displayName: userName,
             photoURL: userImg
           }).then(() => {
+            toast.success('Pseudo/image modifié avec succès !')
             console.log(props.user.displayName)
             console.log(props.user.photoURL)
           }).catch((error) => {

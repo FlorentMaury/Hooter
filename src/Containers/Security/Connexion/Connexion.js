@@ -4,10 +4,10 @@ import { checkValidity }              from '../../../shared/utility';
 import { useNavigate }                from 'react-router-dom';
 import routes                         from '../../../config/routes';
 import fire                           from '../../../config/firebase';
+import { toast }                      from 'react-toastify';
 
 // Composants
 import Input from '../../../Components/UI/Input/Input';
-import { toast } from 'react-toastify';
 
 export default function Authentification() {
 
@@ -90,7 +90,7 @@ export default function Authentification() {
                 .auth()
                 .createUserWithEmailAndPassword(user.email, user.password)
                 .then(() => {
-                    toast('Bienvenue !');
+                    toast('Bienvenue !', {position: 'bottom-right'});
                     navigate(routes.DASHBOARD);
                 })
                 .catch(error => {
@@ -115,7 +115,7 @@ export default function Authentification() {
                 .auth()
                 .signInWithEmailAndPassword(user.email, user.password)
                 .then(() => {
-                    toast.success('Vous êtes de retour !');
+                    toast.success('Vous êtes de retour ' + fire.auth().currentUser.displayName + ' !', {position: 'bottom-right'});
                     navigate(routes.DASHBOARD);
                 })
                 .catch(error => {
@@ -130,6 +130,23 @@ export default function Authentification() {
                             break;
                     }
                 });
+        };
+
+        const renewPasswordHandler = () => {
+            if (inputs.email.value !== 0) {
+                fire.auth().sendPasswordResetEmail(inputs.email.value)
+                    .then(() => {
+                        toast('Email de réinitialisation envoyé à ' + inputs.email.value + ' !', {position: 'bottom-right'});
+                    })
+                    .catch((error) => {
+                        let errorCode = error.code;
+                        let errorMessage = error.message;
+                        console.log(errorCode, errorMessage)
+                })          
+            } else {
+                toast('Veuillez renseigner votre email.');
+            }
+
         };
 
         const formHandler = event => {
@@ -182,6 +199,7 @@ export default function Authentification() {
                 {emailError && <div>Cette adresse email est déjà utilisée.</div>}
                 {loginError && <div>Impossible de vous authentifier.</div>}
                 {form}
+                <button onClick={renewPasswordHandler}>Mot de passe oublié ?</button>
             </div>
         </>
     );

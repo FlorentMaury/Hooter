@@ -1,10 +1,13 @@
 // Librairies
 import React  from 'react';
 import styled from 'styled-components';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Composants
-import Header from '../../Components/Header/Header';
-import Footer from '../../Components/Footer/Footer';
+import Header               from '../../Components/Header/Header';
+import Footer               from '../../Components/Footer/Footer';
+import { ToastContainer }   from 'react-toastify';
+
 
 const StyledLayout = styled.div`
     display        : flex;
@@ -19,12 +22,15 @@ const StyledContent = styled.div`
 
 export default function Layout(props) {
     return (
-        <StyledLayout>
-            <Header user={props.user} />
-            <StyledContent>
-                {props.children}
-            </StyledContent>
-            <Footer />
-        </StyledLayout>
+        
+            <StyledLayout>
+                <Header user={props.user} />
+                <StyledContent>
+                    {props.children}
+                </StyledContent>
+                <ToastContainer />
+                <Footer />
+            </StyledLayout>
+
     );
 };

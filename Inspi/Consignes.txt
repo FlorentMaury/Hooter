@@ -1,4 +1,1 @@
     abonnement à un compte ;
-    affichage des tweets des comptes ;
-    affichage des profils ;
-    répondre à un tweet ;
