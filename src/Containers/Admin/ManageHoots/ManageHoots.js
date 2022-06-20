@@ -1,14 +1,34 @@
-// Librairies
-import React, { useState } from 'react';
+// Librairies 
+import React, { useState }            from 'react';
 import { useLocation, useNavigate }   from 'react-router-dom';
 import axios                          from '../../../config/axios-firebase';
 import routes                         from '../../../config/routes';
 import { checkValidity, genSlug }     from '../../../shared/utility';
 import fire                           from '../../../config/firebase';
 import { toast }                      from 'react-toastify';
+import styled                         from 'styled-components'
 
 // Composants
 import Input from '../../../Components/UI/Input/Input';
+
+
+// Styled Components
+const StyledH2 = styled.h2`
+    margin: 10px;
+    font-size: 2rem;
+`; 
+
+const StyledForm = styled.form`
+    margin: 10px;
+`;
+
+const StyledInput = styled.input`
+    background   : #ECB390;
+    padding      : 8px;
+    border-radius: 4px;
+    margin       : 10px;
+`;
+
 
 export default function ManageHoots() {
 
@@ -123,7 +143,7 @@ export default function ManageHoots() {
     };
 
     let form = (
-        <form onSubmit={(e) => formHandler(e)}>
+        <StyledForm onSubmit={(e) => formHandler(e)}>
             {formElementArray.map(formElement => (
                 <Input
                     key          = {formElement.id}
@@ -139,21 +159,21 @@ export default function ManageHoots() {
                 />
             ))}
             <div>
-                <input 
+                <StyledInput 
                     type     = 'submit'
-                    value    = {hootState !== null && hootState.hoot ? 'Modifier un article' : 'Ajouter un article'}
+                    value    = {hootState !== null && hootState.hoot ? 'Modifier le hoot' : 'Ajouter un hoot'}
                     disabled = {!valid}
                 />
             </div>
-        </form>
+        </StyledForm>
     );
 
     return (
         <div className='container'>
             {hootState !== null ? 
-            <h2>Modifier</h2>
+            <StyledH2>Modifier</StyledH2>
             :
-            <h2>Ajouter</h2>
+            <StyledH2>Ajouter</StyledH2>
             }
             {form}
         </div>

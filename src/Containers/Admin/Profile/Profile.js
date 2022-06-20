@@ -2,12 +2,24 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams }     from 'react-router-dom';
 import axios                          from '../../../config/axios-firebase';
-import fire                           from '../../../config/firebase';
 import { toast }                      from 'react-toastify';
 import routes                         from '../../../config/routes';
+import styled                         from 'styled-components';
 
 // Composants
 import DisplayedHoots from '../../../Components/DisplayedHoots/DisplayedHoots';
+import Button from '../../../Components/Button/Button';
+
+// Styled Components
+const StyledH2 = styled.h2`
+    padding: 10px;
+    font-size: 2rem;
+`; 
+
+const StyledDiv = styled.div`
+    background: #FCF8E8;
+    height: 100%;
+`;
 
 
 export default function Profile(props) {
@@ -80,7 +92,7 @@ export default function Profile(props) {
                         id: key
                     });
                 }
-                console.log(followingArray);
+                console.log(followingArray[0]);
             })
             .catch(error => {
                 console.log(error)
@@ -89,13 +101,13 @@ export default function Profile(props) {
 
 
     return (
-        <>
-            <h1>Profil de {id}</h1>
-            <button onClick={subscribe}>S'abonner</button>
+        <StyledDiv>
+            <StyledH2>Profil de {id}</StyledH2>
+            <Button onClick={subscribe}>S'abonner</Button>
             <DisplayedHoots 
                 hoots={hoots} 
                 user={props.user}
             />
-        </>
+        </StyledDiv>
     );
 };

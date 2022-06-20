@@ -12,8 +12,8 @@ export default function DisplayedHoots(props) {
     ));
 
     return (
-        <section className='container'>
+        <article className='container'>
             {hoots}
-        </section>
+        </article>
     );
 };

@@ -6,8 +6,9 @@ import { Link } from 'react-router-dom';
 import routes   from '../../config/routes';
 
 // Composants
-import Owl from '../../assets/Owl.png';
+import Owl    from '../../assets/Owl.png';
 import Spiral from '../../assets/spirals2.png';
+import Button from '../../Components/Button/Button';
 
 // Styled
 const StyledOwl = styled.img`
@@ -15,11 +16,11 @@ const StyledOwl = styled.img`
 `;
 
 const StyledLayout = styled.div`
-    background: #94B49F;
-    display: flex;
-    flex-direction: row-reverse;
-    height: 100%;
+    display        : flex;
+    height         : 100%;
     justify-content: space-around;
+    background     : #FCF8E8;
+    align-items    : center;
 `;
 
 const StyledSharedSpace = styled.div`
@@ -31,17 +32,9 @@ export default function Home() {
     return (
         <StyledLayout>
             <StyledSharedSpace>
-                <h1>Home</h1>
-                <p>Consectetur nisi dolore fugiat tempor nostrud amet in fugiat dolore Lorem. 
-                    Anim voluptate mollit nulla sunt aliquip cupidatat culpa ipsum. 
-                    Cupidatat occaecat fugiat voluptate cillum. 
-                    Ipsum sit veniam adipisicing aliquip sint aliquip eest ullamco. 
-                    Ex dolore commodo cupidatat est dolore fugiat ex. 
-                    Velit pariatur amet incididunt laboris laboris culpa aute occaecat labore. 
-                    Laboris est ullamco aliquip Lorem qui.
-                </p>
+                <p>L'application pour suivre toutes les tendances et garder contact avec vos proches</p>
                 <Link to={routes.CONNEXION}>
-                <button>Connexion</button>
+                <Button>Commencer</Button>
             </Link>
             </StyledSharedSpace>
             

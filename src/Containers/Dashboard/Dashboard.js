@@ -1,11 +1,41 @@
 // Librairies
 import React, { useEffect, useState } from 'react';
 import axios                          from '../../config/axios-firebase';
+import styled                         from 'styled-components';
 
 // Composants
 import ManageHoots    from '../Admin/ManageHoots/ManageHoots';
 import DisplayedHoots from '../../Components/DisplayedHoots/DisplayedHoots';
 import Spinner        from '../../Components/UI/Spinner/Spinner';
+import Button         from '../../Components/Button/Button';
+
+
+// Styled Components
+const StyledH1 = styled.h1`
+    font-size: 2.5rem;
+    background: #FCF8E8;
+    padding-top: 15px;
+`;
+
+const StyledH2 = styled.h2`
+    margin: 15px;
+    font-size: 1.8rem;
+`;
+
+const StyledMain = styled.main`
+    background: #FCF8E8;
+    height: 100%;
+    padding: 30px;
+    display: flex;
+`;
+
+const StyledAddingHoots = styled.div`
+    background: #FCF8E8;
+`;
+
+const StyledDisplayedHoots = styled.div`
+    background: #FCF8E8;
+`;
 
 export default function Dashboard(props) {
 
@@ -48,18 +78,27 @@ export default function Dashboard(props) {
         }
     };
 
+    // Render
     return (
         <>
-            <h1>Dashboard</h1>
-                <button onClick={hootinClickedhandler}>
-                    { !hootin ? 'Hoot' : 'Fermer' }
-                </button>
-            {hootin && <ManageHoots /> }
-            <h2>Hoots</h2>
-            <DisplayedHoots 
-                hoots={hoots} 
-                user={props.user}
-            />
+            <StyledH1>Dashboard</StyledH1>
+            <StyledMain>
+                <StyledDisplayedHoots>
+                    <StyledH2>Hoots</StyledH2>
+                    <DisplayedHoots 
+                        hoots={hoots} 
+                        user={props.user}
+                    />
+                </StyledDisplayedHoots>
+
+                <StyledAddingHoots>                
+                    <Button onClick={hootinClickedhandler}>
+                        { !hootin ? 'Hoot' : 'Fermer' }
+                    </Button>
+                    {hootin && <ManageHoots /> }
+                </StyledAddingHoots>
+
+            </StyledMain>
         </>
     );
 };

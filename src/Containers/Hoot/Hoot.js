@@ -5,7 +5,7 @@ import fire                             from '../../config/firebase';
 import { toast }                        from 'react-toastify';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import routes                           from '../../config/routes';
-import { genSlug }                      from '../../shared/utility';
+import styled                           from 'styled-components';
 import {
     EmailShareButton,
     FacebookShareButton,
@@ -20,6 +20,31 @@ import {
 // Composants
 import DisplayedComments from '../../Components/DisplayedComments/DisplayedComments';
 import Spinner           from '../../Components/UI/Spinner/Spinner';
+import Button            from '../../Components/Button/Button';
+
+
+// Styled Components
+const StyledSection = styled.section`
+    background: #FCF8E8;
+    height    : 100%;
+`;
+
+const StyledH1 = styled.h1`
+    font-size: 2.5rem;
+    padding  : 15px;
+`;
+
+const StyledP = styled.p`
+    font-size: 1.6rem;
+    margin   : 10px;
+`;
+
+const StyledSmall = styled.small`
+    font-size: 1.1rem;
+    color    : #DF7861;
+    margin   : 10px;
+`;
+
 
 export default function Hoot(props) {
 
@@ -128,6 +153,7 @@ export default function Hoot(props) {
                 // window.location.reload()
                 toast.success('Commentaire ajouté avec succès !', {position: 'bottom-right'});
                 setLoading(false);
+                navigate(window.location.href);
             })
             .catch(error => {
                 console.log(error);
@@ -152,64 +178,78 @@ export default function Hoot(props) {
 
 
     return (
-        <>
-            <h1>Hoot</h1>
-            <p>{hoot.contenu}</p>
+        <StyledSection>
+            <StyledH1>Hoot</StyledH1>
+            <StyledP>{hoot.contenu}</StyledP>
             <Link 
-                to={routes.PROFILE + '/' + hoot.auteur}
+                to    = {routes.PROFILE + '/' + hoot.auteur}
                 owner = {hoot.proprietaire}
+                style = {{textDecoration: 'none'}}
             >
-                <small>{hoot.auteur}</small>
+                <StyledSmall>{hoot.auteur}</StyledSmall>
             </Link>
 
             <div>
                 <EmailShareButton
-                    url={shareUrl}
-                    quote={'Title or jo bhi aapko likhna ho'}
-                    hashtag={'#portfolio...'}
+                    url     = {shareUrl}
+                    quote   = {hoot.proprietaire}
+                    hashtag = {'#HootingOwl'}
+                    style   = {{margin: '8px'}}
                 >
                 <EmailIcon size={40} round={true} />
                 </EmailShareButton>            
                 
                 <FacebookShareButton
-                    url={shareUrl}
-                    quote={'Title or jo bhi aapko likhna ho'}
-                    hashtag={'#portfolio...'}
+                    url     = {shareUrl}
+                    quote   = {hoot.proprietaire}
+                    hashtag = {'#HootingOwl'}
+                    style   = {{margin: '8px'}}
+
                 >
                 <FacebookIcon size={40} round={true} />
                 </FacebookShareButton>
 
                 <LinkedinShareButton
-                    url={shareUrl}
-                    quote={'Title or jo bhi aapko likhna ho'}
-                    hashtag={'#portfolio...'}
+                    url     = {shareUrl}
+                    quote   = {hoot.proprietaire}
+                    hashtag = {'#HootingOwl'}
+                    style   = {{margin: '8px'}}
+
                 >
                 <LinkedinIcon size={40} round={true} />
                 </LinkedinShareButton>
 
                 <WhatsappShareButton
-                    url={shareUrl}
-                    quote={'Title or jo bhi aapko likhna ho'}
-                    hashtag={'#portfolio...'}
+                    url     = {shareUrl}
+                    quote   = {hoot.proprietaire}
+                    hashtag = {'#HootingOwl'}
+                    style   = {{margin: '8px'}}
+
                 >
                 <WhatsappIcon size={40} round={true} />
                 </WhatsappShareButton>
             </div>
 
-            <button onClick={answerClickedHandler}>
+            <Button 
+                onClick = {answerClickedHandler}
+                style  = {{margin: '10px'}}
+                >
                     { !answer ? 'Répondre' : 'Fermer' }
-                </button>            
+                </Button>            
                 
                 {ownerOfTheHoot &&
                 <Link 
-                to={routes.MANAGEHOOTS}
-                state={{ from: '/dashboard', hoot: hoot }}
+                    to    = {routes.MANAGEHOOTS}
+                    state = {{ from: '/dashboard', hoot: hoot }}
                 >
-                    <button>Modifier</button>
+                    <Button style={{background: '#ECB390'}}>Modifier</Button>
                 </Link>
             }
             {ownerOfTheHoot &&
-                <button onClick={deleteHoot}>Supprimer</button>
+                <Button 
+                    onClick = {deleteHoot}
+                    style   = {{background: '#DF7861', margin: '10px'}}
+                >Supprimer</Button>
             }
 
             {answer && 
@@ -224,6 +264,6 @@ export default function Hoot(props) {
             :
                 <DisplayedComments comments={comments} />
             }       
-        </>
+        </StyledSection>
     );
 };

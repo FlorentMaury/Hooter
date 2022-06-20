@@ -1,16 +1,16 @@
 .spiral1 {
-    width: 10%;
+    width: 8%;
     position: absolute;
-    left: 17.5%;
-    top:16%;
+    left: 68.5%;
+    top: 19%;
     animation: rotation 6s infinite linear;
 }
 
 .spiral2 {
-    width: 10%;
+    width: 8%;
     position: absolute;
-    right: 67.3%;
-    top:16%;
+    right: 18.5%;
+    top: 19%;
     animation: rotation2 5s infinite linear;
 }
 

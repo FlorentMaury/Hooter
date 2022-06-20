@@ -7,7 +7,8 @@ import fire                           from '../../../config/firebase';
 import { toast }                      from 'react-toastify';
 
 // Composants
-import Input from '../../../Components/UI/Input/Input';
+import Input  from '../../../Components/UI/Input/Input';
+import Button from '../../../Components/Button/Button';
 
 export default function Authentification() {
 
@@ -180,14 +181,20 @@ export default function Authentification() {
                 />
             ))}
             <div>
-                <button
-                    onClick  = {registerClickedHandler}
-                    disabled = {!valid} 
-                    >Inscription</button>
-                <button
+                <Button
                     onClick   = {loginClickedHandler}
                     disabled  = {!valid} 
-                    >Connexion</button>
+                >
+                    Connexion
+                </Button> 
+                <Button
+                    onClick  = {registerClickedHandler}
+                    disabled = {!valid} 
+                    style    = {{background: '#ECB390'}}
+                >
+                    Inscription
+                </Button>
+
             </div>
         </form>
     );
@@ -199,7 +206,7 @@ export default function Authentification() {
                 {emailError && <div>Cette adresse email est déjà utilisée.</div>}
                 {loginError && <div>Impossible de vous authentifier.</div>}
                 {form}
-                <button onClick={renewPasswordHandler}>Mot de passe oublié ?</button>
+                <Button onClick={renewPasswordHandler} style={{background: '#DF7861'}}>Mot de passe oublié ?</Button>
             </div>
         </>
     );

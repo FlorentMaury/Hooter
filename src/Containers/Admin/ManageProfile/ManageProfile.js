@@ -2,7 +2,23 @@
 import React     from 'react';
 import fire      from '../../../config/firebase';
 import { toast } from 'react-toastify';
+import styled    from 'styled-components';
 
+// Styled Components
+const StyledH2 = styled.h2`
+    padding: 30px;
+    font-size: 2rem;
+`; 
+
+const StyledDiv = styled.div`
+    background: #FCF8E8;
+    height: 100%;
+`;
+
+const StyledP = styled.p`
+    font-size: 1.5rem;
+    padding: 30px;
+`;
 
 export default function ManageProfile(props) {
 
@@ -31,8 +47,8 @@ export default function ManageProfile(props) {
     }
 
     return (
-        <div>
-            <h2>Modifier votre profil</h2>
+        <StyledDiv>
+            <StyledH2>Modifier votre profil</StyledH2>
             <form onSubmit={formHandler} method='post'>
                 <input 
                     type="text" 
@@ -47,7 +63,8 @@ export default function ManageProfile(props) {
                 <input type='submit'  value='Confirmer' />
             </form>
 
-            {userName}
-        </div>
+            <StyledP>Votre pseudo actuel est : <b>{userName}</b></StyledP>
+            {userImg}
+        </StyledDiv>
     );
 };

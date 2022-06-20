@@ -4,7 +4,6 @@ import React   from 'react';
 export default function Input(props) {
 
     let inputElement;
-    const inputClasses = [];
 
     // if(!props.valid && props.touched) {
     //     inputClasses.push(classes.invalid);

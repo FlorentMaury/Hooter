@@ -1,7 +1,38 @@
-import React from 'react';
+// Librairies.
+import React           from 'react';
+import routes          from '../../config/routes';
+import { useNavigate } from 'react-router-dom';
+import styled          from 'styled-components';
+
+// Composants.
+import Button from '../Button/Button';
+
+// Styled Components
+const StyledDiv = styled.div`
+    background: #FCF8E8;
+    height    : 100%;
+    padding   : 30px;
+`;
+
+const StyledH1 = styled.h1`
+    margin: 30px;
+`;
 
 export default function NotFound() {
+    
+    // Variables.
+    const navigate = useNavigate();
+
+    // Fonctions.
+    const backToHome = () => {
+        navigate(routes.HOME);
+    }
+
+    // Render.
     return (
-        <h1>404</h1>
+        <StyledDiv>
+            <StyledH1>Oups, cette page n'existe pas !</StyledH1>
+            <Button onClick = {backToHome}> Retour à l'acceuil</Button>
+        </StyledDiv>
     );
 };
