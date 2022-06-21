@@ -9,9 +9,14 @@ import styled   from 'styled-components';
 const StyledDiv = styled.div`
     display       : flex;
     flex-direction: column;
+    align-items: center;
     color         : black;
     margin        : 15px;
     border-bottom : 1px solid rgba(0, 0, 0, .2);
+    border: 1px solid #cccccce0;
+    min-width: 1000px;
+    border-radius: 10px;
+    background: white;
 `;
 
 const StyledP = styled.p`
@@ -21,6 +26,10 @@ const StyledP = styled.p`
 const StyledSmall = styled.small`
     font-size: 1.1rem;
     color: #DF7861;
+    border-bottom: 1px solid #cccccce0;
+    width: 950px;
+    padding: 10px;
+    font-weight: bold;
 `;
 
 const StyledSpan = styled.span`
@@ -38,8 +47,8 @@ function DisplayedHoot(props) {
             style={{textDecoration: 'none'}}
         >
             <StyledDiv>
-                <StyledP>{props.hoot.contenu}</StyledP>
                 <StyledSmall>{props.hoot.auteur}</StyledSmall>
+                <StyledP>{props.hoot.contenu}</StyledP>
                 <StyledSpan>{props.hoot.date}</StyledSpan>
             </StyledDiv>
         </Link>

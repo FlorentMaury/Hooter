@@ -11,7 +11,7 @@ const StyledUl = styled.ul`
     list-style : none;
     display    : flex;
     font-weight: 100;
-    font-size  : 1.5rem;
+    font-size  : 1.3rem;
 `;
 
 export default function Navigation(props) {

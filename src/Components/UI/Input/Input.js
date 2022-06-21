@@ -17,6 +17,7 @@ export default function Input(props) {
                     value     = {props.value} 
                     id        = {props.id}
                     onChange  = {props.changed}
+                    style     = {props.style}
                 />
             );
             break;

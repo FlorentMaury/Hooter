@@ -5,7 +5,7 @@ import styled      from 'styled-components'
 
 // Styled Components
 const StyledLi = styled.li`
-    margin: 10px 30px;
+    margin: 10px;
 `;
 export default function NavigationItem(props) {
     return (

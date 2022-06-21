@@ -8,7 +8,7 @@ import Header               from '../../Components/Header/Header';
 import Footer               from '../../Components/Footer/Footer';
 import { ToastContainer }   from 'react-toastify';
 
-
+// Styled Components
 const StyledLayout = styled.div`
     display        : flex;
     flex-direction : column;

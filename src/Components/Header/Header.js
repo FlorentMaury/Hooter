@@ -10,8 +10,6 @@ import routes                from '../../config/routes';
 // Composants
 import Navigation    from './Navigation/Navigation';
 import Button        from '../Button/Button';
-import backgroundImg from '../../assets/bureau1bis.jpg';
-import dots          from '../../assets/points.png'
 
 
 // Styled Components
@@ -36,14 +34,11 @@ const ColorChangerAnimation = keyframes`
 const StyledHeader = styled.header`
     display            : flex;
     justify-content    : space-around;
-    height             : 50vh;
-    padding            : 40px 80px;
-    align-items        : start;
-    background-image   : url(${dots}), url(${backgroundImg});
+    height             : 15vh;
+    align-items        : center;
+    background         : #112B3C;
     background-size    : cover;
     background-position: 20% 15%;
-    border-bottom      : 5px solid silver;
-    box-shadow         : 0px 5px 21px 1px rgba(0,0,0,0.71);
 
         & a {
             color          : white;
@@ -53,26 +48,19 @@ const StyledHeader = styled.header`
 
 const StyledLogo = styled.div`
     font-family: 'Fascinate', cursive;
-    font-size  : 3.8rem;
-    flex-grow  : 1;
+    font-size  : 3.5rem;
 `;
 
 const StyledAnimatedDiv = styled.div`
-        /* &:hover { */
+        &:hover {
         animation-name           : ${ColorChangerAnimation};
         animation-duration       : 3.5s;
         animation-iteration-count: infinite;
-    /* } */
+    }
 `;
 
-const StyledConnexion = styled.div`
-    padding  : 2% 0;
-    flex-grow: 1;
-`;
-
-const StyledNav = styled.nav`
-    padding  : 2% 0;
-    flex-grow: 1;
+const StyledRightSide = styled.div`
+        display: flex;
 `;
 
 export default function Header(props) {
@@ -91,24 +79,36 @@ export default function Header(props) {
 
             <StyledLogo>
                 <Link to={routes.HOME}>
-                    <StyledAnimatedDiv>Hooting Owl</StyledAnimatedDiv>
+                    <StyledAnimatedDiv>Hoot</StyledAnimatedDiv>
                 </Link>
             </StyledLogo> 
 
-            <StyledNav>
-                <Navigation user={props.user} />
-            </StyledNav>
+            <StyledRightSide>
+                <nav>
+                    <Navigation user={props.user} />
+                </nav>
 
-            <StyledConnexion>
-            { !props.user && 
                 <div>
-                    <Link to={routes.CONNEXION}>
-                        <Button>Connexion</Button>
-                    </Link>
+                { !props.user && 
+                    <div>
+                        <Link to={routes.CONNEXION}>
+                            <Button>Connexion</Button>
+                        </Link>
+                    </div>
+                    }
+                    { props.user && <Button style={{
+                                                        background: '#F66B0E', 
+                                                        color     : 'white', 
+                                                        display   : 'flex', 
+                                                        alignItems: 'center', 
+                                                        marginLeft: '10px', 
+                                                        fontSize  : '1.2rem', 
+                                                        fontWeight: '100'
+                                                    }} 
+                                            onClick={logoutClickedHandler}
+                    >Déconnexion</Button> }
                 </div>
-                }
-                { props.user && <Button style={{background: '#DF7861'}} onClick={logoutClickedHandler}>Déconnexion</Button> }
-            </StyledConnexion>
+            </StyledRightSide>
 
         </StyledHeader>
     );

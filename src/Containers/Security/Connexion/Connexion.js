@@ -5,10 +5,18 @@ import { useNavigate }                from 'react-router-dom';
 import routes                         from '../../../config/routes';
 import fire                           from '../../../config/firebase';
 import { toast }                      from 'react-toastify';
+import styled                         from 'styled-components';
 
 // Composants
 import Input  from '../../../Components/UI/Input/Input';
 import Button from '../../../Components/Button/Button';
+
+
+// Styled Components
+const StyledH1 = styled.h1`
+    font-size: 2.5rem;
+    padding-top: 15px;
+`;
 
 export default function Authentification() {
 
@@ -178,6 +186,7 @@ export default function Authentification() {
                     touched      = {formElement.config.touched}
                     errorMessage = {formElement.config.errorMessage}
                     changed      = {(e) => inputChangedHandler(e, formElement.id)}
+                    style        = {{margin: '8px'}}
                 />
             ))}
             <div>
@@ -190,7 +199,7 @@ export default function Authentification() {
                 <Button
                     onClick  = {registerClickedHandler}
                     disabled = {!valid} 
-                    style    = {{background: '#ECB390'}}
+                    style    = {{background: '#ECB390', margin: '10px'}}
                 >
                     Inscription
                 </Button>
@@ -201,12 +210,12 @@ export default function Authentification() {
 
     return (
         <>
-            <h1>Authentification</h1>
+            <StyledH1>Authentification</StyledH1>
             <div>
                 {emailError && <div>Cette adresse email est déjà utilisée.</div>}
                 {loginError && <div>Impossible de vous authentifier.</div>}
                 {form}
-                <Button onClick={renewPasswordHandler} style={{background: '#DF7861'}}>Mot de passe oublié ?</Button>
+                <Button onClick={renewPasswordHandler} style={{background: '#DF7861', margin: '10px'}}>Mot de passe oublié ?</Button>
             </div>
         </>
     );

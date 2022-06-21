@@ -4,15 +4,17 @@ import styled from 'styled-components';
 
 // Styled Components
 const StyledButton = styled.button`
-    background   : #94B49F;
+    background   : transparent;
+    color        : #F66B0E;
     padding      : 10px;
-    border-radius: 4px;
-    border: none;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    border-radius: 15px;
+    border       : 1px solid #F66B0E;
+    transition   : all 0.3s cubic-bezier(.25,.8,.25,1);
+    font-size: 1rem;
+    cursor       : pointer;
 
         &:hover {
-            box-shadow: 0 3px 6px rgba(0,0,0,0.32), 0 3px 6px rgba(0,0,0,0.43);
+            background: #f66b0e20;
             transition: all 0.3s cubic-bezier(.25,.8,.25,1);
         }
 `;

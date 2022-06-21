@@ -11,9 +11,13 @@ import Button         from '../../Components/Button/Button';
 
 
 // Styled Components
+const StyledDashboard = styled.div`
+    background: #EFEFEF;
+    height: 100%;
+`;
+
 const StyledH1 = styled.h1`
     font-size: 2.5rem;
-    background: #FCF8E8;
     padding-top: 15px;
 `;
 
@@ -23,18 +27,16 @@ const StyledH2 = styled.h2`
 `;
 
 const StyledMain = styled.main`
-    background: #FCF8E8;
     height: 100%;
     padding: 30px;
     display: flex;
+    justify-content: center;
 `;
 
 const StyledAddingHoots = styled.div`
-    background: #FCF8E8;
 `;
 
 const StyledDisplayedHoots = styled.div`
-    background: #FCF8E8;
 `;
 
 export default function Dashboard(props) {
@@ -80,7 +82,7 @@ export default function Dashboard(props) {
 
     // Render
     return (
-        <>
+        <StyledDashboard>
             <StyledH1>Dashboard</StyledH1>
             <StyledMain>
                 <StyledDisplayedHoots>
@@ -91,14 +93,14 @@ export default function Dashboard(props) {
                     />
                 </StyledDisplayedHoots>
 
-                <StyledAddingHoots>                
+                {/* <StyledAddingHoots>                
                     <Button onClick={hootinClickedhandler}>
                         { !hootin ? 'Hoot' : 'Fermer' }
                     </Button>
                     {hootin && <ManageHoots /> }
-                </StyledAddingHoots>
+                </StyledAddingHoots> */}
 
             </StyledMain>
-        </>
+        </StyledDashboard>
     );
 };
