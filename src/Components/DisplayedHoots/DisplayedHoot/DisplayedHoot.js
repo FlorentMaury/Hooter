@@ -9,32 +9,34 @@ import styled   from 'styled-components';
 const StyledDiv = styled.div`
     display       : flex;
     flex-direction: column;
-    align-items: center;
+    align-items   : center;
     color         : black;
     margin        : 15px;
     border-bottom : 1px solid rgba(0, 0, 0, .2);
-    border: 1px solid #cccccce0;
-    min-width: 1000px;
-    border-radius: 10px;
-    background: white;
+    border        : 1px solid #cccccce0;
+    min-width     : 1000px;
+    border-radius : 10px;
+    background    : white;
 `;
 
 const StyledP = styled.p`
     font-size: 1.6rem;
+    padding  : 10px 0;
 `;
 
 const StyledSmall = styled.small`
-    font-size: 1.1rem;
-    color: #DF7861;
+    font-size    : 1.1rem;
+    color        : #DF7861;
     border-bottom: 1px solid #cccccce0;
-    width: 950px;
-    padding: 10px;
-    font-weight: bold;
+    width        : 950px;
+    padding      : 10px;
+    font-weight  : bold;
 `;
 
 const StyledSpan = styled.span`
     font-style: italic;
-    margin: 5px;
+    margin    : 5px;
+    padding   : 10px 0;
 `;
 
 

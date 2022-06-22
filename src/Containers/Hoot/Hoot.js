@@ -25,8 +25,11 @@ import Button            from '../../Components/Button/Button';
 
 // Styled Components
 const StyledSection = styled.section`
-    background: #FCF8E8;
-    height    : 100%;
+    background    : #EFEFEF;
+    height        : 100%;
+    display       : flex;
+    flex-direction: column;
+    align-items   : center;
 `;
 
 const StyledH1 = styled.h1`
@@ -40,9 +43,18 @@ const StyledP = styled.p`
 `;
 
 const StyledSmall = styled.small`
-    font-size: 1.1rem;
-    color    : #DF7861;
-    margin   : 10px;
+    font-size  : 1.1rem;
+    color      : #DF7861;
+    margin     : 10px;
+    font-weight: bold;
+`;
+
+const StyledMainHoot = styled.main`
+    background   : white;
+    width        : 65vw;
+    height       : auto;
+    margin-top   : 30px;
+    border-radius: 10px;
 `;
 
 
@@ -113,7 +125,7 @@ export default function Hoot(props) {
             .then(token => {
                 axios.delete('/hoots/' +  hoot.id + '.json?auth=' + token)
                     .then(() => {
-                        toast.success('Hoot supprimé avec succès !', {position: 'bottom-right'})
+                        toast.info('Hoot supprimé avec succès !', {position: 'bottom-right'})
                         navigate(routes.DASHBOARD);
                     })
                     .catch(error => {
@@ -179,85 +191,96 @@ export default function Hoot(props) {
 
     return (
         <StyledSection>
-            <StyledH1>Hoot</StyledH1>
-            <StyledP>{hoot.contenu}</StyledP>
-            <Link 
-                to    = {routes.PROFILE + '/' + hoot.auteur}
-                owner = {hoot.proprietaire}
-                style = {{textDecoration: 'none'}}
-            >
-                <StyledSmall>{hoot.auteur}</StyledSmall>
-            </Link>
-
-            <div>
-                <EmailShareButton
-                    url     = {shareUrl}
-                    quote   = {hoot.proprietaire}
-                    hashtag = {'#HootingOwl'}
-                    style   = {{margin: '8px'}}
-                >
-                <EmailIcon size={40} round={true} />
-                </EmailShareButton>            
-                
-                <FacebookShareButton
-                    url     = {shareUrl}
-                    quote   = {hoot.proprietaire}
-                    hashtag = {'#HootingOwl'}
-                    style   = {{margin: '8px'}}
-
-                >
-                <FacebookIcon size={40} round={true} />
-                </FacebookShareButton>
-
-                <LinkedinShareButton
-                    url     = {shareUrl}
-                    quote   = {hoot.proprietaire}
-                    hashtag = {'#HootingOwl'}
-                    style   = {{margin: '8px'}}
-
-                >
-                <LinkedinIcon size={40} round={true} />
-                </LinkedinShareButton>
-
-                <WhatsappShareButton
-                    url     = {shareUrl}
-                    quote   = {hoot.proprietaire}
-                    hashtag = {'#HootingOwl'}
-                    style   = {{margin: '8px'}}
-
-                >
-                <WhatsappIcon size={40} round={true} />
-                </WhatsappShareButton>
-            </div>
-
-            <Button 
-                onClick = {answerClickedHandler}
-                style  = {{margin: '10px'}}
-                >
-                    { !answer ? 'Répondre' : 'Fermer' }
-                </Button>            
-                
-                {ownerOfTheHoot &&
+            <StyledMainHoot>
+                <StyledH1>Hoot</StyledH1>
+                <StyledP>{hoot.contenu}</StyledP>
                 <Link 
-                    to    = {routes.MANAGEHOOTS}
-                    state = {{ from: '/dashboard', hoot: hoot }}
+                    to    = {routes.PROFILE + '/' + hoot.auteur}
+                    owner = {hoot.proprietaire}
+                    style = {{textDecoration: 'none'}}
                 >
-                    <Button style={{background: '#ECB390'}}>Modifier</Button>
+                    <StyledSmall>{hoot.auteur}</StyledSmall>
                 </Link>
-            }
+
+                <div>
+                    <EmailShareButton
+                        url     = {shareUrl}
+                        quote   = {hoot.proprietaire}
+                        hashtag = {'#HootingOwl'}
+                        style   = {{margin: '15px'}}
+                    >
+                    <EmailIcon size={40} round={true} />
+                    </EmailShareButton>            
+                    
+                    <FacebookShareButton
+                        url     = {shareUrl}
+                        quote   = {hoot.proprietaire}
+                        hashtag = {'#HootingOwl'}
+                        style   = {{margin: '15px'}}
+
+                    >
+                    <FacebookIcon size={40} round={true} />
+                    </FacebookShareButton>
+
+                    <LinkedinShareButton
+                        url     = {shareUrl}
+                        quote   = {hoot.proprietaire}
+                        hashtag = {'#HootingOwl'}
+                        style   = {{margin: '15px'}}
+
+                    >
+                    <LinkedinIcon size={40} round={true} />
+                    </LinkedinShareButton>
+
+                    <WhatsappShareButton
+                        url     = {shareUrl}
+                        quote   = {hoot.proprietaire}
+                        hashtag = {'#HootingOwl'}
+                        style   = {{margin: '8px'}}
+
+                    >
+                    <WhatsappIcon size={40} round={true} />
+                    </WhatsappShareButton>
+                </div>
+
+                <Button 
+                    onClick = {answerClickedHandler}
+                    style  = {{margin: '10px'}}
+                    >
+                        { !answer ? 'Répondre' : 'Fermer' }
+                    </Button>            
+                    
+                    {ownerOfTheHoot &&
+                    <Link 
+                        to    = {routes.MANAGEHOOTS}
+                        state = {{ from: '/dashboard', hoot: hoot }}
+                    >
+                        <Button style={{color: '#205375', border: '2px solid #205375'}}>Modifier</Button>
+                    </Link>
+                }
+
             {ownerOfTheHoot &&
                 <Button 
                     onClick = {deleteHoot}
-                    style   = {{background: '#DF7861', margin: '10px'}}
+                    style   = {{color: '#112B3C', border: '2px solid #112B3C', margin: '30px 10px'}}
                 >Supprimer</Button>
             }
 
             {answer && 
                 <form onSubmit={commentSubmit}>
-                    <input type="text" id='content' placeholder='Votre réponse' />
-                    <input type="submit" />
+                    <input 
+                        type="text" 
+                        id='content' 
+                        style={{margin: '10px', borderRadius: '5px', padding: '10px'}}
+                        placeholder='Votre réponse' 
+                    />
+                    <input
+                        style={{margin: '10px', borderRadius: '5px', padding: '10px', background: '#205375', color: 'white', border: 'none'}} 
+                        type="submit" />
                 </form>
             }
+
+        </StyledMainHoot>
 
             {loading ?
                 <Spinner />

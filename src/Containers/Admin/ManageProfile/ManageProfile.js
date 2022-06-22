@@ -4,6 +4,9 @@ import fire      from '../../../config/firebase';
 import { toast } from 'react-toastify';
 import styled    from 'styled-components';
 
+// Componsants
+import Button from '../../../Components/Button/Button';
+
 // Styled Components
 const StyledH2 = styled.h2`
     padding: 30px;
@@ -11,13 +14,30 @@ const StyledH2 = styled.h2`
 `; 
 
 const StyledDiv = styled.div`
-    background: #FCF8E8;
-    height: 100%;
+    background     : #FCF8E8;
+    height         : 100%;
+    background     : #EFEFEF;
+    display        : flex;
+    justify-content: center;
 `;
 
 const StyledP = styled.p`
     font-size: 1.5rem;
-    padding: 30px;
+    padding  : 30px;
+`;
+
+const StyledInput = styled.input`
+    padding      : 8px;
+    border-radius: 5px;
+    background   : white;
+    border       : 1px solid #205375;
+    margin-bottom: 15px;
+`;
+
+const StyledManageProfileCard = styled.div`
+    background   : white;
+    border-radius: 10px;
+    width        : 65vw;
 `;
 
 export default function ManageProfile(props) {
@@ -48,23 +68,25 @@ export default function ManageProfile(props) {
 
     return (
         <StyledDiv>
-            <StyledH2>Modifier votre profil</StyledH2>
-            <form onSubmit={formHandler} method='post'>
-                <input 
-                    type="text" 
-                    placeholder={props.user.displayName}
-                    name="userName"
-                    id="userName"
-                    maxLength='18'
-                    minLength='3'
-                    autoFocus
-                />
-                <input type="file" name="userImg" id="userImg"/>
-                <input type='submit'  value='Confirmer' />
-            </form>
+            <StyledManageProfileCard>
+                <StyledH2>Modifier votre profil</StyledH2>
+                <form onSubmit={formHandler} method='post'>
+                    <StyledInput 
+                        type       = "text" 
+                        placeholder= {props.user.displayName}
+                        name       = "userName"
+                        id         = "userName"
+                        maxLength  = '18'
+                        minLength  = '3'
+                        autoFocus
+                    /><br />
+                    <StyledInput type="file" name="userImg" id="userImg"/><br />
+                    <Button type='submit'  value='Confirmer'>Confirmer</Button>
+                </form>
 
-            <StyledP>Votre pseudo actuel est : <b>{userName}</b></StyledP>
-            {userImg}
+                <StyledP>Votre pseudo actuel est : <b>{userName}</b></StyledP>
+                {userImg}
+            </StyledManageProfileCard>
         </StyledDiv>
     );
 };

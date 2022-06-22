@@ -6,18 +6,24 @@ import styled   from 'styled-components';
 
 // Styled Components
 const StyledArticle = styled.article`
-    display: flex;
+    display       : flex;
     flex-direction: column;
+    background    : white;
+    height        : auto;
+    width         : 40vw;
+    margin        : 10px;
+    border-radius : 10px;
+    padding       : 10px 0;
 `;
 
 const StyledP = styled.p`
     font-size: 1.1rem;
-    margin-top: 10px;
 `;
 
 const StyledSmall = styled.small`
-    font-size: 1.1rem;
-    color    : #DF7861;
+    font-size  : 1.1rem;
+    color      : #DF7861;
+    font-weight: bold;
 `;
 
 const StyledI = styled.i`

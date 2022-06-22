@@ -79,7 +79,7 @@ export default function Header(props) {
 
             <StyledLogo>
                 <Link to={routes.HOME}>
-                    <StyledAnimatedDiv>Hoot</StyledAnimatedDiv>
+                    <StyledAnimatedDiv>Hooter</StyledAnimatedDiv>
                 </Link>
             </StyledLogo> 
 

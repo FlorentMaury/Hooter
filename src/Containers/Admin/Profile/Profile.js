@@ -19,6 +19,10 @@ const StyledH2 = styled.h2`
 const StyledDiv = styled.div`
     background: #FCF8E8;
     height: 100%;
+    background: #EFEFEF;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `;
 
 

@@ -13,9 +13,24 @@ import Button from '../../../Components/Button/Button';
 
 
 // Styled Components
+const StyledConnexionLayout = styled.div`
+    background     : #EFEFEF;
+    height         : 100%;
+    display        : flex;
+    justify-content: center;
+`;
+
 const StyledH1 = styled.h1`
     font-size: 2.5rem;
-    padding-top: 15px;
+    padding  : 30px 0;
+`;
+
+const StyledConnexionCard = styled.div`
+    border       : 1px solid #EFEFEF;
+    padding      : 150px 120px;
+    border-radius: 10px;
+    background   : white;
+    width        :60vw;
 `;
 
 export default function Authentification() {
@@ -101,6 +116,7 @@ export default function Authentification() {
                 .then(() => {
                     toast('Bienvenue !', {position: 'bottom-right'});
                     navigate(routes.DASHBOARD);
+                    toast.info('Veuillez renseigner votre pseudo dans l\'onglet \'Paramètres\'.', {position: 'bottom-right'});
                 })
                 .catch(error => {
                     switch (error.code) {
@@ -186,7 +202,7 @@ export default function Authentification() {
                     touched      = {formElement.config.touched}
                     errorMessage = {formElement.config.errorMessage}
                     changed      = {(e) => inputChangedHandler(e, formElement.id)}
-                    style        = {{margin: '8px'}}
+                    style        = {{margin: '10px', borderRadius: '5px', padding: '10px'}}
                 />
             ))}
             <div>
@@ -199,7 +215,7 @@ export default function Authentification() {
                 <Button
                     onClick  = {registerClickedHandler}
                     disabled = {!valid} 
-                    style    = {{background: '#ECB390', margin: '10px'}}
+                    style    = {{margin: '10px'}}
                 >
                     Inscription
                 </Button>
@@ -209,14 +225,16 @@ export default function Authentification() {
     );
 
     return (
-        <>
-            <StyledH1>Authentification</StyledH1>
-            <div>
-                {emailError && <div>Cette adresse email est déjà utilisée.</div>}
-                {loginError && <div>Impossible de vous authentifier.</div>}
-                {form}
-                <Button onClick={renewPasswordHandler} style={{background: '#DF7861', margin: '10px'}}>Mot de passe oublié ?</Button>
-            </div>
-        </>
+        <StyledConnexionLayout>
+            <StyledConnexionCard>
+                <StyledH1>Authentification</StyledH1>
+                <div>
+                    {emailError && <div>Cette adresse email est déjà utilisée.</div>}
+                    {loginError && <div>Impossible de vous authentifier.</div>}
+                    {form}
+                    <Button onClick={renewPasswordHandler} style={{border: '2px solid #205375', color: '#205375', margin: '10px'}}>Mot de passe oublié ?</Button>
+                </div>
+            </StyledConnexionCard>
+        </StyledConnexionLayout>
     );
 };
