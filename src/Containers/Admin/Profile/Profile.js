@@ -62,7 +62,6 @@ export default function Profile(props) {
     // ComponentDidMount pour le follow.
     useEffect(() => {
         axios.get('/follow/' + fire.auth().currentUser.uid + '/'+ location.state + '.json')
-        // axios.get('/follow/' + fire.auth().currentUser.uid + '.json')
             .then(response => {
                 if (response.data !== null) {
                     let followingArray = [];
@@ -93,7 +92,6 @@ export default function Profile(props) {
         };
 
         axios.post('/follow/' + fire.auth().currentUser.uid + '/'+ location.state + '.json', following)
-        // axios.post('/follow/' + fire.auth().currentUser.uid + '.json', following)
             .then(() => {
                 toast('Vous suivez ' + id + ' !', {position: 'bottom-right'});
             })
@@ -107,7 +105,6 @@ export default function Profile(props) {
         event.preventDefault();
         setFollowed(!followed);
         axios.delete('/follow/' + fire.auth().currentUser.uid + '/'+ location.state + '.json')
-        // axios.delete('/follow/' + fire.auth().currentUser.uid + '.json')
             .then(() => {
                 toast('Vous ne suivez plus ' + id + ' !', {position: 'bottom-right'});
             })

@@ -1,8 +1,9 @@
 // Librairies
-import React     from 'react';
+import React, { useEffect, useState }     from 'react';
 import fire      from '../../../config/firebase';
 import { toast } from 'react-toastify';
 import styled    from 'styled-components';
+import axios from '../../../config/axios-firebase';
 
 // Componsants
 import Button from '../../../Components/Button/Button';
@@ -40,28 +41,75 @@ const StyledManageProfileCard = styled.div`
     width        : 65vw;
 `;
 
+const StyledImg = styled.img`
+    vertical-align: middle;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 5% solid gray;
+`;
+
 export default function ManageProfile(props) {
 
-    let userName = fire.auth().currentUser.displayName;
-    let userImg = fire.auth().currentUser.photoURL;
+    let currentUser = fire.auth().currentUser.email;
+
+    const [photoURL, setPhotoURL] = useState('https://urlz.fr/iDgB');
+    const [userName, setUserName] = useState(currentUser);
+
+    // let userName = fire.auth().currentUser.displayName;
+    // let userImg = fire.auth().currentUser.photoURL;
+
+    useEffect(() => {
+        axios.get('/userImg/' + fire.auth().currentUser.uid + '.json')
+        .then(response => {
+            console.log(response.data);
+        })
+        .catch(error => {
+            console.log(error);
+        })
+
+    }, []);
 
 
     const formHandler = event => {
         event.preventDefault();
 
-        let userName = document.getElementById('userName').value;
-        let userImg = document.getElementById('userImg').value;
+        let userNewName = document.getElementById('userNewName').value;
+        let userNewImg  = document.getElementById('userNewImg').value;
 
-        console.log(userName)
+        if (userNewName !== '') {
+
+            const newInfos = {
+                name: userName,
+                img : userNewImg
+            };
+
+        axios.delete('/userImg/' + fire.auth().currentUser.uid + '.json')
+        .then(response => {
+            console.log(response);
+            axios.post('/userImg/' + fire.auth().currentUser.uid + '.json', newInfos)
+                .then(response => {
+                    console.log(response);
+                }) 
+                .catch(error => {
+                    console.log(error);
+                });
+        })
+        .catch(error => {
+            console.log(error);
+        })
 
         props.user.updateProfile({
-            displayName: userName,
-            photoURL: userImg
+            displayName: userNewName,
+            photoURL: userNewImg
           }).then(() => {
+            setUserName(userNewName);
+            setPhotoURL(userNewImg);
             toast.success('Pseudo/image modifié avec succès !')
           }).catch((error) => {
             console.log(error)
           });
+        }
     }
 
     return (
@@ -72,18 +120,21 @@ export default function ManageProfile(props) {
                     <StyledInput 
                         type       = "text" 
                         placeholder= {props.user.displayName}
-                        name       = "userName"
-                        id         = "userName"
+                        name       = "userNewName"
+                        id         = "userNewName"
                         maxLength  = '18'
                         minLength  = '3'
                         autoFocus
                     /><br />
-                    <StyledInput type="file" name="userImg" id="userImg"/><br />
-                    <Button type='submit'  value='Confirmer'>Confirmer</Button>
+                    <StyledInput type='file' id='userNewImg' /><br />
+                    <Button type='submit' value='Confirmer'>Confirmer</Button>
                 </form>
 
                 <StyledP>Votre pseudo actuel est : <b>{userName}</b></StyledP>
-                {/* <img src={userImg} alt='Image du profil'>{userImg}</img> */}
+                <StyledImg 
+                    src={fire.auth().currentUser.photoURL} 
+                    alt='Image du profil'
+                />
             </StyledManageProfileCard>
         </StyledDiv>
     );
