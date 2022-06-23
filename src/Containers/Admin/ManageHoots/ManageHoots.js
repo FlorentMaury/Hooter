@@ -14,7 +14,7 @@ import Input from '../../../Components/UI/Input/Input';
 
 // Styled Components
 const StyledH2 = styled.h2`
-    margin: 10px;
+    margin   : 20px;
     font-size: 2rem;
 `; 
 
@@ -23,28 +23,28 @@ const StyledForm = styled.form`
 `;
 
 const StyledInput = styled.input`
-    background   : #ECB390;
+    color        : #ECB390;
     padding      : 8px;
-    border-radius: 4px;
-    margin       : 10px;
+    border       : 2px solid #ECB390;
+    border-radius: 5px;
+    margin       : 20px;
 `;
 
 
-export default function ManageHoots() {
+export default function ManageHoots(props) {
 
     const navigate  = useNavigate();
     const location  = useLocation();
     const hootState = location.state;
 
     const userEmail = fire.auth().currentUser.email;
-
     // States
     const [inputs, setInputs] = useState({
         contenu: {
             elementType  : 'textarea',
             elementConfig: {},
             value        : hootState !== null ? hootState.hoot.contenu : '',
-            label        : 'Contenu de l\'article',
+            label        : 'Exprimez votre pensée : ',
             valid        : hootState !== null && hootState.hoot ? true : false,
             validation   : {
                 required: true,
@@ -119,7 +119,6 @@ export default function ManageHoots() {
                 } else {
                     axios.post('/hoots.json?auth=' + token, hoot)
                     .then(() => {
-                        window.location.reload()
                         toast.success('Hoot ajouté avec succès !');
                     })
                     .catch(error => {
@@ -130,6 +129,9 @@ export default function ManageHoots() {
             .catch(error => {
                 console.log(error);
             });
+
+            props.setModal(!props.modal);
+
     };
 
     // Variables

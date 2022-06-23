@@ -34,7 +34,7 @@ const ColorChangerAnimation = keyframes`
 const StyledHeader = styled.header`
     display            : flex;
     justify-content    : space-around;
-    height             : 15vh;
+    height             : 12vh;
     align-items        : center;
     background         : #112B3C;
     background-size    : cover;

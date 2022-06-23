@@ -9,7 +9,7 @@ import Button from '../Button/Button';
 
 // Styled Components
 const StyledDiv = styled.div`
-    background: #FCF8E8;
+    background: #EFEFEF;
     height    : 100%;
     padding   : 30px;
 `;

@@ -1,10 +1,11 @@
 // Librairies
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams }     from 'react-router-dom';
+import { useNavigate, useParams, useLocation }     from 'react-router-dom';
 import axios                          from '../../../config/axios-firebase';
 import { toast }                      from 'react-toastify';
 import routes                         from '../../../config/routes';
 import styled                         from 'styled-components';
+import fire                           from '../../../config/firebase';
 
 // Composants
 import DisplayedHoots from '../../../Components/DisplayedHoots/DisplayedHoots';
@@ -28,20 +29,20 @@ const StyledDiv = styled.div`
 
 export default function Profile(props) {
 
-    const navigate          = useNavigate();
-    const { id }            = useParams();
-    const [hoots, setHoots] = useState([]);
+    const navigate                = useNavigate();
+    const location                = useLocation();
+    const { id }                  = useParams();
+    const [hoots, setHoots]       = useState([]);
+    const [followed, setFollowed] = useState(false);
 
+    
     // ComponentDidMount pour les hoots.
     useEffect(() => {
         axios.get('/hoots.json?orderBy="auteur"&equalTo="' + id + '"')
             .then(response => {
-
                 let profileArray = [];
-
                 if(Object.keys(response.data).length === 0) {
                     toast.error('Ce profil n\'existe pas !', {position: 'bottom-right'});
-                    navigate(routes.HOME);
                 }
 
                 for(let key in response.data) {
@@ -58,56 +59,72 @@ export default function Profile(props) {
             });
     }, [id, navigate]);
 
-
     // ComponentDidMount pour le follow.
     useEffect(() => {
-        axios.get('/follow/following.json')
+        axios.get('/follow/' + fire.auth().currentUser.uid + '/'+ location.state + '.json')
+        // axios.get('/follow/' + fire.auth().currentUser.uid + '.json')
             .then(response => {
-             
+                if (response.data !== null) {
+                    let followingArray = [];
+                    for (let key in response.data) {
+                        followingArray.push({
+                            ...response.data[key],
+                            id: key
+                        });
+                    }
+                    if(followingArray[0].action === true) {
+                        setFollowed(true);
+                    };
+                }
             })
             .catch(error => {
                 console.log(error)
             })
-    }, []);
+    }, [followed, location.state]);
 
 
     const subscribe = event => {
         event.preventDefault();
-        // const following = {
-        //     suivi: id,
-        //     suiveur: fire.auth().currentUser.displayName,
-        //     action: true
-        // };
-    
-        // axios.post('/follow/following/' + fire.auth().currentUser.uid + '.json', following)
-        //     .then(() => {
-        //         toast('Vous suivez ' + id + ' !', {position: 'bottom-right'});
-        //     })
-        //     .catch(error => {
-        //         console.log(error);
-        //     }); 
+        setFollowed(!followed);
+        const following = {
+            suivi  : id,
+            suiveur: fire.auth().currentUser.uid,
+            action : true
+        };
 
-        axios.get('/follow/following.json')
-            .then(response => {
-                let followingArray = [];
-                for (let key in response.data) {
-                    followingArray.push({
-                        ...response.data[key],
-                        id: key
-                    });
-                }
-                console.log(followingArray[0]);
+        axios.post('/follow/' + fire.auth().currentUser.uid + '/'+ location.state + '.json', following)
+        // axios.post('/follow/' + fire.auth().currentUser.uid + '.json', following)
+            .then(() => {
+                toast('Vous suivez ' + id + ' !', {position: 'bottom-right'});
             })
             .catch(error => {
-                console.log(error)
+                console.log(error);
+            }); 
+    };
+
+
+    const unsubscribe = event => {
+        event.preventDefault();
+        setFollowed(!followed);
+        axios.delete('/follow/' + fire.auth().currentUser.uid + '/'+ location.state + '.json')
+        // axios.delete('/follow/' + fire.auth().currentUser.uid + '.json')
+            .then(() => {
+                toast('Vous ne suivez plus ' + id + ' !', {position: 'bottom-right'});
             })
+            .catch(error => {
+                console.log(error);
+            }); 
     };
 
 
     return (
         <StyledDiv>
             <StyledH2>Profil de {id}</StyledH2>
-            <Button onClick={subscribe}>S'abonner</Button>
+            { !followed ?
+                <Button onClick={subscribe}>S'abonner</Button>
+            :
+                <Button onClick={unsubscribe}>Se désabonner</Button>
+            }
             <DisplayedHoots 
                 hoots={hoots} 
                 user={props.user}

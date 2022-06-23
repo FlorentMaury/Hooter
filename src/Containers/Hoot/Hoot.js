@@ -125,7 +125,7 @@ export default function Hoot(props) {
             .then(token => {
                 axios.delete('/hoots/' +  hoot.id + '.json?auth=' + token)
                     .then(() => {
-                        toast.info('Hoot supprimé avec succès !', {position: 'bottom-right'})
+                        toast.success('Hoot supprimé avec succès !', {position: 'bottom-right'})
                         navigate(routes.DASHBOARD);
                     })
                     .catch(error => {
@@ -162,10 +162,9 @@ export default function Hoot(props) {
         if (content !== '') {
             axios.post('/comment.json', comment)
             .then(() => {
-                // window.location.reload()
+                setComments([...comments, comment]);
                 toast.success('Commentaire ajouté avec succès !', {position: 'bottom-right'});
                 setLoading(false);
-                navigate(window.location.href);
             })
             .catch(error => {
                 console.log(error);
@@ -196,7 +195,7 @@ export default function Hoot(props) {
                 <StyledP>{hoot.contenu}</StyledP>
                 <Link 
                     to    = {routes.PROFILE + '/' + hoot.auteur}
-                    owner = {hoot.proprietaire}
+                    state = {hoot.proprietaire}
                     style = {{textDecoration: 'none'}}
                 >
                     <StyledSmall>{hoot.auteur}</StyledSmall>
@@ -248,9 +247,9 @@ export default function Hoot(props) {
                     style  = {{margin: '10px'}}
                     >
                         { !answer ? 'Répondre' : 'Fermer' }
-                    </Button>            
+                </Button>            
                     
-                    {ownerOfTheHoot &&
+                {ownerOfTheHoot &&
                     <Link 
                         to    = {routes.MANAGEHOOTS}
                         state = {{ from: '/dashboard', hoot: hoot }}

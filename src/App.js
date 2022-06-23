@@ -20,7 +20,7 @@ import Profile       from './Containers/Admin/Profile/Profile';
 function App() {
 
     // State
-    const [user, setUser]       = useState('');
+    const [user, setUser] = useState('');
 
     // ComponentDidMount
     useEffect(() => {

@@ -59,8 +59,6 @@ export default function ManageProfile(props) {
             photoURL: userImg
           }).then(() => {
             toast.success('Pseudo/image modifié avec succès !')
-            console.log(props.user.displayName)
-            console.log(props.user.photoURL)
           }).catch((error) => {
             console.log(error)
           });
@@ -85,7 +83,7 @@ export default function ManageProfile(props) {
                 </form>
 
                 <StyledP>Votre pseudo actuel est : <b>{userName}</b></StyledP>
-                {userImg}
+                {/* <img src={userImg} alt='Image du profil'>{userImg}</img> */}
             </StyledManageProfileCard>
         </StyledDiv>
     );
