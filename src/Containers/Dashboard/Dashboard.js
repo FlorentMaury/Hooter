@@ -8,6 +8,7 @@ import ManageHoots    from '../Admin/ManageHoots/ManageHoots';
 import DisplayedHoots from '../../Components/DisplayedHoots/DisplayedHoots';
 import Spinner        from '../../Components/UI/Spinner/Spinner';
 import Button         from '../../Components/Button/Button';
+import fire from '../../config/firebase';
 
 
 // Styled Components
@@ -16,11 +17,13 @@ const StyledDashboard = styled.div`
     height    : 100%;
 `;
 
-const StyledH1 = styled.h1`
+const StyledHootingCard = styled.div`
     padding: 10px;
+    width: 20vw;
+    background: #EFEFEF;
 `;
 
-const StyledH2 = styled.h2`
+const StyledH1 = styled.h1`
     padding: 10px;
 `;
 
@@ -32,6 +35,14 @@ const StyledMain = styled.main`
 
 const StyledDisplayedHoots = styled.div`
     width: 65vw;
+`;
+
+const StyledImg = styled.img`
+    vertical-align: middle;
+    width         : 80px;
+    height        : 80px;
+    border-radius : 50%;
+    margin: 30px;
 `;
 
 const StyledOverlay = styled.div`
@@ -96,13 +107,14 @@ export default function Dashboard(props) {
     return (
         <>
             <StyledDashboard>
-                <StyledH1>Dashboard</StyledH1>
                 <StyledMain>
-                    
-                <Button onClick={toggleModalHandler}>Hooting</Button> 
+                    <StyledHootingCard>
+                        <StyledImg src={fire.auth().currentUser.photoURL} alt="avatar" />
+                        <Button onClick={toggleModalHandler}>Hooting</Button> 
+                    </StyledHootingCard>
 
                 <StyledDisplayedHoots>
-                    <StyledH2>Hoots</StyledH2>
+                    <StyledH1>Hoots</StyledH1>
                     <DisplayedHoots 
                         hoots = {hoots}
                         user  = {props.user}

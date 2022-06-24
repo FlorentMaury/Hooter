@@ -7,7 +7,7 @@ const StyledButton = styled.button`
     background   : transparent;
     color        : #F66B0E;
     padding      : 10px;
-    border-radius: 15px;
+    border-radius: 5px;
     border       : 2px solid #F66B0E;
     transition   : all 0.3s cubic-bezier(.25,.8,.25,1);
     font-size: 1rem;

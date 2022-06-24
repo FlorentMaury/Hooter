@@ -13,7 +13,7 @@ import Button from '../../../Components/Button/Button';
 
 // Styled Components
 const StyledH2 = styled.h2`
-    padding: 10px;
+    padding: 30px;
     font-size: 2rem;
 `; 
 
@@ -122,6 +122,7 @@ export default function Profile(props) {
             :
                 <Button onClick={unsubscribe}>Se désabonner</Button>
             }
+            <h3>Historique</h3>
             <DisplayedHoots 
                 hoots={hoots} 
                 user={props.user}

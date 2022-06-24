@@ -3,6 +3,7 @@ import React    from 'react';
 import routes   from '../../../config/routes';
 import { Link } from 'react-router-dom';
 import styled   from 'styled-components';
+import fire     from '../../../config/firebase';
 
 
 // Styled Components
@@ -27,9 +28,6 @@ const StyledP = styled.p`
 const StyledSmall = styled.small`
     font-size    : 1.1rem;
     color        : #DF7861;
-    border-bottom: 1px solid #cccccce0;
-    width        : 950px;
-    padding      : 10px;
     font-weight  : bold;
 `;
 
@@ -38,6 +36,21 @@ const StyledSpan = styled.span`
     margin    : 5px;
     padding   : 10px 0;
 `;
+
+const StyledImg = styled.img`
+    vertical-align: middle;
+    width         : 50px;
+    height        : 50px;
+    border-radius : 50%;
+    margin-right  : 10px;
+`;
+
+const StyledProfile = styled.div`
+    border-bottom: 1px solid #cccccce0;
+    padding      : 10px;
+    width        : 950px;
+`;
+
 
 
 function DisplayedHoot(props) {
@@ -49,7 +62,13 @@ function DisplayedHoot(props) {
             style={{textDecoration: 'none'}}
         >
             <StyledDiv>
-                <StyledSmall>{props.hoot.auteur}</StyledSmall>
+                <StyledProfile>
+                    <StyledImg 
+                        src={props.hoot.userImg} 
+                        alt='Image du profil'
+                    />
+                    <StyledSmall>{props.hoot.auteur}</StyledSmall>
+                </StyledProfile>
                 <StyledP>{props.hoot.contenu}</StyledP>
                 <StyledSpan>{props.hoot.date}</StyledSpan>
             </StyledDiv>

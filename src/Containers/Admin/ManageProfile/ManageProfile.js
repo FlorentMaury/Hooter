@@ -43,15 +43,14 @@ const StyledManageProfileCard = styled.div`
 
 const StyledImg = styled.img`
     vertical-align: middle;
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    border: 5% solid gray;
+    width         : 100px;
+    height        : 100px;
+    border-radius : 50%;
 `;
 
 export default function ManageProfile(props) {
 
-    let currentUser = fire.auth().currentUser.email;
+    let currentUser = fire.auth().currentUser.displayName;
 
     const [photoURL, setPhotoURL] = useState('https://urlz.fr/iDgB');
     const [userName, setUserName] = useState(currentUser);
@@ -89,6 +88,7 @@ export default function ManageProfile(props) {
             console.log(response);
             axios.post('/userImg/' + fire.auth().currentUser.uid + '.json', newInfos)
                 .then(response => {
+                    
                     console.log(response);
                 }) 
                 .catch(error => {
@@ -126,7 +126,7 @@ export default function ManageProfile(props) {
                         minLength  = '3'
                         autoFocus
                     /><br />
-                    <StyledInput type='file' id='userNewImg' /><br />
+                    <StyledInput type='text' placeholder='Lien vers votre image' id='userNewImg' /><br />
                     <Button type='submit' value='Confirmer'>Confirmer</Button>
                 </form>
 

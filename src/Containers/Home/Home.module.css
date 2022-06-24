@@ -1,17 +1,17 @@
 .spiral1 {
-    width: 8%;
+    width: 2%;
     position: absolute;
-    left: 68.5%;
-    top: 19%;
-    animation: rotation 6s infinite linear;
+    left: 58.7%;
+    top: 47.6%;
+    animation: rotation 2s infinite linear;
 }
 
 .spiral2 {
-    width: 8%;
+    width: 2%;
     position: absolute;
-    right: 18.5%;
-    top: 19%;
-    animation: rotation2 5s infinite linear;
+    right: 34.4%;
+    top: 47.6%;
+    animation: rotation2 2s infinite linear;
 }
 
 @keyframes rotation {

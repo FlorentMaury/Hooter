@@ -101,7 +101,8 @@ export default function ManageHoots(props) {
                 minute: 'numeric',
                 second: 'numeric'
             }),
-            slug: slug
+            userImg: fire.auth().currentUser.photoURL,
+            slug   : slug
         };
 
         const token = fire.auth().currentUser.getIdToken()
