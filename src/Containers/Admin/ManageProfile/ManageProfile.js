@@ -4,6 +4,9 @@ import fire      from '../../../config/firebase';
 import { toast } from 'react-toastify';
 import styled    from 'styled-components';
 import axios from '../../../config/axios-firebase';
+import { useNavigate } from 'react-router-dom';
+import routes from '../../../config/routes';
+
 
 // Componsants
 import Button from '../../../Components/Button/Button';
@@ -51,7 +54,7 @@ const StyledImg = styled.img`
 export default function ManageProfile(props) {
 
     let currentUser = fire.auth().currentUser.displayName;
-
+    let navigate = useNavigate();
     const [photoURL, setPhotoURL] = useState('https://urlz.fr/iDgB');
     const [userName, setUserName] = useState(currentUser);
 
@@ -60,8 +63,7 @@ export default function ManageProfile(props) {
 
     useEffect(() => {
         axios.get('/userImg/' + fire.auth().currentUser.uid + '.json')
-        .then(response => {
-            console.log(response.data);
+        .then(() => {
         })
         .catch(error => {
             console.log(error);
@@ -106,6 +108,7 @@ export default function ManageProfile(props) {
             setUserName(userNewName);
             setPhotoURL(userNewImg);
             toast.success('Pseudo/image modifié avec succès !')
+            navigate(routes.DASHBOARD);
           }).catch((error) => {
             console.log(error)
           });

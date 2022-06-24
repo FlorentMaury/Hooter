@@ -1,6 +1,6 @@
 // Librairies
 import React    from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import routes   from '../../../config/routes';
 import styled   from 'styled-components';
 
@@ -18,6 +18,7 @@ const StyledArticle = styled.article`
 
 const StyledP = styled.p`
     font-size: 1.1rem;
+    padding: 10px 0;
 `;
 
 const StyledSmall = styled.small`
@@ -30,14 +31,25 @@ const StyledI = styled.i`
     font-size: 1.1rem;
 `;
 
+const StyledImg = styled.img`
+    vertical-align: middle;
+    width         : 50px;
+    height        : 50px;
+    border-radius : 50%;
+    margin-right  : 10px;
+`;
+
 export default function DisplayedComment(props) {
+
     return (
             <StyledArticle>
                 <StyledP>{props.comment.contenu}</StyledP>
                 <Link 
                     to    = {routes.PROFILE + '/' + props.comment.auteur}
                     style = {{textDecoration: 'none'}}
+                    state  = {props.state}
                 >
+                    <StyledImg src={props.comment.auteurImg} alt="avatar" />
                     <StyledSmall>{props.comment.auteur}</StyledSmall>
                 </Link>
                 <StyledI>{props.comment.date}</StyledI>

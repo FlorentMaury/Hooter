@@ -37,8 +37,6 @@ const StyledHeader = styled.header`
     height             : 12vh;
     align-items        : center;
     background         : #112B3C;
-    background-size    : cover;
-    background-position: 20% 15%;
 
         & a {
             color          : white;

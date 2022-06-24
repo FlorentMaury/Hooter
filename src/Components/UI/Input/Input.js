@@ -4,6 +4,9 @@ import React   from 'react';
 export default function Input(props) {
 
     let inputElement;
+    let buttonStyle = {
+        borderRadius: '5px', height: '100%', width: '100%', border: 'none', padding: '15px', fontFamily: 'Roboto'
+    }
 
     // if(!props.valid && props.touched) {
     //     inputClasses.push(classes.invalid);
@@ -27,7 +30,11 @@ export default function Input(props) {
                 <textarea 
                     value     = {props.value} 
                     onChange  = {props.changed}
-                    id        = {props.id}>
+                    id        = {props.id}
+                    style     = {buttonStyle}
+                    placeholder  = 'Quelles sont les nouvelles du jour ?'
+                    autoFocus
+                >
                 </textarea>
             );
         break;
@@ -57,7 +64,7 @@ export default function Input(props) {
 
     return (
         <div>
-            <label htmlFor={props.id}>{props.label}</label>
+            <label htmlFor={props.id}>{props.label}</label><br />
             {inputElement}
             {(!props.valid && props.touched) && <span>{props.errorMessage}</span>}
         </div>

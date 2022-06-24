@@ -16,13 +16,16 @@ const StyledDiv = styled.div`
     border-bottom : 1px solid rgba(0, 0, 0, .2);
     border        : 1px solid #cccccce0;
     min-width     : 1000px;
-    border-radius : 10px;
     background    : white;
+    width: 68vw;
+    border-radius: 10px;
 `;
 
 const StyledP = styled.p`
-    font-size: 1.6rem;
-    padding  : 10px 0;
+    font-size: 1.4rem;
+    padding  : 10px;
+    width: 80%;
+    letter-spacing: -0.05rem;
 `;
 
 const StyledSmall = styled.small`
@@ -32,9 +35,10 @@ const StyledSmall = styled.small`
 `;
 
 const StyledSpan = styled.span`
-    font-style: italic;
-    margin    : 5px;
-    padding   : 10px 0;
+    padding   : 10px 30px;
+    align-self : flex-end;
+    color: #bbb;
+    font-size: .8em;
 `;
 
 const StyledImg = styled.img`
@@ -50,7 +54,6 @@ const StyledProfile = styled.div`
     padding      : 10px;
     width        : 950px;
 `;
-
 
 
 function DisplayedHoot(props) {

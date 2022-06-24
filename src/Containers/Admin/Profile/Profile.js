@@ -13,8 +13,13 @@ import Button from '../../../Components/Button/Button';
 
 // Styled Components
 const StyledH2 = styled.h2`
-    padding: 30px;
+    padding: 10px 30px;
     font-size: 2rem;
+`; 
+
+const StyledH3 = styled.h3`
+    padding: 30px;
+    font-size: 1.8rem;
 `; 
 
 const StyledDiv = styled.div`
@@ -26,6 +31,20 @@ const StyledDiv = styled.div`
     align-items: center;
 `;
 
+const StyledProfile = styled.div`
+    background: #EFEFEF;
+    display: flex;
+    padding: 30px 0;
+    align-items: center;
+`;
+
+const StyledImg = styled.img`
+    width         : 150px;
+    height        : 150px;
+    border-radius : 50%;
+    margin-right  : 10px;
+`;
+
 
 export default function Profile(props) {
 
@@ -34,7 +53,6 @@ export default function Profile(props) {
     const { id }                  = useParams();
     const [hoots, setHoots]       = useState([]);
     const [followed, setFollowed] = useState(false);
-
     
     // ComponentDidMount pour les hoots.
     useEffect(() => {
@@ -61,7 +79,7 @@ export default function Profile(props) {
 
     // ComponentDidMount pour le follow.
     useEffect(() => {
-        axios.get('/follow/' + fire.auth().currentUser.uid + '/'+ location.state + '.json')
+        axios.get('/follow/' + fire.auth().currentUser.uid + '/'+ location.state.proprietaire + '.json')
             .then(response => {
                 if (response.data !== null) {
                     let followingArray = [];
@@ -91,7 +109,7 @@ export default function Profile(props) {
             action : true
         };
 
-        axios.post('/follow/' + fire.auth().currentUser.uid + '/'+ location.state + '.json', following)
+        axios.post('/follow/' + fire.auth().currentUser.uid + '/'+ location.state.proprietaire + '.json', following)
             .then(() => {
                 toast('Vous suivez ' + id + ' !', {position: 'bottom-right'});
             })
@@ -104,7 +122,7 @@ export default function Profile(props) {
     const unsubscribe = event => {
         event.preventDefault();
         setFollowed(!followed);
-        axios.delete('/follow/' + fire.auth().currentUser.uid + '/'+ location.state + '.json')
+        axios.delete('/follow/' + fire.auth().currentUser.uid + '/'+ location.state.proprietaire + '.json')
             .then(() => {
                 toast('Vous ne suivez plus ' + id + ' !', {position: 'bottom-right'});
             })
@@ -116,13 +134,20 @@ export default function Profile(props) {
 
     return (
         <StyledDiv>
-            <StyledH2>Profil de {id}</StyledH2>
-            { !followed ?
-                <Button onClick={subscribe}>S'abonner</Button>
-            :
-                <Button onClick={unsubscribe}>Se désabonner</Button>
-            }
-            <h3>Historique</h3>
+            <StyledProfile>
+                <StyledImg src={location.state.userImg} alt='avatar'></StyledImg>
+                <div>
+                    <StyledH2>{id}</StyledH2>
+                    { !followed ?
+                        <Button 
+                            onClick={subscribe}  
+                        >S'abonner</Button>
+                    :
+                        <Button onClick={unsubscribe}>Se désabonner</Button>
+                    }
+                </div>
+            </StyledProfile>
+            <StyledH3>Historique</StyledH3>
             <DisplayedHoots 
                 hoots={hoots} 
                 user={props.user}

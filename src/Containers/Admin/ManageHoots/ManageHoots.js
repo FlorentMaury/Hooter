@@ -14,22 +14,29 @@ import Input from '../../../Components/UI/Input/Input';
 
 // Styled Components
 const StyledH2 = styled.h2`
-    margin   : 20px;
-    font-size: 2rem;
+    font-size: 1.5rem;
+    padding: 15px;
+    border-bottom: 1px solid #ebebeb;
+    text-align: start;
+    font-weight: 500;
+    color        : #205375;
+    background: rgba(235,235,235, .6);;
 `; 
 
 const StyledForm = styled.form`
     margin: 10px;
+    display: flex;
+    flex-direction: column;
 `;
 
 const StyledInput = styled.input`
-    color        : #ECB390;
-    padding      : 8px;
-    border       : 2px solid #ECB390;
-    border-radius: 5px;
-    margin       : 20px;
+    color        : white;
+    padding      : 10px 30px;
+    background       :  #205375;
+    border-radius: 10px;
+    margin-top       : 50px;
+    border: none;
 `;
-
 
 export default function ManageHoots(props) {
 
@@ -44,7 +51,6 @@ export default function ManageHoots(props) {
             elementType  : 'textarea',
             elementConfig: {},
             value        : hootState !== null ? hootState.hoot.contenu : '',
-            label        : 'Exprimez votre pensée : ',
             valid        : hootState !== null && hootState.hoot ? true : false,
             validation   : {
                 required: true,
@@ -98,8 +104,7 @@ export default function ManageHoots(props) {
                 month : 'numeric',
                 day   : 'numeric',
                 hour  : 'numeric',
-                minute: 'numeric',
-                second: 'numeric'
+                minute: 'numeric'
             }),
             userImg: fire.auth().currentUser.photoURL,
             slug   : slug
@@ -111,7 +116,7 @@ export default function ManageHoots(props) {
                 if(hootState !== null && hootState.hoot) {
                     axios.put('/hoots/' + hootState.hoot.id + '.json?auth=' + token, hoot)
                     .then(() => {
-                        toast.success('Hoot modifié avec succès !', {position: 'bottom-right'});
+                        toast.success('Post modifié avec succès !', {position: 'bottom-right'});
                         navigate(routes.DASHBOARD);
                     })
                     .catch(error => {
@@ -120,7 +125,7 @@ export default function ManageHoots(props) {
                 } else {
                     axios.post('/hoots.json?auth=' + token, hoot)
                     .then(() => {
-                        toast.success('Hoot ajouté avec succès !');
+                        toast.success('Post ajouté avec succès !', {position: 'bottom-right'});
                     })
                     .catch(error => {
                         console.log(error);
@@ -164,7 +169,7 @@ export default function ManageHoots(props) {
             <div>
                 <StyledInput 
                     type     = 'submit'
-                    value    = {hootState !== null && hootState.hoot ? 'Modifier le hoot' : 'Ajouter un hoot'}
+                    value    = {hootState !== null && hootState.hoot ? 'Modifier' : 'Publier'}
                     disabled = {!valid}
                 />
             </div>
@@ -172,11 +177,11 @@ export default function ManageHoots(props) {
     );
 
     return (
-        <div className='container'>
+        <div>
             {hootState !== null ? 
-            <StyledH2>Modifier</StyledH2>
+            <StyledH2>Modifier un post</StyledH2>
             :
-            <StyledH2>Ajouter</StyledH2>
+            <StyledH2>Créer un post</StyledH2>
             }
             {form}
         </div>

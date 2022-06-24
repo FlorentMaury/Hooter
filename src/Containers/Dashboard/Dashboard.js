@@ -2,39 +2,52 @@
 import React, { useEffect, useState } from 'react';
 import axios                          from '../../config/axios-firebase';
 import styled                         from 'styled-components';
+import fire                           from '../../config/firebase';
 
 // Composants
 import ManageHoots    from '../Admin/ManageHoots/ManageHoots';
 import DisplayedHoots from '../../Components/DisplayedHoots/DisplayedHoots';
 import Spinner        from '../../Components/UI/Spinner/Spinner';
 import Button         from '../../Components/Button/Button';
-import fire from '../../config/firebase';
+import Modal          from '../../Components/UI/Modal/Modal';
 
 
 // Styled Components
 const StyledDashboard = styled.div`
     background: #EFEFEF;
-    height    : 100%;
+    height    : auto;
+    padding-top: 30px;
 `;
 
 const StyledHootingCard = styled.div`
-    padding: 10px;
-    width: 20vw;
-    background: #EFEFEF;
+    width: 68vw;
+    height: 20vh;
+    background: white;
+    border        : 1px solid #cccccce0;
+    border-radius : 10px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding: 40px;
+    margin-bottom: 30px;
 `;
 
 const StyledH1 = styled.h1`
-    padding: 10px;
+    /* padding: 10px; */
+
 `;
 
 const StyledMain = styled.main`
     display       : flex;
     flex-direction: column;
+    justify-content: center;
     align-items   : center;
 `;
 
 const StyledDisplayedHoots = styled.div`
-    width: 65vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `;
 
 const StyledImg = styled.img`
@@ -42,29 +55,12 @@ const StyledImg = styled.img`
     width         : 80px;
     height        : 80px;
     border-radius : 50%;
-    margin: 30px;
 `;
 
-const StyledOverlay = styled.div`
-    position  : absolute;
-    top       : 0;
-    left      : 0;
-    right     : 0;
-    bottom    : 0;
-    background: rgba(49, 49, 49, 0.6);
-`;
-
-const StyledModal = styled.div`
-    position     : absolute;
-    top          : 40%;
-    left         : 50%;
-    transform    : translate(-50%, -50%);
-    background   : #EFEFEF;
-    padding      : 15px 30px;
-    border-radius: 5px;
-    max-width    : 1200px;
-    min-width    : 600px;
-
+const StyledLine = styled.div`
+    width: 68vw;
+    padding: 30px;
+    border-top: 3px solid #DDD;
 `;
 
 export default function Dashboard(props) {
@@ -103,6 +99,19 @@ export default function Dashboard(props) {
         setModal(!modal);
     };
 
+    let styledButton = {
+        width: '100%',
+        borderRadius: '30px',
+        marginLeft: '40px',
+        border: '1px solid #D7D5D6',
+        color: 'grey',
+        display: 'flex',
+        height: '50px',
+        alignItems: 'center',
+        paddingLeft: '50px',
+        background: '#EFEFEF',
+    }
+
     // Render
     return (
         <>
@@ -110,11 +119,15 @@ export default function Dashboard(props) {
                 <StyledMain>
                     <StyledHootingCard>
                         <StyledImg src={fire.auth().currentUser.photoURL} alt="avatar" />
-                        <Button onClick={toggleModalHandler}>Hooting</Button> 
+                        <Button 
+                            style={styledButton}
+                            onClick={toggleModalHandler}>Commencez un post</Button> 
                     </StyledHootingCard>
 
                 <StyledDisplayedHoots>
-                    <StyledH1>Hoots</StyledH1>
+                <StyledLine />
+
+                    <StyledH1>Toute l'actualité</StyledH1>
                     <DisplayedHoots 
                         hoots = {hoots}
                         user  = {props.user}
@@ -125,18 +138,18 @@ export default function Dashboard(props) {
             </StyledDashboard>
 
             {modal &&
-                <StyledOverlay>
-                    <StyledModal>
+                <Modal>    
                     <ManageHoots modal={modal} setModal={setModal} />
                     <Button 
                         onClick={toggleModalHandler}
-                        style={{position: 'absolute', top: '10px', right: '10px', padding: '5px 10px'}}
+                        style={{color: '#205375', position: 'absolute', top: '10px', right: '10px', padding: '5px 10px', border: 'none'}}
                     >
-                        Fermer
+                        <span class="material-symbols-outlined">close</span>
                     </Button>
-                    </StyledModal>
-                </StyledOverlay>
+                </Modal>
             }
+
+
         </>
     );
 };

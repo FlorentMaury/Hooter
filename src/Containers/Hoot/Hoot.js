@@ -32,20 +32,15 @@ const StyledSection = styled.section`
     align-items   : center;
 `;
 
-const StyledH1 = styled.h1`
-    font-size: 2.5rem;
-    padding  : 15px;
-`;
-
 const StyledP = styled.p`
     font-size: 1.6rem;
     margin   : 10px;
 `;
 
 const StyledSmall = styled.small`
-    font-size  : 1.1rem;
+    font-size  : 1.4rem;
     color      : #DF7861;
-    margin     : 10px;
+    margin     : 15px;
     font-weight: bold;
 `;
 
@@ -57,6 +52,21 @@ const StyledMainHoot = styled.main`
     border-radius: 10px;
 `;
 
+const StyledImg = styled.img`
+    vertical-align: middle;
+    width         : 80px;
+    height        : 80px;
+    border-radius : 50%;
+    margin-right  : 10px;
+`;
+const StyledDiv = styled.div`
+    align-items   : center;
+    color         : black;
+    margin        : 15px;
+    border-bottom : 1px solid rgba(0, 0, 0, .2);
+    border-top : 1px solid rgba(0, 0, 0, .2);
+    min-width     : 1000px;
+`;
 
 export default function Hoot(props) {
 
@@ -146,8 +156,9 @@ export default function Hoot(props) {
 
         const comment = {
             contenu  : content,
-            hootId   :  hootId,
+            hootId   : hootId,
             auteur   : fire.auth().currentUser.displayName,
+            auteurImg: fire.auth().currentUser.photoURL,
             date     : date.toLocaleString(navigator.language, {
                 year  : 'numeric',
                 month : 'numeric',
@@ -191,22 +202,24 @@ export default function Hoot(props) {
     return (
         <StyledSection>
             <StyledMainHoot>
-                <StyledH1>Hoot</StyledH1>
-                <StyledP>{hoot.contenu}</StyledP>
                 <Link 
                     to    = {routes.PROFILE + '/' + hoot.auteur}
-                    state = {hoot.proprietaire}
+                    state = {hoot}
                     style = {{textDecoration: 'none'}}
                 >
+                    <StyledImg src={hoot.userImg} alt='avatar'></StyledImg>
                     <StyledSmall>{hoot.auteur}</StyledSmall>
                 </Link>
 
+                <StyledDiv>
+                    <StyledP>{hoot.contenu}</StyledP>
+                </StyledDiv>
                 <div>
                     <EmailShareButton
                         url     = {shareUrl}
                         quote   = {hoot.proprietaire}
                         hashtag = {'#HootingOwl'}
-                        style   = {{margin: '15px'}}
+                        style   = {{margin: '5px'}}
                     >
                     <EmailIcon size={40} round={true} />
                     </EmailShareButton>            
@@ -215,7 +228,7 @@ export default function Hoot(props) {
                         url     = {shareUrl}
                         quote   = {hoot.proprietaire}
                         hashtag = {'#HootingOwl'}
-                        style   = {{margin: '15px'}}
+                        style   = {{margin: '5px'}}
 
                     >
                     <FacebookIcon size={40} round={true} />
@@ -225,7 +238,7 @@ export default function Hoot(props) {
                         url     = {shareUrl}
                         quote   = {hoot.proprietaire}
                         hashtag = {'#HootingOwl'}
-                        style   = {{margin: '15px'}}
+                        style   = {{margin: '5px'}}
 
                     >
                     <LinkedinIcon size={40} round={true} />
@@ -235,7 +248,7 @@ export default function Hoot(props) {
                         url     = {shareUrl}
                         quote   = {hoot.proprietaire}
                         hashtag = {'#HootingOwl'}
-                        style   = {{margin: '8px'}}
+                        style   = {{margin: '5px'}}
 
                     >
                     <WhatsappIcon size={40} round={true} />
@@ -244,7 +257,7 @@ export default function Hoot(props) {
 
                 <Button 
                     onClick = {answerClickedHandler}
-                    style  = {{margin: '10px'}}
+                    style  = {{margin: '8px'}}
                     >
                         { !answer ? 'Répondre' : 'Fermer' }
                 </Button>            
@@ -270,11 +283,11 @@ export default function Hoot(props) {
                     <input 
                         type="text" 
                         id='content' 
-                        style={{margin: '10px', borderRadius: '5px', padding: '10px'}}
+                        style={{margin: '8px', borderRadius: '5px', padding: '10px'}}
                         placeholder='Votre réponse' 
                     />
                     <input
-                        style={{margin: '10px', borderRadius: '5px', padding: '10px', background: '#205375', color: 'white', border: 'none'}} 
+                        style={{margin: '8px', borderRadius: '5px', padding: '10px', background: '#205375', color: 'white', border: 'none'}} 
                         type="submit" />
                 </form>
             }

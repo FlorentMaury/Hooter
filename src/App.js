@@ -41,7 +41,7 @@ function App() {
         <div className="App">
             <Layout user={user}>
                 <Routes>
-                    <Route path={routes.HOME}      element={ <Home /> } />
+                    <Route path={routes.HOME}                       element={ <Home user={user} /> } />
                     { !user && <Route path={routes.CONNEXION}       element={ <Connexion /> } /> }
                     { user && <Route path={routes.MANAGEPROFILE}    element={ <ManageProfile user={user} /> } /> }
                     { user && <Route path={routes.DASHBOARD}        element={ <Dashboard user={user} /> } /> }

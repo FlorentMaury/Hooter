@@ -5,8 +5,9 @@ export default function DisplayedComments(props) {
 
     let comments = props.comments.map(comment => (
         <DisplayedComment
-            key={comment.id} 
-            comment={comment} 
+            key    = {comment.id} 
+            comment= {comment} 
+            state  = {props.state}
         />
     ));
 
