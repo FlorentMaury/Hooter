@@ -24,7 +24,7 @@ export default function Navigation(props) {
     // Render.
     return (
         <StyledUl>
-            { !props.user && <NavigationItem to={routes.HOME}>Accueil</NavigationItem> }
+            { props.user && <NavigationItem to={routes.HOME}>Accueil</NavigationItem> }
             { props.user && <NavigationItem to={routes.DASHBOARD}>Dashboard</NavigationItem> }
             { props.user && <NavigationItem to={routes.MANAGEPROFILE}>Paramètres</NavigationItem> }
         </StyledUl>
