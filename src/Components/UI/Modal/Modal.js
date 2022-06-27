@@ -1,8 +1,8 @@
-// Librairies
+// Librairies.
 import React from 'react';
 import styled from 'styled-components';
 
-
+// Styled Components.
 const StyledOverlay = styled.div`
     position  : absolute;
     top       : 0;
@@ -24,7 +24,9 @@ const StyledModal = styled.div`
 
 `;
 
+// Modale.
 export default function Modal(props) {
+    // Render.
     return (
         <StyledOverlay>
             <StyledModal>

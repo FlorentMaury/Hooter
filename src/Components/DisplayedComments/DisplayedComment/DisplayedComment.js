@@ -1,10 +1,10 @@
 // Librairies
 import React    from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import routes   from '../../../config/routes';
 import styled   from 'styled-components';
 
-// Styled Components
+// Styled Components.
 const StyledArticle = styled.article`
     display       : flex;
     flex-direction: column;
@@ -14,11 +14,20 @@ const StyledArticle = styled.article`
     margin        : 10px;
     border-radius : 10px;
     padding       : 10px 0;
+
+
+    @media (max-width: 815px) {
+           width: 60vw;
+        }
+
+    @media (max-width: 515px) {
+           width: 70vw;
+        }
 `;
 
 const StyledP = styled.p`
     font-size: 1.1rem;
-    padding: 10px 0;
+    padding  : 10px 0;
 `;
 
 const StyledSmall = styled.small`
@@ -39,6 +48,7 @@ const StyledImg = styled.img`
     margin-right  : 10px;
 `;
 
+// Displayed Comment.
 export default function DisplayedComment(props) {
 
     return (
@@ -47,7 +57,7 @@ export default function DisplayedComment(props) {
                 <Link 
                     to    = {routes.PROFILE + '/' + props.comment.auteur}
                     style = {{textDecoration: 'none'}}
-                    state  = {props.state}
+                    state = {props.comment}
                 >
                     <StyledImg src={props.comment.auteurImg} alt="avatar" />
                     <StyledSmall>{props.comment.auteur}</StyledSmall>

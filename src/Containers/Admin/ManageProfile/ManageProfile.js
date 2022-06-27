@@ -1,19 +1,20 @@
-// Librairies
-import React, { useEffect, useState }     from 'react';
-import fire      from '../../../config/firebase';
-import { toast } from 'react-toastify';
-import styled    from 'styled-components';
-import axios from '../../../config/axios-firebase';
-import { useNavigate } from 'react-router-dom';
-import routes from '../../../config/routes';
+// Librairies.
+import React, { useEffect, useState } from 'react';
+import fire                           from '../../../config/firebase';
+import { toast }                      from 'react-toastify';
+import styled                         from 'styled-components';
+import axios                          from '../../../config/axios-firebase';
+import { useNavigate }                from 'react-router-dom';
+import routes                         from '../../../config/routes';
 
 
-// Componsants
-import Button from '../../../Components/Button/Button';
+// Componsants.
+import Button  from '../../../Components/Button/Button';
+import Spinner from '../../../Components/UI/Spinner/Spinner';
 
-// Styled Components
+// Styled Components.
 const StyledH2 = styled.h2`
-    padding: 30px;
+    padding  : 30px;
     font-size: 2rem;
 `; 
 
@@ -42,6 +43,14 @@ const StyledManageProfileCard = styled.div`
     background   : white;
     border-radius: 10px;
     width        : 65vw;
+
+    @media (max-width: 815px) {
+           width: 80vw;
+        }
+
+    @media (max-width: 400px) {
+           width: 90vw;
+        }
 `;
 
 const StyledImg = styled.img`
@@ -51,30 +60,32 @@ const StyledImg = styled.img`
     border-radius : 50%;
 `;
 
+// Manage Profile.
 export default function ManageProfile(props) {
 
-    let currentUser = fire.auth().currentUser.displayName;
-    let navigate = useNavigate();
+    // Variables.
+    let currentUser               = fire.auth().currentUser.displayName;
+    let navigate                  = useNavigate();
     const [photoURL, setPhotoURL] = useState('https://urlz.fr/iDgB');
     const [userName, setUserName] = useState(currentUser);
+    const [loading, setLoading]   = useState(false);
 
-    // let userName = fire.auth().currentUser.displayName;
-    // let userImg = fire.auth().currentUser.photoURL;
 
+    // Use Effect pour récupérer l'image de profil de l'utilisateur.
     useEffect(() => {
-        axios.get('/userImg/' + fire.auth().currentUser.uid + '.json')
+        axios.get('/auteurImg/' + fire.auth().currentUser.uid + '.json')
         .then(() => {
         })
         .catch(error => {
             console.log(error);
         })
-
     }, []);
 
 
+    // Formulaire pour modifier son profil.
     const formHandler = event => {
         event.preventDefault();
-
+        setLoading(true);
         let userNewName = document.getElementById('userNewName').value;
         let userNewImg  = document.getElementById('userNewImg').value;
 
@@ -85,20 +96,22 @@ export default function ManageProfile(props) {
                 img : userNewImg
             };
 
-        axios.delete('/userImg/' + fire.auth().currentUser.uid + '.json')
+        axios.delete('/auteurImg/' + fire.auth().currentUser.uid + '.json')
         .then(response => {
             console.log(response);
-            axios.post('/userImg/' + fire.auth().currentUser.uid + '.json', newInfos)
-                .then(response => {
-                    
-                    console.log(response);
+            axios.post('/auteurImg/' + fire.auth().currentUser.uid + '.json', newInfos)
+                .then(() => {
+                    setLoading(false);
                 }) 
                 .catch(error => {
-                    console.log(error);
+                    console.log(error);        
+                    setLoading(false);
+
                 });
         })
         .catch(error => {
             console.log(error);
+            setLoading(false);
         })
 
         props.user.updateProfile({
@@ -112,33 +125,41 @@ export default function ManageProfile(props) {
           }).catch((error) => {
             console.log(error)
           });
+          setLoading(false);
         }
     }
 
+    // Render.
     return (
-        <StyledDiv>
-            <StyledManageProfileCard>
-                <StyledH2>Modifier votre profil</StyledH2>
-                <form onSubmit={formHandler} method='post'>
-                    <StyledInput 
-                        type       = "text" 
-                        placeholder= {props.user.displayName}
-                        name       = "userNewName"
-                        id         = "userNewName"
-                        maxLength  = '18'
-                        minLength  = '3'
-                        autoFocus
-                    /><br />
-                    <StyledInput type='text' placeholder='Lien vers votre image' id='userNewImg' /><br />
-                    <Button type='submit' value='Confirmer'>Confirmer</Button>
-                </form>
+        <>
+            {loading ? 
+                <Spinner /> 
+            :
+                <StyledDiv>
+                    <StyledManageProfileCard>
+                        <StyledH2>Modifier votre profil</StyledH2>
+                        <form onSubmit={formHandler} method='post'>
+                            <StyledInput 
+                                type       = "text" 
+                                placeholder= {props.user.displayName}
+                                name       = "userNewName"
+                                id         = "userNewName"
+                                maxLength  = '18'
+                                minLength  = '3'
+                                autoFocus
+                            /><br />
+                            <StyledInput type='text' placeholder='Lien vers votre image' id='userNewImg' /><br />
+                            <Button type='submit' value='Confirmer'>Confirmer</Button>
+                        </form>
 
-                <StyledP>Votre pseudo actuel est : <b>{userName}</b></StyledP>
-                <StyledImg 
-                    src={fire.auth().currentUser.photoURL} 
-                    alt='Image du profil'
-                />
-            </StyledManageProfileCard>
-        </StyledDiv>
+                        <StyledP>Votre pseudo actuel est : <b>{userName}</b></StyledP>
+                        <StyledImg 
+                            src={fire.auth().currentUser.photoURL} 
+                            alt='Image du profil'
+                        />
+                    </StyledManageProfileCard>
+                </StyledDiv>
+            }
+        </>
     );
 };

@@ -1,17 +1,21 @@
-// Librairies
+// Librairies.
 import React   from 'react';
 
+// Input.
 export default function Input(props) {
 
+    // Variables.
     let inputElement;
     let buttonStyle = {
-        borderRadius: '5px', height: '100%', width: '100%', border: 'none', padding: '15px', fontFamily: 'Roboto'
+        borderRadius: '5px', 
+        height      : '100%', 
+        width       : '100%', 
+        border      : 'none', 
+        padding     : '15px', 
+        fontFamily  : 'Roboto'
     }
 
-    // if(!props.valid && props.touched) {
-    //     inputClasses.push(classes.invalid);
-    // }
-
+    // Switch pour connaître le type d'input.
     switch (props.type) {
         case('input'):
             inputElement = (
@@ -62,6 +66,7 @@ export default function Input(props) {
             break;
     }
 
+    // Render.
     return (
         <div>
             <label htmlFor={props.id}>{props.label}</label><br />

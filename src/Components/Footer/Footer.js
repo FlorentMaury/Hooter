@@ -13,13 +13,28 @@ const StyledFooter = styled.footer`
     color           : white;
 `;
 
+const StyledA = styled.a`
+    text-decoration: none;
+    color: white;
+`;
+
 // Variables.
 const date = new Date();
 let year   = date.getFullYear();
 
+
+// Footer.
 export default function Footer() {
     // Render.
     return (
-        <StyledFooter>Florent Maury © {year}</StyledFooter>
+        <StyledFooter>
+            <p>
+                <StyledA 
+                    href="mailto:contact@florent-maury.fr?"
+                >
+                    Florent Maury
+                </StyledA> © {year}
+            </p>
+        </StyledFooter>
     );
 };

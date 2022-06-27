@@ -1,50 +1,62 @@
-// Librairies 
-import React, { useState }            from 'react';
-import { useLocation, useNavigate }   from 'react-router-dom';
-import axios                          from '../../../config/axios-firebase';
-import routes                         from '../../../config/routes';
-import { checkValidity, genSlug }     from '../../../shared/utility';
-import fire                           from '../../../config/firebase';
-import { toast }                      from 'react-toastify';
-import styled                         from 'styled-components'
+// Librairies .
+import React, { useState }          from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import axios                        from '../../../config/axios-firebase';
+import routes                       from '../../../config/routes';
+import { checkValidity, genSlug }   from '../../../shared/utility';
+import fire                         from '../../../config/firebase';
+import { toast }                    from 'react-toastify';
+import styled                       from 'styled-components'
 
-// Composants
+// Composants.
 import Input from '../../../Components/UI/Input/Input';
 
 
-// Styled Components
+// Styled Components.
+const StyledInputImg = styled.input`
+    padding      : 10px 30px;
+    border-radius: 10px;
+    background   : #F3F3F3;
+    margin-top   : 50px;
+    border       : none;
+`;
+
 const StyledH2 = styled.h2`
-    font-size: 1.5rem;
-    padding: 15px;
+    font-size    : 1.5rem;
+    padding      : 15px;
     border-bottom: 1px solid #ebebeb;
-    text-align: start;
-    font-weight: 500;
+    text-align   : start;
+    font-weight  : 500;
     color        : #205375;
-    background: rgba(235,235,235, .6);;
+    background   : rgba(235,235,235, .6);;
 `; 
 
 const StyledForm = styled.form`
-    margin: 10px;
-    display: flex;
+    margin        : 10px;
+    display       : flex;
     flex-direction: column;
 `;
 
 const StyledInput = styled.input`
     color        : white;
     padding      : 10px 30px;
-    background       :  #205375;
+    background   :  #205375;
     border-radius: 10px;
-    margin-top       : 50px;
-    border: none;
+    margin-top   : 50px;
+    border       : none;
 `;
 
+// Manage Hoots.
 export default function ManageHoots(props) {
 
-    const navigate  = useNavigate();
-    const location  = useLocation();
-    const hootState = location.state;
+    // Sariables.
+    const navigate          = useNavigate();
+    const location          = useLocation();
+    const hootState         = location.state;
+    const userEmail         = fire.auth().currentUser.email;
+    const [valid, setValid] = useState(hootState !== null && hootState.hoot ? true : false);
 
-    const userEmail = fire.auth().currentUser.email;
+
     // States
     const [inputs, setInputs] = useState({
         contenu: {
@@ -61,7 +73,6 @@ export default function ManageHoots(props) {
         }
     });
 
-    const [valid, setValid] = useState(hootState !== null && hootState.hoot ? true : false);
 
     // Méthodes
         // checkValidity
@@ -99,15 +110,16 @@ export default function ManageHoots(props) {
             contenu     : inputs.contenu.value,
             auteur      : fire.auth().currentUser.displayName,
             proprietaire: fire.auth().currentUser.uid,
+            auteurImg   : fire.auth().currentUser.photoURL,
+            slug        : slug,
+            articleImg  : document.getElementById('hootImg').value,
             date        : date.toLocaleString(navigator.language, {
                 year  : 'numeric',
                 month : 'numeric',
                 day   : 'numeric',
                 hour  : 'numeric',
                 minute: 'numeric'
-            }),
-            userImg: fire.auth().currentUser.photoURL,
-            slug   : slug
+            })
         };
 
         const token = fire.auth().currentUser.getIdToken()
@@ -167,6 +179,7 @@ export default function ManageHoots(props) {
                 />
             ))}
             <div>
+                <StyledInputImg type='text' placeholder='Lien vers votre image' id='hootImg' /><br />
                 <StyledInput 
                     type     = 'submit'
                     value    = {hootState !== null && hootState.hoot ? 'Modifier' : 'Publier'}
@@ -176,6 +189,7 @@ export default function ManageHoots(props) {
         </StyledForm>
     );
 
+    // Render.
     return (
         <div>
             {hootState !== null ? 

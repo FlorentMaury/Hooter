@@ -1,3 +1,4 @@
+// Vérification du formulaire de connexion.
 export const checkValidity = (value, rules) => {
     let isValid = true;
 
@@ -21,6 +22,8 @@ export const checkValidity = (value, rules) => {
     return isValid;
 };
 
+
+// Générer un slug.
 export const genSlug = (str) => {
     str = str.replace(/^\s+|\s+$/g, ''); // trim
     str = str.toLowerCase();

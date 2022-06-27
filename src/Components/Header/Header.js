@@ -1,18 +1,18 @@
-// Librairies
+// Librairies.
 import React                 from 'react';
-import styled, { keyframes }                from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import fire                  from '../../config/firebase';
 import { toast }             from 'react-toastify';
 import routes                from '../../config/routes';
 
 
-// Composants
+// Composants.
 import Navigation    from './Navigation/Navigation';
 import Button        from '../Button/Button';
 
 
-// Styled Components
+// Styled Components.
 const ColorChangerAnimation = keyframes`
     0.0%{
         color: white;
@@ -32,21 +32,30 @@ const ColorChangerAnimation = keyframes`
 `;
 
 const StyledHeader = styled.header`
-    display            : flex;
-    justify-content    : space-around;
-    height             : 12vh;
-    align-items        : center;
-    background         : #112B3C;
+    display        : flex;
+    justify-content: space-around;
+    height         : 12vh;
+    align-items    : center;
+    background     : #112B3C;
 
         & a {
             color          : white;
             text-decoration: none;
         };
+
+        @media (max-width: 815px) {
+            flex-direction: column;
+            height        : 150px;
+        }
 `;
 
 const StyledLogo = styled.div`
     font-family: 'Fascinate', cursive;
     font-size  : 3.5rem;
+
+    @media (max-width: 815px) {
+            font-size: 3rem;
+        }
 `;
 
 const StyledAnimatedDiv = styled.div`
@@ -57,12 +66,21 @@ const StyledAnimatedDiv = styled.div`
     }
 `;
 
+const StyledNav = styled.nav`
+       @media (max-width: 815px) {
+            margin-bottom: 20px;
+        }
+`;
+
 const StyledRightSide = styled.div`
         display: flex;
 `;
 
+
+// Headers.
 export default function Header(props) {
 
+    // Use Navigate.
     const navigate = useNavigate();
 
     // Fonction
@@ -72,6 +90,7 @@ export default function Header(props) {
         navigate(routes.HOME);
     }
 
+    // Render.
     return (
         <StyledHeader>
 
@@ -82,32 +101,32 @@ export default function Header(props) {
             </StyledLogo> 
 
             <StyledRightSide>
-                <nav>
+                <StyledNav>
                     <Navigation user={props.user} />
-                </nav>
+                </StyledNav>
 
                 <div>
-                { !props.user && 
-                    <div>
-                        <Link to={routes.CONNEXION}>
-                            <Button>Connexion</Button>
-                        </Link>
-                    </div>
+                    { !props.user && 
+                        <div>
+                            <Link to={routes.CONNEXION}>
+                                <Button>Connexion</Button>
+                            </Link>
+                        </div>
                     }
-                    { props.user && <Button style={{
-                                                        background: '#F66B0E', 
-                                                        color     : 'white', 
-                                                        display   : 'flex', 
-                                                        alignItems: 'center', 
-                                                        marginLeft: '10px', 
-                                                        fontSize  : '1.2rem', 
-                                                        fontWeight: '100'
-                                                    }} 
-                                            onClick={logoutClickedHandler}
+                    { props.user && 
+                        <Button style={{
+                                background: '#F66B0E', 
+                                color     : 'white', 
+                                display   : 'flex', 
+                                alignItems: 'center', 
+                                marginLeft: '10px', 
+                                fontSize  : '1.1rem', 
+                                fontWeight: '100'
+                            }} 
+                                onClick={logoutClickedHandler}
                     >Déconnexion</Button> }
                 </div>
             </StyledRightSide>
-
         </StyledHeader>
     );
 };

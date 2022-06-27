@@ -23,6 +23,11 @@ const StyledConnexionLayout = styled.div`
 const StyledH1 = styled.h1`
     font-size: 2.5rem;
     padding  : 30px 0;
+
+    @media (max-width: 660px) {
+           font-size: 2rem;
+           padding: 10px;
+        }
 `;
 
 const StyledConnexionCard = styled.div`
@@ -31,6 +36,19 @@ const StyledConnexionCard = styled.div`
     border-radius: 10px;
     background   : white;
     width        :60vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center ;
+
+    @media (max-width: 815px) {
+           width: 80vw;
+           padding: 15px;
+        }
+
+    @media (max-width: 590px) {
+           width: 90vw;
+           padding: 10px;
+        }
 `;
 
 export default function Authentification() {

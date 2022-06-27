@@ -18,6 +18,7 @@ const StyledH1 = styled.h1`
     margin: 30px;
 `;
 
+// Not Found.
 export default function NotFound() {
     
     // Variables.

@@ -1,22 +1,21 @@
-// Librairies
-import React                 from 'react';
-import classes               from './Home.module.css';
-import styled                from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
-import routes                from '../../config/routes';
-import fire                  from '../../config/firebase';
+// Librairies.
+import React           from 'react';
+import classes         from './Home.module.css';
+import styled          from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import routes          from '../../config/routes';
 
-// Composants
+// Composants.
 import OwlieTalks from '../../assets/OwlieTalks.png';
 import Owlie      from '../../assets/Owlie.png';
 import Spiral     from '../../assets/Spiral.png';
 import Button     from '../../Components/Button/Button';
 
-// Styled
+// Styled Components.
 const StyledOwl = styled.img`
     width: 120%;
     @media (max-width: 873px) {
-            width: 80%;
+            width    : 80%;
         }
 `;
 
@@ -30,10 +29,10 @@ const StyledLayout = styled.div`
         @media (max-width: 1500px) {
             padding: 30px;
         }
-        @media (max-width: 873px) {
-            flex-direction: column;
+        @media (max-width  : 873px) {
+            flex-direction : column;
             justify-content: center;
-            align-items: center;
+            align-items    : center;
         }
 `;
 
@@ -49,50 +48,53 @@ const StyledH1 = styled.h1`
 `;
 
 const StyledP = styled.p`
-    color: #205375;
-    font-size: 1.8em;
-    padding: 20px 0;
-    margin-bottom : 15px;
+    color        : #205375;
+    font-size    : 1.8em;
+    padding      : 20px 0;
+    margin-bottom: 15px;
 `;
 
 const StyledSpan = styled.span`
-    color: #F66B0E;
+    color      : #F66B0E;
     font-weight: 900;
 `;
 
 const StyledSharedSpace = styled.div`
     width: 100%;
     text-align: start;
-    @media (max-width: 873px) {
+    @media (max-width : 873px) {
             text-align: center;
         }
 `;
 
 const StyledButton = {
     background: '#205375',
-    border: 'none',
-    width: '10vw',
-    color: 'white',
-    fontSize: '1.15em',
-    padding: '15px',
+    border    : 'none',
+    width     : '250px',
+    color     : 'white',
+    fontSize  : '1.15em',
+    padding   : '15px',
 };
 
+// Accueil.
 export default function Home(props) {
 
+    // Variables.
     let navigate = useNavigate();
 
+    // Render.
     return (
         <StyledLayout>
             <StyledSharedSpace>
                 {props.user ?
                     <div>
-                    <StyledH1>Hello <StyledSpan>{props.user.displayName}</StyledSpan>, quelle est votre actualité ?</StyledH1>
-                    <StyledP>Retrouvez votre tableau de bord !</StyledP>
+                        <StyledH1>Hello <StyledSpan>{props.user.displayName}</StyledSpan>, quelle est votre actualité ?</StyledH1>
+                        <StyledP>Retrouvez votre tableau de bord !</StyledP>
                     </div>
                 :
                     <div>
-                    <StyledH1>Bienvenue sur <br/> <StyledSpan> Hooter</StyledSpan> votre réseau <br /> de partage.</StyledH1>
-                    <StyledP>Rejoignez notre communauté !</StyledP>
+                        <StyledH1>Bienvenue sur <br/> <StyledSpan> Hooter</StyledSpan> votre réseau <br /> de partage.</StyledH1>
+                        <StyledP>Rejoignez notre communauté !</StyledP>
                     </div>
                 }
                 {!props.user ?

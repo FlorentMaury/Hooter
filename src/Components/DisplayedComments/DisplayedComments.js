@@ -1,6 +1,10 @@
+// Librairies.
 import React from 'react';
+
+// Composants.
 import DisplayedComment from './DisplayedComment/DisplayedComment';
 
+// Displayed Comments.
 export default function DisplayedComments(props) {
 
     let comments = props.comments.map(comment => (
@@ -11,6 +15,7 @@ export default function DisplayedComments(props) {
         />
     ));
 
+    // Render.
     return (
 
         <section>

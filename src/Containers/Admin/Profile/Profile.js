@@ -1,41 +1,45 @@
-// Librairies
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams, useLocation }     from 'react-router-dom';
-import axios                          from '../../../config/axios-firebase';
-import { toast }                      from 'react-toastify';
-import routes                         from '../../../config/routes';
-import styled                         from 'styled-components';
-import fire                           from '../../../config/firebase';
+// Librairies.
+import React, { useEffect, useState }          from 'react';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import axios                                   from '../../../config/axios-firebase';
+import { toast }                               from 'react-toastify';
+import styled                                  from 'styled-components';
+import fire                                    from '../../../config/firebase';
 
-// Composants
+// Composants.
 import DisplayedHoots from '../../../Components/DisplayedHoots/DisplayedHoots';
-import Button from '../../../Components/Button/Button';
+import Button         from '../../../Components/Button/Button';
 
-// Styled Components
+// Styled Components.
 const StyledH2 = styled.h2`
-    padding: 10px 30px;
+    padding  : 10px 30px;
     font-size: 2rem;
 `; 
 
 const StyledH3 = styled.h3`
-    padding: 30px;
+    padding  : 30px;
     font-size: 1.8rem;
 `; 
 
 const StyledDiv = styled.div`
-    background: #FCF8E8;
-    height: 100%;
-    background: #EFEFEF;
-    display: flex;
+    background    : #FCF8E8;
+    height        : 100%;
+    background    : #EFEFEF;
+    display       : flex;
     flex-direction: column;
-    align-items: center;
+    align-items   : center;
 `;
 
 const StyledProfile = styled.div`
-    background: #EFEFEF;
-    display: flex;
-    padding: 30px 0;
+    background : #EFEFEF;
+    display    : flex;
+    padding    : 30px 0;
     align-items: center;
+
+    @media (max-width: 550px) {
+           display       : flex;
+           flex-direction: column;
+        }
 `;
 
 const StyledImg = styled.img`
@@ -46,8 +50,10 @@ const StyledImg = styled.img`
 `;
 
 
+// Profile.
 export default function Profile(props) {
 
+    // Variables.
     const navigate                = useNavigate();
     const location                = useLocation();
     const { id }                  = useParams();
@@ -82,16 +88,9 @@ export default function Profile(props) {
         axios.get('/follow/' + fire.auth().currentUser.uid + '/'+ location.state.proprietaire + '.json')
             .then(response => {
                 if (response.data !== null) {
-                    let followingArray = [];
-                    for (let key in response.data) {
-                        followingArray.push({
-                            ...response.data[key],
-                            id: key
-                        });
-                    }
-                    if(followingArray[0].action === true) {
-                        setFollowed(true);
-                    };
+                    setFollowed(true);
+                } else {
+                    setFollowed(false);
                 }
             })
             .catch(error => {
@@ -100,17 +99,17 @@ export default function Profile(props) {
     }, [followed, location.state]);
 
 
+    // Follow.
     const subscribe = event => {
         event.preventDefault();
-        setFollowed(!followed);
         const following = {
             suivi  : id,
-            suiveur: fire.auth().currentUser.uid,
-            action : true
+            suiviId: location.state.proprietaire,
         };
 
         axios.post('/follow/' + fire.auth().currentUser.uid + '/'+ location.state.proprietaire + '.json', following)
             .then(() => {
+                setFollowed(!followed);
                 toast('Vous suivez ' + id + ' !', {position: 'bottom-right'});
             })
             .catch(error => {
@@ -119,12 +118,13 @@ export default function Profile(props) {
     };
 
 
+    // Unfollow.
     const unsubscribe = event => {
         event.preventDefault();
         setFollowed(!followed);
         axios.delete('/follow/' + fire.auth().currentUser.uid + '/'+ location.state.proprietaire + '.json')
             .then(() => {
-                toast('Vous ne suivez plus ' + id + ' !', {position: 'bottom-right'});
+                toast.error('Vous ne suivez plus ' + id + ' !', {position: 'bottom-right'});
             })
             .catch(error => {
                 console.log(error);
@@ -132,16 +132,19 @@ export default function Profile(props) {
     };
 
 
+    // Render.
     return (
         <StyledDiv>
             <StyledProfile>
-                <StyledImg src={location.state.userImg} alt='avatar'></StyledImg>
+                <StyledImg src={location.state.auteurImg} alt='avatar'></StyledImg>
                 <div>
                     <StyledH2>{id}</StyledH2>
                     { !followed ?
                         <Button 
                             onClick={subscribe}  
-                        >S'abonner</Button>
+                        >
+                            S'abonner
+                        </Button>
                     :
                         <Button onClick={unsubscribe}>Se désabonner</Button>
                     }
