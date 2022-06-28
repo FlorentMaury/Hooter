@@ -130,15 +130,26 @@ export default function Dashboard(props) {
                         ...response.data[key],
                         id: key
                     });
-                }
 
-                setFollow(followArray);
-                console.log(followArray.suivi);
+
+                    let pomme = [];
+
+                    for (let i = 0; i < followArray.length; i++) {
+                        pomme.push({
+                            ...followArray[i].id
+                        });
+                    };
+                    setFollow(pomme);
+
+                }
             })
             .catch(error => {
                 console.log(error);   
-            })
+            });
     }, []);
+
+    console.log(follow[0].id)
+
 
     // Fonctions 
     const toggleModalHandler = () => {
@@ -146,16 +157,16 @@ export default function Dashboard(props) {
     };
 
     let styledButton = {
-        width: '100%',
+        width       : '100%',
         borderRadius: '30px',
-        marginLeft: '40px',
-        border: '1px solid #D7D5D6',
-        color: 'grey',
-        display: 'flex',
-        height: '50px',
-        alignItems: 'center',
-        paddingLeft: '50px',
-        background: '#EFEFEF',
+        marginLeft  : '40px',
+        border      : '1px solid #D7D5D6',
+        color       : 'grey',
+        display     : 'flex',
+        height      : '50px',
+        alignItems  : 'center',
+        paddingLeft : '50px',
+        background  : '#EFEFEF',
     }
 
     // Render

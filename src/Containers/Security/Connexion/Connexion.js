@@ -260,7 +260,7 @@ export default function Authentification() {
                     {form}
                     <Button 
                         onClick = {renewPasswordHandler} 
-                        style   = {{border: '2px solid #205375', color: '#205375', margin: '10px'}}
+                        style   = {{border: '2px solid #205375', color: '#205375', margin: '30px'}}
                         id      = "renewPassword"    
                     >
                         Mot de passe oublié ?

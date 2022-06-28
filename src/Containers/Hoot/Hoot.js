@@ -50,7 +50,7 @@ const StyledSmall = styled.small`
 
 const StyledMainHoot = styled.main`
     background   : white;
-    width        : 65vw;
+    width        : 60vw;
     height       : auto;
     margin-top   : 30px;
     border-radius: 10px;

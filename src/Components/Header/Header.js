@@ -44,10 +44,17 @@ const StyledHeaderLayout = styled.div`
             text-decoration: none;
         };
 
+        @media (max-width: 1150px) {
+           width: 70vw;
+        }
+
+        @media (max-width: 1000px) {
+           width: 80vw;        }
+
         @media (max-width: 815px) {
             flex-direction: column;
-            height        : 150px;
             width         : 80vw;
+            ${props => !props.user ? `height: 150px;` : `height: 12vh;`};
         }  
     
     @media (max-width: 590px) {
@@ -91,7 +98,7 @@ const StyledRightSide = styled.div`
 
 // Headers.
 export default function Header(props) {
-
+    
     // Use Navigate.
     const navigate = useNavigate();
 
@@ -118,13 +125,6 @@ export default function Header(props) {
                     </StyledNav>
 
                     <div>
-                        { !props.user && 
-                            <div>
-                                <Link to={routes.CONNEXION}>
-                                    <Button>Connexion</Button>
-                                </Link>
-                            </div>
-                        }
                         { props.user && 
                             <Button style={{
                                     background: '#F66B0E', 
@@ -132,7 +132,6 @@ export default function Header(props) {
                                     display   : 'flex', 
                                     alignItems: 'center', 
                                     marginLeft: '10px', 
-                                    fontSize  : '1.1rem', 
                                     fontWeight: '100'
                                 }} 
                                     onClick={logoutClickedHandler}
