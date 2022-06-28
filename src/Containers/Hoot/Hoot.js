@@ -85,6 +85,8 @@ const StyledHootImg = styled.img`
 // Hoot.
 export default function Hoot(props) {
 
+
+
     // State.
     const [hoot, setHoot]                     = useState({});
     const [comments, setComments]             = useState([]);
@@ -152,20 +154,27 @@ export default function Hoot(props) {
 
     // Supprimer un hoot.
     const deleteHoot = () => {
+        setLoading(true);
         const token = fire.auth().currentUser.getIdToken()
             .then(token => {
                 axios.delete('/hoots/' +  hoot.id + '.json?auth=' + token)
                     .then(() => {
+                        // axios.delete('/comment.json?where="hootId"equalTo="' + slug + '"')
+                        // .then((response) => {console.log(response)})
+                        // .catch((error) => {console.log(error)})
+                        setLoading(false);
                         toast.success('Hoot supprimé avec succès !', {position: 'bottom-right'})
                         navigate(routes.DASHBOARD);
                     })
                     .catch(error => {
-                        console.log(error)
+                        console.log(error);
+                        setLoading(false);
                     })                
 
             }) 
             .catch(error => {
-                console.log(error)
+                console.log(error);
+                setLoading(false);
             }) 
     };    
 
@@ -230,6 +239,7 @@ export default function Hoot(props) {
     const like = event => {
         event.preventDefault();
         setUserLiked(true);
+        setLoading(true);
         const like = {
             hootId: slug,
             lover : fire.auth().currentUser.uid
@@ -238,20 +248,25 @@ export default function Hoot(props) {
         axios.post('/like/' + slug + '/'+ fire.auth().currentUser.uid + '.json', like)
             .then(() => {
                 toast('Article liké !', {position: 'bottom-right'});
+                setLoading(false);
             })
-            .catch(error => {console.log(error)})
+            .catch(error => {console.log(error)});
+            setLoading(false);
     };
     
     // Disliker un hoot.
     const unLike = event => {
         event.preventDefault();
         setUserLiked(false);
+        setLoading(true);
         axios.delete('/like/' + slug + '/'+ fire.auth().currentUser.uid + '.json')
             .then(() => {
                 toast.error('Vous n\'aimez plus cette article !', {position: 'bottom-right'});
+                setLoading(false);
             })
             .catch(error => {
                 console.log(error);
+                setLoading(false);
             }); 
     };
 
@@ -264,138 +279,150 @@ export default function Hoot(props) {
         setShare(!share);
     };
 
+    // Nom de la page.
+    useEffect(() => {
+        document.title = 'Hooter | Hoot de ' + hoot.auteur;
+    });
 
     const shareUrl = window.location.href; 
 
     // Render
     return (
         <StyledSection>
-            <StyledMainHoot>
-                <Link 
-                    to    = {routes.PROFILE + '/' + hoot.auteur}
-                    state = {hoot}
-                    style = {{textDecoration: 'none'}}
-                >
-                    <StyledImg src={hoot.auteurImg} alt='avatar'></StyledImg>
-                    <StyledSmall>{hoot.auteur}</StyledSmall>
-                </Link>
 
-                <StyledDiv>
-                    <StyledP>{hoot.contenu}</StyledP>
-                    {hoot.articleImg &&
-                    <StyledHootImg  src={hoot.articleImg} alt="Image de l'article" />
-                }
-                </StyledDiv>
+            {loading ? 
 
-                { userLiked ?
-                    <span onClick={unLike} className="material-symbols-outlined" style={{color: 'red', margin: '10px'}}>
-                        favorite
-                    </span>
-                    :                 
-                    <span onClick={like} style={{margin: '10px'}} className="material-symbols-outlined">
-                        favorite
-                    </span>
+            <Spinner />
+
+            :
+
+            <>
+
+                <StyledMainHoot>
+                    <Link 
+                        to    = {routes.PROFILE + '/' + hoot.auteur}
+                        state = {hoot}
+                        style = {{textDecoration: 'none'}}
+                    >
+                        <StyledImg src={hoot.auteurImg} alt='avatar'></StyledImg>
+                        <StyledSmall>{hoot.auteur}</StyledSmall>
+                    </Link>
+
+                    <StyledDiv>
+                        <StyledP>{hoot.contenu}</StyledP>
+                        {hoot.articleImg &&
+                        <StyledHootImg  src={hoot.articleImg} alt="Image de l'article" />
+                    }
+                    </StyledDiv>
+
+                    { userLiked ?
+                        <span onClick={unLike} className="material-symbols-outlined" style={{cursor: 'pointer', color: 'red', margin: '10px'}}>
+                            favorite
+                        </span>
+                        :                 
+                        <span onClick={like} style={{cursor: 'pointer', margin: '10px'}} className="material-symbols-outlined">
+                            favorite
+                        </span>
+                        }
+
+    
+
+                    <Button 
+                        onClick = {answerClickedHandler}
+                        style   = {{margin: '10px'}}
+                        >
+                            { !answer ? 'Répondre' : 'Fermer' }
+                    </Button>  
+
+                    <Button 
+                        onClick = {shareClickedHandler}
+                        style   = {{margin: '10px'}}
+                        >
+                            { share ? 'Partager' : 'Fermer' }
+                    </Button>            
+                        
+                    {ownerOfTheHoot &&
+                        <Link 
+                            to    = {routes.MANAGEHOOTS}
+                            state = {{ from: '/dashboard', hoot: hoot }}
+                        >
+                            <Button style={{color: '#205375', border: '2px solid #205375'}}>Modifier</Button>
+                        </Link>
                     }
 
- 
-
-                <Button 
-                    onClick = {answerClickedHandler}
-                    style   = {{margin: '10px'}}
-                    >
-                        { !answer ? 'Répondre' : 'Fermer' }
-                </Button>  
-
-                <Button 
-                    onClick = {shareClickedHandler}
-                    style   = {{margin: '10px'}}
-                    >
-                        { share ? 'Partager' : 'Fermer' }
-                </Button>            
-                    
-                {ownerOfTheHoot &&
-                    <Link 
-                        to    = {routes.MANAGEHOOTS}
-                        state = {{ from: '/dashboard', hoot: hoot }}
-                    >
-                        <Button style={{color: '#205375', border: '2px solid #205375'}}>Modifier</Button>
-                    </Link>
-                }
-
-                {ownerOfTheHoot &&
-                    <Button 
-                        onClick = {deleteHoot}
-                        style   = {{color: '#112B3C', border: '2px solid #112B3C', margin: '30px 10px'}}
-                    >
-                        Supprimer
-                    </Button>
-                }
-
-                {!share &&
-                    <div>
-                        <EmailShareButton
-                            url     = {shareUrl}
-                            quote   = {hoot.proprietaire}
-                            hashtag = {'#HootingOwl'}
-                            style   = {{margin: '5px'}}
+                    {ownerOfTheHoot &&
+                        <Button 
+                            onClick = {deleteHoot}
+                            style   = {{color: '#112B3C', border: '2px solid #112B3C', margin: '30px 10px'}}
                         >
-                        <EmailIcon size={40} round={true} />
-                        </EmailShareButton>            
-                        
-                        <FacebookShareButton
-                            url     = {shareUrl}
-                            quote   = {hoot.proprietaire}
-                            hashtag = {'#HootingOwl'}
-                            style   = {{margin: '5px'}}
+                            Supprimer
+                        </Button>
+                    }
 
-                        >
-                        <FacebookIcon size={40} round={true} />
-                        </FacebookShareButton>
+                    {!share &&
+                        <div>
+                            <EmailShareButton
+                                url     = {shareUrl}
+                                quote   = {hoot.proprietaire}
+                                hashtag = {'#HootingOwl'}
+                                style   = {{margin: '5px'}}
+                            >
+                            <EmailIcon size={40} round={true} />
+                            </EmailShareButton>            
+                            
+                            <FacebookShareButton
+                                url     = {shareUrl}
+                                quote   = {hoot.proprietaire}
+                                hashtag = {'#HootingOwl'}
+                                style   = {{margin: '5px'}}
 
-                        <LinkedinShareButton
-                            url     = {shareUrl}
-                            quote   = {hoot.proprietaire}
-                            hashtag = {'#HootingOwl'}
-                            style   = {{margin: '5px'}}
+                            >
+                            <FacebookIcon size={40} round={true} />
+                            </FacebookShareButton>
 
-                        >
-                        <LinkedinIcon size={40} round={true} />
-                        </LinkedinShareButton>
+                            <LinkedinShareButton
+                                url     = {shareUrl}
+                                quote   = {hoot.proprietaire}
+                                hashtag = {'#HootingOwl'}
+                                style   = {{margin: '5px'}}
 
-                        <WhatsappShareButton
-                            url     = {shareUrl}
-                            quote   = {hoot.proprietaire}
-                            hashtag = {'#HootingOwl'}
-                            style   = {{margin: '5px'}}
+                            >
+                            <LinkedinIcon size={40} round={true} />
+                            </LinkedinShareButton>
 
-                        >
-                        <WhatsappIcon size={40} round={true} />
-                        </WhatsappShareButton>
-                    </div>
-                }
+                            <WhatsappShareButton
+                                url     = {shareUrl}
+                                quote   = {hoot.proprietaire}
+                                hashtag = {'#HootingOwl'}
+                                style   = {{margin: '5px'}}
 
-                {answer && 
-                    <form onSubmit={commentSubmit}>
-                        <input 
-                            type="text" 
-                            id='content' 
-                            style={{margin: '8px', borderRadius: '5px', padding: '10px'}}
-                            placeholder='Votre réponse' 
-                        />
-                        <input
-                            style={{margin: '8px', borderRadius: '5px', padding: '10px', background: '#205375', color: 'white', border: 'none'}} 
-                            type="submit" />
-                    </form>
-                }
+                            >
+                            <WhatsappIcon size={40} round={true} />
+                            </WhatsappShareButton>
+                        </div>
+                    }
 
-        </StyledMainHoot>
+                    {answer && 
+                        <form onSubmit={commentSubmit}>
+                            <input 
+                                type="text" 
+                                id='content' 
+                                style={{margin: '8px', borderRadius: '5px', padding: '10px'}}
+                                placeholder='Votre réponse' 
+                            />
+                            <input
+                                style={{margin: '8px', borderRadius: '5px', padding: '10px', background: '#205375', color: 'white', border: 'none'}} 
+                                type="submit" />
+                        </form>
+                    }
 
-            {loading ?
-                <Spinner />
-            :
+                </StyledMainHoot>
+
                 <DisplayedComments comments={comments} />
-            }  
-                 
+            </>
+            
+            }
+
         </StyledSection>
     );
 };

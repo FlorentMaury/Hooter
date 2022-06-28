@@ -1,19 +1,23 @@
 // Librairies.
-import React           from 'react';
-import classes         from './Home.module.css';
-import styled          from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import routes          from '../../config/routes';
+import React, { useEffect } from 'react';
+import classes              from './Home.module.css';
+import styled               from 'styled-components';
+import { useNavigate }      from 'react-router-dom';
+import routes               from '../../config/routes';
 
 // Composants.
-import OwlieTalks from '../../assets/OwlieTalks.png';
-import Owlie      from '../../assets/Owlie.png';
-import Spiral     from '../../assets/Spiral.png';
+import Owlie      from '../../assets/Owlie.gif';
+// import Spiral     from '../../assets/Spiral.png';
 import Button     from '../../Components/Button/Button';
 
 // Styled Components.
 const StyledOwl = styled.img`
     width: 120%;
+
+    @media (max-width: 1500px) {
+            width    : 90%;
+        }
+
     @media (max-width: 873px) {
             width    : 80%;
         }
@@ -79,6 +83,11 @@ const StyledButton = {
 // Accueil.
 export default function Home(props) {
 
+    // Nom de la page.
+    useEffect(() => {
+        document.title = 'Hooter | Accueil';
+    });
+
     // Variables.
     let navigate = useNavigate();
 
@@ -114,10 +123,10 @@ export default function Home(props) {
             
             <StyledSharedSpace>
             <StyledOwl src={Owlie} />
-                <div>
+                {/* <div>
                     <img alt='Spirale' className={classes.spiral1} src={Spiral} />
                     <img alt='Spirale' className={classes.spiral2} src={Spiral} />
-                </div>
+                </div> */}
             </StyledSharedSpace>
         </StyledLayout>
     );

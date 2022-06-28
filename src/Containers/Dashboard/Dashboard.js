@@ -13,43 +13,58 @@ import Modal          from '../../Components/UI/Modal/Modal';
 
 // Styled Components.
 const StyledDashboard = styled.div`
-    background : #EFEFEF;
-    height     : auto;
-    padding-top: 30px;
+    background    : #EFEFEF;
+    height        : auto;
+    padding-top   : 30px;
+    display       : flex;
+    flex-direction: column;
+    align-items   : center;
 `;
 
 const StyledHootingCard = styled.div`
-    width          : 68vw;
+    width          : 100%;
     height         : 20vh;
     background     : white;
     border         : 1px solid #cccccce0;
     border-radius  : 10px;
     display        : flex;
     align-items    : center;
-    justify-content: start;
     padding        : 40px;
     margin-bottom  : 30px;
 
-    @media (max-width: 815px) {
-            width: 80%;
-        }
-
     @media (max-width: 550px) {
             padding: 20px;
-        }
+        } 
 `;
 
 const StyledMain = styled.main`
     display        : flex;
     flex-direction : column;
-    justify-content: center;
     align-items    : center;
+    width          : 60vw ;
+
+    @media (max-width: 950px) {
+           width  : 80vw;
+        }
+
+    @media (max-width: 590px) {
+           width  : 90vw;
+        }
 `;
 
 const StyledDisplayedHoots = styled.div`
     display       : flex;
     flex-direction: column;
     align-items   : center;
+    width: 60vw;
+
+    @media (max-width: 815px) {
+           width  : 80vw;
+        }
+
+    @media (max-width: 590px) {
+           width  : 90vw;
+        }
 `;
 
 const StyledImg = styled.img`
@@ -65,7 +80,7 @@ const StyledImg = styled.img`
 `;
 
 const StyledLine = styled.div`
-    width     : 68vw;
+    width     : 100%;
     padding   : 30px;
     border-top: 3px solid #DDD;
 `;
@@ -75,12 +90,13 @@ const StyledLine = styled.div`
 export default function Dashboard(props) {
 
     // State
-    const [hoots, setHoots] = useState([]);
-    const [modal, setModal] = useState(false);
+    const [hoots, setHoots]   = useState([]);
+    const [modal, setModal]   = useState(false);
+    const [follow, setFollow] = useState([]);
 
     // Nom de la page.
     useEffect(() => {
-        document.title = 'Tableau de bord';
+        document.title = 'Hooter | Tableau de bord';
     });
 
     // ComponentDidMount ? pour afficher les hoots. 
@@ -102,7 +118,27 @@ export default function Dashboard(props) {
             .catch(error => {
                 console.log(error);   
             })
-    });
+    }, []);
+
+    // ComponentDidMount ? pour afficher les hoots de ses abonnées. 
+    useEffect(() => {
+        axios.get('/follow/' + fire.auth().currentUser.uid + '.json')  
+            .then(response => {
+                let followArray = [];
+                for (let key in response.data) {
+                    followArray.push({
+                        ...response.data[key],
+                        id: key
+                    });
+                }
+
+                setFollow(followArray);
+                console.log(followArray.suivi);
+            })
+            .catch(error => {
+                console.log(error);   
+            })
+    }, []);
 
     // Fonctions 
     const toggleModalHandler = () => {
@@ -135,6 +171,10 @@ export default function Dashboard(props) {
                     </StyledHootingCard>
 
                 <StyledDisplayedHoots>
+                <StyledLine />
+
+                    <h3>Mes abonnements</h3>
+
                 <StyledLine />
 
                     <h1>Toute l'actualité</h1>

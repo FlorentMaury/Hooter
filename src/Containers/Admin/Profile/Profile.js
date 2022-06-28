@@ -53,6 +53,11 @@ const StyledImg = styled.img`
 // Profile.
 export default function Profile(props) {
 
+    // Nom de la page.
+    useEffect(() => {
+        document.title = 'Hooter | Profil de ' + id;
+    });
+
     // Variables.
     const navigate                = useNavigate();
     const location                = useLocation();

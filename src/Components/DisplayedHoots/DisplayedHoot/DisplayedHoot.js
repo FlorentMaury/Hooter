@@ -15,14 +15,18 @@ const StyledDiv = styled.div`
     margin        : 15px;
     border-bottom : 1px solid rgba(0, 0, 0, .2);
     border        : 1px solid #cccccce0;
-    min-width     : 1000px;
     background    : white;
-    width         : 68vw;
+    width         : 60vw;
     border-radius: 10px;
+        
+    @media (max-width: 950px) {
+           width  : 80vw;
+           padding: 15px;
+        }
 
-    @media (max-width: 1050px) {
-            width : 80vw;
-            min-width: 0;
+    @media (max-width: 590px) {
+           width  : 90vw;
+           padding: 10px;
         }
 `;
 
@@ -57,7 +61,7 @@ const StyledImg = styled.img`
 const StyledProfile = styled.div`
     border-bottom: 1px solid #cccccce0;
     padding      : 10px;
-    width        : 950px;
+    width        : 90%;
 
     @media (max-width: 1050px) {
             width : 90%;

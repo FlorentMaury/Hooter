@@ -31,12 +31,13 @@ const ColorChangerAnimation = keyframes`
     }
 `;
 
-const StyledHeader = styled.header`
+const StyledHeaderLayout = styled.div`
     display        : flex;
-    justify-content: space-around;
+    justify-content: space-between;
     height         : 12vh;
     align-items    : center;
     background     : #112B3C;
+    width          : 60vw;
 
         & a {
             color          : white;
@@ -46,7 +47,18 @@ const StyledHeader = styled.header`
         @media (max-width: 815px) {
             flex-direction: column;
             height        : 150px;
+            width         : 80vw;
+        }  
+    
+    @media (max-width: 590px) {
+           width: 90vw;
         }
+`;
+
+const StyledHeader = styled.header`
+    display        : flex;
+    justify-content: center;
+    background     : #112B3C;
 `;
 
 const StyledLogo = styled.div`
@@ -55,7 +67,7 @@ const StyledLogo = styled.div`
 
     @media (max-width: 815px) {
             font-size: 3rem;
-        }
+        }  
 `;
 
 const StyledAnimatedDiv = styled.div`
@@ -92,41 +104,42 @@ export default function Header(props) {
 
     // Render.
     return (
-        <StyledHeader>
+            <StyledHeader>
+                <StyledHeaderLayout>
+                <StyledLogo>
+                    <Link to={routes.HOME}>
+                        <StyledAnimatedDiv>Hooter</StyledAnimatedDiv>
+                    </Link>
+                </StyledLogo> 
 
-            <StyledLogo>
-                <Link to={routes.HOME}>
-                    <StyledAnimatedDiv>Hooter</StyledAnimatedDiv>
-                </Link>
-            </StyledLogo> 
+                <StyledRightSide>
+                    <StyledNav>
+                        <Navigation user={props.user} />
+                    </StyledNav>
 
-            <StyledRightSide>
-                <StyledNav>
-                    <Navigation user={props.user} />
-                </StyledNav>
-
-                <div>
-                    { !props.user && 
-                        <div>
-                            <Link to={routes.CONNEXION}>
-                                <Button>Connexion</Button>
-                            </Link>
-                        </div>
-                    }
-                    { props.user && 
-                        <Button style={{
-                                background: '#F66B0E', 
-                                color     : 'white', 
-                                display   : 'flex', 
-                                alignItems: 'center', 
-                                marginLeft: '10px', 
-                                fontSize  : '1.1rem', 
-                                fontWeight: '100'
-                            }} 
-                                onClick={logoutClickedHandler}
-                    >Déconnexion</Button> }
-                </div>
-            </StyledRightSide>
-        </StyledHeader>
+                    <div>
+                        { !props.user && 
+                            <div>
+                                <Link to={routes.CONNEXION}>
+                                    <Button>Connexion</Button>
+                                </Link>
+                            </div>
+                        }
+                        { props.user && 
+                            <Button style={{
+                                    background: '#F66B0E', 
+                                    color     : 'white', 
+                                    display   : 'flex', 
+                                    alignItems: 'center', 
+                                    marginLeft: '10px', 
+                                    fontSize  : '1.1rem', 
+                                    fontWeight: '100'
+                                }} 
+                                    onClick={logoutClickedHandler}
+                        >Déconnexion</Button> }
+                    </div>
+                </StyledRightSide>
+                </StyledHeaderLayout>
+            </StyledHeader>
     );
 };

@@ -1,4 +1,4 @@
-// Librairies
+// Librairies.
 import React, { useState, useEffect } from 'react';
 import { checkValidity }              from '../../../shared/utility';
 import { useNavigate }                from 'react-router-dom';
@@ -7,12 +7,12 @@ import fire                           from '../../../config/firebase';
 import { toast }                      from 'react-toastify';
 import styled                         from 'styled-components';
 
-// Composants
+// Composants.
 import Input  from '../../../Components/UI/Input/Input';
 import Button from '../../../Components/Button/Button';
 
 
-// Styled Components
+// Styled Components.
 const StyledConnexionLayout = styled.div`
     background     : #EFEFEF;
     height         : 100%;
@@ -22,45 +22,49 @@ const StyledConnexionLayout = styled.div`
 
 const StyledH1 = styled.h1`
     font-size: 2.5rem;
-    padding  : 30px 0;
+    padding  : 50px 0;
 
     @media (max-width: 660px) {
            font-size: 2rem;
-           padding: 10px;
+           padding  : 10px;
         }
 `;
 
 const StyledConnexionCard = styled.div`
-    border       : 1px solid #EFEFEF;
-    padding      : 150px 120px;
-    border-radius: 10px;
-    background   : white;
-    width        :60vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: center ;
+    border         : 1px solid #EFEFEF;
+    border-radius  : 10px;
+    background     : white;
+    width          : 60vw;
+    display        : flex;
+    flex-direction : column;
 
     @media (max-width: 815px) {
-           width: 80vw;
+           width  : 80vw;
            padding: 15px;
         }
 
     @media (max-width: 590px) {
-           width: 90vw;
+           width  : 90vw;
            padding: 10px;
         }
 `;
 
+const StyledForm = styled.form`
+    height: 40vh;
+`;
+
+
+// Authentification.
 export default function Authentification() {
 
-    // ComponentDidUpdate
+    // ComponentDidUpdate.
     useEffect(() => {
-        document.title = 'Authentification';
+        document.title = 'Hooter | Authentification';
     });
 
     const navigate = useNavigate();
 
-    // States
+    // States.
     const [emailError, setEmailError] = useState(false);
     const [loginError, setLoginError] = useState(false);
     const [valid, setValid]           = useState(false);
@@ -99,22 +103,22 @@ export default function Authentification() {
         },
     });
 
-        // Méthodes 
-            // checkValidity
+        // Méthodes .
+            // checkValidity.
 
         const inputChangedHandler = (event, id) => {
 
-            // Change la valeur
+            // Change la valeur.
             const newInputs = {...inputs};
             newInputs[id].value = event.target.value;
             newInputs[id].touched = true;
     
-            // Vérification de la valeur
+            // Vérification de la valeur.
             newInputs[id].valid = checkValidity(event.target.value, newInputs[id].validation);
     
             setInputs(newInputs);
     
-            // Vérification du formulaire
+            // Vérification du formulaire.
             let formIsValid = true;
             for (let input in newInputs) {
                 formIsValid = newInputs[input].valid && formIsValid;
@@ -122,6 +126,7 @@ export default function Authentification() {
             setValid(formIsValid);
         };
 
+        // Requête pour l'inscription.
         const registerClickedHandler = () => {
             const user = {
                 email   : inputs.email.value,
@@ -134,7 +139,7 @@ export default function Authentification() {
                 .then(() => {
                     toast('Bienvenue !', {position: 'bottom-right'});
                     navigate(routes.DASHBOARD);
-                    toast.info('Veuillez renseigner votre pseudo dans l\'onglet \'Paramètres\'.', {position: 'bottom-right'});
+                    toast.info('Veuillez renseigner votre pseudo ainsi que votre image de profil dans l\'onglet \'Paramètres\'.', {position: 'bottom-right'});
                 })
                 .catch(error => {
                     switch (error.code) {
@@ -148,6 +153,7 @@ export default function Authentification() {
                 });
         };
 
+        // Requête pour la connexion.
         const loginClickedHandler = () => {
             const user = {
                 email   : inputs.email.value,
@@ -175,21 +181,21 @@ export default function Authentification() {
                 });
         };
 
+        // Mot de passe oublié ?
         const renewPasswordHandler = () => {
+
             if (inputs.email.value !== 0) {
                 fire.auth().sendPasswordResetEmail(inputs.email.value)
                     .then(() => {
                         toast('Email de réinitialisation envoyé à ' + inputs.email.value + ' !', {position: 'bottom-right'});
                     })
                     .catch((error) => {
-                        let errorCode = error.code;
-                        let errorMessage = error.message;
-                        console.log(errorCode, errorMessage)
+                        // let errorCode = error.code;
+                        // let errorMessage = error.message;
+                        // console.log(errorCode, errorMessage)
+                        toast.error('Veuillez renseigner votre email.', {position: 'bottom-right'})
                 })          
-            } else {
-                toast('Veuillez renseigner votre email.');
             }
-
         };
 
         const formHandler = event => {
@@ -207,7 +213,7 @@ export default function Authentification() {
     };
 
     let form = (
-        <form onSubmit={formHandler}>
+        <StyledForm onSubmit={formHandler}>
             {formElementArray.map(formElement => (
                 <Input
                     key          = {formElement.id}
@@ -220,7 +226,7 @@ export default function Authentification() {
                     touched      = {formElement.config.touched}
                     errorMessage = {formElement.config.errorMessage}
                     changed      = {(e) => inputChangedHandler(e, formElement.id)}
-                    style        = {{margin: '10px', borderRadius: '5px', padding: '10px'}}
+                    style        = {{margin: '20px', borderRadius: '5px', border: "3px solid #EFEFEF", padding: '10px', width: '300px'}}
                 />
             ))}
             <div>
@@ -233,15 +239,17 @@ export default function Authentification() {
                 <Button
                     onClick  = {registerClickedHandler}
                     disabled = {!valid} 
-                    style    = {{margin: '10px'}}
+                    style    = {{marginLeft: '60px', marginTop: '30px'}}
                 >
                     Inscription
                 </Button>
 
             </div>
-        </form>
+        </StyledForm>
     );
 
+
+    // Render.
     return (
         <StyledConnexionLayout>
             <StyledConnexionCard>
@@ -250,7 +258,13 @@ export default function Authentification() {
                     {emailError && <div>Cette adresse email est déjà utilisée.</div>}
                     {loginError && <div>Impossible de vous authentifier.</div>}
                     {form}
-                    <Button onClick={renewPasswordHandler} style={{border: '2px solid #205375', color: '#205375', margin: '10px'}}>Mot de passe oublié ?</Button>
+                    <Button 
+                        onClick = {renewPasswordHandler} 
+                        style   = {{border: '2px solid #205375', color: '#205375', margin: '10px'}}
+                        id      = "renewPassword"    
+                    >
+                        Mot de passe oublié ?
+                    </Button>
                 </div>
             </StyledConnexionCard>
         </StyledConnexionLayout>
