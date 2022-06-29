@@ -5,11 +5,11 @@ import styled                         from 'styled-components';
 import fire                           from '../../config/firebase';
 
 // Composants.
-import ManageHoots    from '../Admin/ManageHoots/ManageHoots';
-import DisplayedHoots from '../../Components/DisplayedHoots/DisplayedHoots';
-import Button         from '../../Components/Button/Button';
-import Modal          from '../../Components/UI/Modal/Modal';
-
+import ManageHoots             from '../Admin/ManageHoots/ManageHoots';
+import DisplayedHoots          from '../../Components/DisplayedHoots/DisplayedHoots';
+import Button                  from '../../Components/Button/Button';
+import Modal                   from '../../Components/UI/Modal/Modal';
+import DisplayedFollowersHoots from '../../Components/DisplayedFollowersHoots/DisplayedFollowersHoots';
 
 // Styled Components.
 const StyledDashboard = styled.div`
@@ -85,6 +85,11 @@ const StyledLine = styled.div`
     border-top: 3px solid #DDD;
 `;
 
+const StyledFollowerHoots = styled.div`
+    display: flex;
+    flex-direction: row;
+`;
+
 
 // Tableau de bord.
 export default function Dashboard(props) {
@@ -101,7 +106,7 @@ export default function Dashboard(props) {
 
     // ComponentDidMount ? pour afficher les hoots. 
     useEffect(() => {
-        axios.get('/hoots.json?orderBy="date"')  
+        axios.get('/hoots.json?orderBy="date"') 
             .then(response => {
                 let hootsArray = [];
                 for (let key in response.data) {
@@ -118,8 +123,9 @@ export default function Dashboard(props) {
             .catch(error => {
                 console.log(error);   
             })
-    });
+    }, []);
 
+    console.log(hoots)
 
     // ComponentDidMount ? pour afficher les hoots de ses abonnées. 
     useEffect(() => {
@@ -144,7 +150,15 @@ export default function Dashboard(props) {
                     axios.get('/hoots.json?orderBy="proprietaire"&equalTo="' + x + '"')
                         // Résultat de la requête secondaire.
                         .then(response => {
-                            setFollow(((Object.values(response.data)[0])));
+                            let followersArray = [];
+                            // setFollow(((Object.values(response.data)[0])));
+                            for (let key in ((Object.values(response.data)[0]))) {
+                                followersArray.push({
+                                    ...response.data,
+                                    id: key
+                                });
+                                setFollow(followersArray);
+                            }
                         })
                         // Potentielles erreurs de la requête secondaire.
                         .catch(error => {
@@ -191,21 +205,19 @@ export default function Dashboard(props) {
                             onClick={toggleModalHandler}>Commencez un post</Button> 
                     </StyledHootingCard>
 
+
+                <StyledLine />
+
+                    <h3>Derniers Hoots de mes abonnés</h3>
+                    <StyledFollowerHoots>
+                        <DisplayedFollowersHoots
+                            follow = {follow}
+                            user   = {props.user}
+                        />
+                    </StyledFollowerHoots>
+
+                <StyledLine />
                 <StyledDisplayedHoots>
-                <StyledLine />
-
-                    <h3>Mes abonnements</h3>
-                    <div>
-                        <h4>{follow.auteur}</h4>
-                        <img src={follow.photoURL} alt="avatar" />
-                        <p>{follow.contenu}</p>
-                        {follow.articleImg &&
-                        <img src={follow.articleImg} alt="Illustration de l'article" />
-                        }
-                        <small>{follow.date}</small>
-                    </div> 
-
-                <StyledLine />
 
                     <h1>Toute l'actualité</h1>
                     <DisplayedHoots 
