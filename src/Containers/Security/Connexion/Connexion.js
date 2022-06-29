@@ -31,12 +31,13 @@ const StyledH1 = styled.h1`
 `;
 
 const StyledConnexionCard = styled.div`
-    border         : 1px solid #EFEFEF;
     border-radius  : 10px;
-    background     : white;
+    background     : #EFEFEF;
     width          : 60vw;
     display        : flex;
     flex-direction : column;
+    align-items    : center;
+    padding-top    : 80px;
 
     @media (max-width: 815px) {
            width  : 80vw;
@@ -53,9 +54,16 @@ const StyledForm = styled.form`
     height: 40vh;
 `;
 
+const StyledBlueCard = styled.div`
+    margin-top   : 20px;
+    width        : 33%;
+    border-radius: 10px;
+    background   : white;
+    box-shadow   : 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+`;
 
 // Authentification.
-export default function Authentification() {
+export default function Authentification(props) {
 
     // ComponentDidUpdate.
     useEffect(() => {
@@ -137,6 +145,10 @@ export default function Authentification() {
                 .auth()
                 .createUserWithEmailAndPassword(user.email, user.password)
                 .then(() => {
+                    fire.auth().currentUser.updateProfile({
+                        displayName: 'John Doe',
+                        photoURL: 'https://urlz.fr/iDgB'
+                    });
                     toast('Bienvenue !', {position: 'bottom-right'});
                     navigate(routes.DASHBOARD);
                     toast.info('Veuillez renseigner votre pseudo ainsi que votre image de profil dans l\'onglet \'Paramètres\'.', {position: 'bottom-right'});
@@ -226,46 +238,52 @@ export default function Authentification() {
                     touched      = {formElement.config.touched}
                     errorMessage = {formElement.config.errorMessage}
                     changed      = {(e) => inputChangedHandler(e, formElement.id)}
-                    style        = {{margin: '20px', borderRadius: '5px', border: "3px solid #EFEFEF", padding: '10px', width: '300px'}}
+                    style        = {{margin: '10px', borderRadius: '5px', border: "3px solid #EFEFEF", padding: '10px', width: '300px'}}
                 />
             ))}
+
             <div>
                 <Button
                     onClick   = {loginClickedHandler}
                     disabled  = {!valid} 
+                    style     = {{marginTop: '40px', width: '300px'}}
                 >
                     Connexion
                 </Button> 
                 <Button
                     onClick  = {registerClickedHandler}
                     disabled = {!valid} 
-                    style    = {{marginLeft: '60px', marginTop: '30px'}}
+                    style    = {{background: '#205375', border: '2px solid #205375', color: 'white', marginTop: '8px', width: '300px'}}
                 >
                     Inscription
+                </Button>
+
+                <Button 
+                    onClick = {renewPasswordHandler} 
+                    style   = {{border: 'none', color: '#205375', fontSize: '.9rem'}}
+                    id      = "renewPassword"    
+                >
+                    Mot de passe oublié ?
                 </Button>
 
             </div>
         </StyledForm>
     );
-
+    
 
     // Render.
     return (
         <StyledConnexionLayout>
             <StyledConnexionCard>
-                <StyledH1>Authentification</StyledH1>
-                <div>
-                    {emailError && <div>Cette adresse email est déjà utilisée.</div>}
-                    {loginError && <div>Impossible de vous authentifier.</div>}
-                    {form}
-                    <Button 
-                        onClick = {renewPasswordHandler} 
-                        style   = {{border: '2px solid #205375', color: '#205375', margin: '30px'}}
-                        id      = "renewPassword"    
-                    >
-                        Mot de passe oublié ?
-                    </Button>
-                </div>
+                <StyledBlueCard>
+                    <StyledH1>S'identifier</StyledH1>
+                    <div>
+                        {emailError && <div>Cette adresse email est déjà utilisée.</div>}
+                        {loginError && <div>Impossible de vous authentifier.</div>}
+                        {form}
+
+                    </div>
+                </StyledBlueCard>
             </StyledConnexionCard>
         </StyledConnexionLayout>
     );

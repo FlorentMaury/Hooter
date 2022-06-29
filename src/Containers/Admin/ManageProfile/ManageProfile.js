@@ -4,7 +4,7 @@ import fire                           from '../../../config/firebase';
 import { toast }                      from 'react-toastify';
 import styled                         from 'styled-components';
 import axios                          from '../../../config/axios-firebase';
-import { useNavigate }                from 'react-router-dom';
+import { Link, useNavigate }          from 'react-router-dom';
 import routes                         from '../../../config/routes';
 
 
@@ -14,9 +14,9 @@ import Spinner from '../../../Components/UI/Spinner/Spinner';
 import Modal   from '../../../Components/UI/Modal/Modal';
 
 // Styled Components.
-const StyledH2 = styled.h1`
-    font-size: 2.5rem;
-    padding  : 50px 0;
+const StyledH2 = styled.h2`
+    font-size: 2rem;
+    padding  : 30px 0;
 
     @media (max-width: 660px) {
            font-size: 2rem;
@@ -25,16 +25,15 @@ const StyledH2 = styled.h1`
 `; 
 
 const StyledDiv = styled.div`
-    background     : #FCF8E8;
-    height         : 100%;
     background     : #EFEFEF;
+    height         : 100%;
     display        : flex;
     justify-content: center;
 `;
 
 const StyledP = styled.p`
     font-size: 1.5rem;
-    padding  : 30px;
+    padding  : 10px;
 `;
 
 const StyledInput = styled.input`
@@ -42,18 +41,21 @@ const StyledInput = styled.input`
     border-radius: 5px;
     background   : white;
     border       : 3px solid #EFEFEF;
-    margin-bottom: 30px;
+    margin       : 10px;
     padding      : 10px;
     width        : 300px;
 `; 
 
 const StyledManageProfileCard = styled.div`
     background    : white;
-    border-radius : 0px;
     width         : 60vw;
     display       : flex;
     flex-direction: column;
     align-items   : center;
+    border-radius : 10px;
+    background    : white;
+    box-shadow    : 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    margin        : 20px;
 
     @media (max-width: 815px) {
            width: 80vw;
@@ -65,11 +67,12 @@ const StyledManageProfileCard = styled.div`
 `;
 
 const StyledImg = styled.img`
-    vertical-align: middle;
     width         : 100px;
     height        : 100px;
     border-radius : 50%;
-    margin-bottom : 30px;
+    margin        : 60px;
+    display       : block;
+    margin-bottom : 10px;
 `;
 
 // Manage Profile.
@@ -159,7 +162,7 @@ export default function ManageProfile(props) {
           }).then(() => {
             setUserName(userNewName);
             setPhotoURL(userNewImg);
-            toast.success('Pseudo/image modifié avec succès !')
+            toast.success('Pseudo/image modifié avec succès !', {position: 'bottom-right'})
             navigate(routes.DASHBOARD);
           }).catch((error) => {
             console.log(error)
@@ -176,8 +179,15 @@ export default function ManageProfile(props) {
             :
                 <StyledDiv>
                     <StyledManageProfileCard>
+                    <StyledImg 
+                            src = {fire.auth().currentUser.photoURL} 
+                            alt = 'Image du profil'
+                        />
+                                                <StyledP>{userName}</StyledP>
+
                         <StyledH2>Modifier votre profil</StyledH2>
                         <form onSubmit={formHandler} method='post'>
+                            <label>Nouveau pseudo</label><br />
                             <StyledInput 
                                 type       = "text" 
                                 placeholder= {props.user.displayName}
@@ -187,17 +197,22 @@ export default function ManageProfile(props) {
                                 minLength  = '3'
                                 autoFocus
                             /><br />
+                            <label>Image du profil</label><br />
                             <StyledInput type='text' placeholder='Lien vers votre image' id='userNewImg' /><br />
-                            <Button type='submit' value='Confirmer'>Confirmer</Button>
+                            <Button
+                                style = {{display: 'block', width: '300px', border: '2px solid #205375', color: '#205375', margin: '80px'}}
+                                type='submit' 
+                                value='Confirmer'>Confirmer</Button>
                         </form>
 
-                        <StyledP>Votre pseudo actuel est : <b>{userName}</b></StyledP>
-                        <StyledImg 
-                            src = {fire.auth().currentUser.photoURL} 
-                            alt = 'Image du profil'
-                        />
+                        {/* <Link 
+                            to    = {routes.PROFILE + '/' + props.user.displayName}
+                            style = {{display: 'block', border: '2px solid #205375', color: '#205375', margin: '10px'}} 
+                        >
+                            Voir mon profil
+                        </Link> */}
                         <Button 
-                            style   = {{display: 'block', border: '2px solid #205375', color: '#205375', margin: '10px'}} 
+                            style = {{display: 'block', width: '300px', background: '#F66B0E', margin: '-70px', color:'white'}}
                             onClick = {toggleModalHandler}
                         >
                             Supprimer mon compte

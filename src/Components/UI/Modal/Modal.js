@@ -22,6 +22,11 @@ const StyledModal = styled.div`
     max-width    : 1200px;
     min-width    : 600px;
 
+    @media (max-width: 650px) {
+           width    : 90vw;
+           min-width: 0;
+        }
+
 `;
 
 // Modale.

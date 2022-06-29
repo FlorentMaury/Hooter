@@ -21,6 +21,7 @@ import {
 import DisplayedComments from '../../Components/DisplayedComments/DisplayedComments';
 import Spinner           from '../../Components/UI/Spinner/Spinner';
 import Button            from '../../Components/Button/Button';
+import Modal             from '../../Components/UI/Modal/Modal';
 
 
 // Styled Components.
@@ -67,13 +68,15 @@ const StyledImg = styled.img`
     border-radius : 50%;
     margin-right  : 10px;
 `;
+
 const StyledDiv = styled.div`
     align-items   : center;
     color         : black;
     margin        : 15px;
     border-bottom : 1px solid rgba(0, 0, 0, .2);
-    border-top : 1px solid rgba(0, 0, 0, .2);
+    border-top    : 1px solid rgba(0, 0, 0, .2);
 `;
+
 const StyledHootImg = styled.img`
     width        : 30%;
     border-radius: 3px;
@@ -81,23 +84,46 @@ const StyledHootImg = styled.img`
     margin       : 10px;
 `;
 
+const StyledH3 = styled.h3`
+    font-size    : 1.5rem;
+    padding      : 15px;
+    border-bottom: 1px solid #ebebeb;
+    text-align   : start;
+    font-weight  : 500;
+    color        : #205375;
+    background   : rgba(235,235,235, .6);;
+`; 
+
+const StyledProfile = styled.div`
+    margin         : 3vh;
+    display        : flex;
+    justify-content: center;
+    align-items    : center;
+`;
+
+const StyledInteractiveDiv = styled.div`
+    display        : flex;
+    align-items    : center;
+    justify-content: center;
+`;
+
 
 // Hoot.
 export default function Hoot(props) {
 
 
-
     // State.
-    const [hoot, setHoot]                     = useState({});
-    const [comments, setComments]             = useState([]);
-    const [share, setShare]                   = useState([]);
-    const [answer, setAnswer]                 = useState(false);
+    const [hoot, setHoot]       = useState({});
+    const [share, setShare]       = useState([]);
+    const [answer, setAnswer]       = useState(false);
+    const [loading, setLoading]       = useState(false);
+    const { slug }                  = useParams();
+    const navigate                = useNavigate();
+    const userName                  = fire.auth().currentUser.displayName;
+    const [comments, setComments]      = useState([]);
+    const [userLiked, setUserLiked]       = useState(null);
+    const [manageHoot, setManageHoot]        = useState(false);
     const [ownerOfTheHoot, setOwnerOfTheHoot] = useState(false);
-    const [loading, setLoading]               = useState(false);
-    const [userLiked, setUserLiked]           = useState(null);
-    const { slug }                            = useParams();
-    const navigate                            = useNavigate();
-    const userName                            = fire.auth().currentUser.displayName;
 
     // ComponentDidMount pour les hoots.
     useEffect(() => {
@@ -178,12 +204,12 @@ export default function Hoot(props) {
             }) 
     };    
 
-    // Poster un hoot.
+    // Commenter un hoot.
     const commentSubmit = (e) => {
         e.preventDefault();
         setLoading(true);
-        let date = new Date();
-        let hootId = slug;
+        let date    = new Date();
+        let hootId  = slug;
         let content =  document.getElementById('content').value;
 
         const comment = {
@@ -279,12 +305,31 @@ export default function Hoot(props) {
         setShare(!share);
     };
 
+    const manageHootHandler = () => {
+        setManageHoot(!manageHoot);
+    };
+
     // Nom de la page.
     useEffect(() => {
         document.title = 'Hooter | Hoot de ' + hoot.auteur;
     });
 
+
+    // Variables.
     const shareUrl = window.location.href; 
+
+    const interactiveButtons = {
+        margin: '3px', 
+        display: 'flex', 
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '160px',
+        height: '40px',
+        marginBottom: '20px',
+        border: 'none',
+        background: '#205375',
+        color: 'white',
+    };
 
     // Render
     return (
@@ -299,65 +344,116 @@ export default function Hoot(props) {
             <>
 
                 <StyledMainHoot>
-                    <Link 
-                        to    = {routes.PROFILE + '/' + hoot.auteur}
-                        state = {hoot}
-                        style = {{textDecoration: 'none'}}
-                    >
-                        <StyledImg src={hoot.auteurImg} alt='avatar'></StyledImg>
-                        <StyledSmall>{hoot.auteur}</StyledSmall>
-                    </Link>
+                    <StyledProfile>
+                        <Link 
+                            to    = {routes.PROFILE + '/' + hoot.auteur}
+                            state = {hoot}
+                            style = {{textDecoration: 'none'}}
+                        >
+                            <StyledImg src={hoot.auteurImg} alt='avatar'></StyledImg>
+                            <StyledSmall>{hoot.auteur}</StyledSmall>
+                        </Link>
+                    </StyledProfile>
 
                     <StyledDiv>
                         <StyledP>{hoot.contenu}</StyledP>
                         {hoot.articleImg &&
-                        <StyledHootImg  src={hoot.articleImg} alt="Image de l'article" />
-                    }
+                            <StyledHootImg  src={hoot.articleImg} alt="Image de l'article" />
+                        }
                     </StyledDiv>
 
-                    { userLiked ?
-                        <span onClick={unLike} className="material-symbols-outlined" style={{cursor: 'pointer', color: 'red', margin: '10px'}}>
-                            favorite
-                        </span>
-                        :                 
-                        <span onClick={like} style={{cursor: 'pointer', margin: '10px'}} className="material-symbols-outlined">
-                            favorite
-                        </span>
+                    <StyledInteractiveDiv>
+
+                        { userLiked ?
+                            <>                   
+                                <Button 
+                                    onClick = {unLike} 
+                                    style   = {interactiveButtons}
+                                >
+                                    <span 
+                                        className="material-symbols-outlined" 
+                                        style={{color: 'red'}}
+                                    >
+                                        favorite
+                                    </span>
+                                        <p>&nbsp;J'aime</p>
+                                </Button>
+                            </>
+                            :     
+                            <>                 
+                                <Button 
+                                    onClick = {like} 
+                                    style   = {interactiveButtons}
+                                >
+                                    <span 
+                                        className="material-symbols-outlined" 
+                                    >
+                                        favorite
+                                    </span>
+                                            <p>&nbsp;Je n'aime pas</p>
+                                </Button>
+                            </>
                         }
 
-    
+                        { ownerOfTheHoot &&
+                            <Button 
+                                    onClick = {manageHootHandler} 
+                                    style   = {interactiveButtons}
+                            >
+                                <span 
+                                    className="material-symbols-outlined" 
+                                >
+                                    settings
+                                </span>
+                                        <p>&nbsp;Parametres</p>
+                            </Button>
+                        }
 
                     <Button 
                         onClick = {answerClickedHandler}
-                        style   = {{margin: '10px'}}
+                        style   = {interactiveButtons}
                         >
-                            { !answer ? 'Répondre' : 'Fermer' }
+                            { !answer ? 
+                            <>
+                                <span class="material-symbols-outlined">
+                                    reply
+                                </span>
+                                    <p>&nbsp; Répondre</p>
+                            </> 
+                            : 
+                            <>
+                                <span class="material-symbols-outlined">
+                                    close
+                                </span>
+                                    <p>&nbsp; Fermer</p>
+                            </>  
+                            }
                     </Button>  
 
                     <Button 
                         onClick = {shareClickedHandler}
-                        style   = {{margin: '10px'}}
+                        style   = {interactiveButtons}
                         >
-                            { share ? 'Partager' : 'Fermer' }
-                    </Button>            
-                        
-                    {ownerOfTheHoot &&
-                        <Link 
-                            to    = {routes.MANAGEHOOTS}
-                            state = {{ from: '/dashboard', hoot: hoot }}
-                        >
-                            <Button style={{color: '#205375', border: '2px solid #205375'}}>Modifier</Button>
-                        </Link>
-                    }
+                            { share ?
+                                <>
+                                    <span class="material-symbols-outlined">
+                                        share
+                                    </span>
+                                        <p>&nbsp; Partager</p>
+                                 </>  
+                            : 
+                                <>
+                                    <span class="material-symbols-outlined">
+                                        close
+                                    </span>
+                                        <p>&nbsp; Fermer</p>
+                                </> 
+                            }
+                    </Button> 
 
-                    {ownerOfTheHoot &&
-                        <Button 
-                            onClick = {deleteHoot}
-                            style   = {{color: '#112B3C', border: '2px solid #112B3C', margin: '30px 10px'}}
-                        >
-                            Supprimer
-                        </Button>
-                    }
+                </StyledInteractiveDiv>
+
+
 
                     {!share &&
                         <div>
@@ -417,6 +513,35 @@ export default function Hoot(props) {
                     }
 
                 </StyledMainHoot>
+
+                { manageHoot &&
+                    <Modal>
+
+                        <StyledH3>Parametres</StyledH3>
+
+                        <Link 
+                            to    = {routes.MANAGEHOOTS}
+                            state = {{ from: '/dashboard', hoot: hoot }}
+                        >
+                            <Button style={{color: '#205375', border: '2px solid #205375'}}>Modifier</Button>
+                        </Link>
+
+                        <Button 
+                            onClick = {deleteHoot}
+                            style   = {{color: 'white', background: '#F66B0E', margin: '30px 10px'}}
+                        >
+                            Supprimer
+                        </Button>
+
+                        <Button 
+                            onClick={manageHootHandler}
+                            style={{color: '#205375', position: 'absolute', top: '10px', right: '10px', padding: '5px 10px', border: 'none'}}
+                        >   
+
+                        <span class="material-symbols-outlined">close</span>
+                        </Button>
+                    </Modal>
+        }
 
                 <DisplayedComments comments={comments} />
             </>

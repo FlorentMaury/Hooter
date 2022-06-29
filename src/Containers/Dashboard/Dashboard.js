@@ -118,37 +118,47 @@ export default function Dashboard(props) {
             .catch(error => {
                 console.log(error);   
             })
-    }, []);
+    });
+
 
     // ComponentDidMount ? pour afficher les hoots de ses abonnées. 
     useEffect(() => {
-        axios.get('/follow/' + fire.auth().currentUser.uid + '.json')  
+        // Récupère les abonnés.
+        axios.get('/follow/' + fire.auth().currentUser.uid + '.json') 
+            // Résultat de la requête principale. 
             .then(response => {
                 let followArray = [];
                 for (let key in response.data) {
                     followArray.push({
-                        ...response.data[key],
+                        ...response.data,
                         id: key
                     });
-
-
-                    let pomme = [];
-
-                    for (let i = 0; i < followArray.length; i++) {
-                        pomme.push({
-                            ...followArray[i].id
-                        });
-                    };
-                    setFollow(pomme);
-
+                }
+                let eachFollowed = [];
+                followArray.forEach(element => {
+                    eachFollowed.push(element.id);
+                });
+                
+                // Récupère les hoots des abonnés.
+                for (const x of eachFollowed) {
+                    axios.get('/hoots.json?orderBy="proprietaire"&equalTo="' + x + '"')
+                        // Résultat de la requête secondaire.
+                        .then(response => {
+                            setFollow(((Object.values(response.data)[0])));
+                        })
+                        // Potentielles erreurs de la requête secondaire.
+                        .catch(error => {
+                            console.log(error)
+                        })
                 }
             })
+            // Potentielles erreurs de la requête principale. 
             .catch(error => {
                 console.log(error);   
             });
     }, []);
 
-    console.log(follow[0].id)
+    console.log(follow);
 
 
     // Fonctions 
@@ -167,7 +177,7 @@ export default function Dashboard(props) {
         alignItems  : 'center',
         paddingLeft : '50px',
         background  : '#EFEFEF',
-    }
+    };
 
     // Render
     return (
@@ -185,6 +195,15 @@ export default function Dashboard(props) {
                 <StyledLine />
 
                     <h3>Mes abonnements</h3>
+                    <div>
+                        <h4>{follow.auteur}</h4>
+                        <img src={follow.photoURL} alt="avatar" />
+                        <p>{follow.contenu}</p>
+                        {follow.articleImg &&
+                        <img src={follow.articleImg} alt="Illustration de l'article" />
+                        }
+                        <small>{follow.date}</small>
+                    </div> 
 
                 <StyledLine />
 

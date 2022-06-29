@@ -118,8 +118,8 @@ const StyledButton = {
     width     : '250px',
     color     : 'white',
     fontSize  : '1.15em',
-    padding   : '15px',
-    alignSelf : 'center'
+    padding   : '20px',
+    alignSelf : 'start'
 };
 
 // Accueil.
@@ -151,9 +151,11 @@ export default function Home(props) {
                     }
                     {!props.user ? 
                         <StyledRegisterButtons>
-                            <Link to={routes.CONNEXION}>
+                            <Link 
+                                to    = {routes.CONNEXION} 
+                            >
                                 <Button 
-                                    style={{background: '#205375', marginRight: '30px', alignSelf: 'center', border: '2px solid #205375', color: 'white'}}
+                                    style={{background: '#205375', marginRight: '10px', alignSelf: 'center', border: '2px solid #205375', color: 'white'}}
                                 >
                                     S'inscrire
                                 </Button>
