@@ -9,7 +9,7 @@ import ManageHoots             from '../Admin/ManageHoots/ManageHoots';
 import DisplayedHoots          from '../../Components/DisplayedHoots/DisplayedHoots';
 import Button                  from '../../Components/Button/Button';
 import Modal                   from '../../Components/UI/Modal/Modal';
-import DisplayedFollowersHoots from '../../Components/DisplayedFollowersHoots/DisplayedFollowersHoots';
+import DisplayedFollowers      from '../../Components/DisplayedFollowers/DisplayedFollowers';
 
 // Styled Components.
 const StyledDashboard = styled.div`
@@ -83,11 +83,14 @@ const StyledLine = styled.div`
     width     : 100%;
     padding   : 30px;
     border-top: 3px solid #DDD;
+    margin    : 10px 0 
 `;
 
 const StyledFollowerHoots = styled.div`
-    display: flex;
+    display       : flex;
     flex-direction: row;
+    flex-wrap     : wrap;
+    width         : 60vw;
 `;
 
 
@@ -123,13 +126,13 @@ export default function Dashboard(props) {
             .catch(error => {
                 console.log(error);   
             })
-    }, []);
+    });
 
-    console.log(hoots)
+    // console.log(hoots)
 
     // ComponentDidMount ? pour afficher les hoots de ses abonnées. 
     useEffect(() => {
-        // Récupère les abonnés.
+        // Récupère l'id des abonnements.
         axios.get('/follow/' + fire.auth().currentUser.uid + '.json') 
             // Résultat de la requête principale. 
             .then(response => {
@@ -144,36 +147,41 @@ export default function Dashboard(props) {
                 followArray.forEach(element => {
                     eachFollowed.push(element.id);
                 });
-                
-                // Récupère les hoots des abonnés.
+
+                let axiosFollowersRequest = [];
                 for (const x of eachFollowed) {
-                    axios.get('/hoots.json?orderBy="proprietaire"&equalTo="' + x + '"')
-                        // Résultat de la requête secondaire.
+                    axiosFollowersRequest.push('/hoots.json?orderBy="proprietaire"&equalTo="' + x + '"&limitToLast=1');
+                }
+
+                let closerToTheResult = [];
+                let otherRequest = [];
+                let anotherRequest = [];
+
+
+                // Résultat de la requête secondaire. 
+                axiosFollowersRequest.forEach((element, index) => {
+                        axios.get(element)
                         .then(response => {
-                            let followersArray = [];
-                            // setFollow(((Object.values(response.data)[0])));
-                            for (let key in ((Object.values(response.data)[0]))) {
-                                followersArray.push({
-                                    ...response.data,
-                                    id: key
-                                });
-                                setFollow(followersArray);
+                            for (let key in response.data) {
+                            closerToTheResult.push({
+                                ...response.data,
+                                id: key
+                            });
+                            console.log(index)
+                            otherRequest.push(Object.values(closerToTheResult[index]))
+                            console.log(otherRequest[index]);
+                            setFollow(otherRequest);
                             }
                         })
-                        // Potentielles erreurs de la requête secondaire.
-                        .catch(error => {
-                            console.log(error)
+                        // Potentielles erreurs de la requête secondaire. 
+                        .catch(error => {console.log(error)})
                         })
-                }
             })
             // Potentielles erreurs de la requête principale. 
             .catch(error => {
                 console.log(error);   
             });
     }, []);
-
-    console.log(follow);
-
 
     // Fonctions 
     const toggleModalHandler = () => {
@@ -208,18 +216,23 @@ export default function Dashboard(props) {
 
                 <StyledLine />
 
-                    <h3>Derniers Hoots de mes abonnés</h3>
-                    <StyledFollowerHoots>
-                        <DisplayedFollowersHoots
-                            follow = {follow}
-                            user   = {props.user}
-                        />
-                    </StyledFollowerHoots>
+                    {follow.length !== 0 ?
+                        <>
+                            <h2>Derniers Hoots de vos abonnements</h2>
+                            <StyledFollowerHoots>
+                                <DisplayedFollowers
+                                    follow={follow}
+                                />
+                            </StyledFollowerHoots>
+                        </>
+                    :
+                        <h2>Vous ne suivez personne pour le moment</h2>
+                    }
 
                 <StyledLine />
                 <StyledDisplayedHoots>
 
-                    <h1>Toute l'actualité</h1>
+                    <h2>Toute l'actualité</h2>
                     <DisplayedHoots 
                         hoots = {hoots}
                         user  = {props.user}

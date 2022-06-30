@@ -376,7 +376,7 @@ export default function Hoot(props) {
                                     >
                                         favorite
                                     </span>
-                                        <p>&nbsp;J'aime</p>
+                                        <p>&nbsp;Je n'aime plus</p>
                                 </Button>
                             </>
                             :     
@@ -390,7 +390,7 @@ export default function Hoot(props) {
                                     >
                                         favorite
                                     </span>
-                                            <p>&nbsp;Je n'aime pas</p>
+                                            <p>&nbsp;J'aime</p>
                                 </Button>
                             </>
                         }

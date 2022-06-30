@@ -1,10 +1,9 @@
 // Librairies.
-import React, { useEffect, useState } from 'react';
-import routes                         from '../../../config/routes';
-import { Link }                       from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import styled                         from 'styled-components';
+import { Link }                       from 'react-router-dom';
+import routes                         from '../../../config/routes';
 import axios                          from '../../../config/axios-firebase';
-
 
 // Styled Components.
 const StyledDiv = styled.div`
@@ -16,7 +15,7 @@ const StyledDiv = styled.div`
     border-bottom : 1px solid rgba(0, 0, 0, .2);
     border        : 1px solid #cccccce0;
     background    : white;
-    width         : 20vw;
+    width         : 250px;
     border-radius: 10px;
         
     @media (max-width: 950px) {
@@ -82,9 +81,7 @@ const StyledNumberOfComments = styled.div`
 
 `;
 
-
-// Displayed Hoot.
-function DisplayedFollowersHoot(props) {
+export default function DisplayedFollower(props) {
 
     // State
     const [numberOfComments, setNumberOfComments] = useState(null);
@@ -92,7 +89,7 @@ function DisplayedFollowersHoot(props) {
 
     // UseEffect pour récupérer le nombre de commentaires.
     useEffect(() => {
-        axios.get('/comment.json?orderBy="hootId"&equalTo="' + props.hoot.slug + '"')
+        axios.get('/comment.json?orderBy="hootId"&equalTo="' + props.element.slug + '"')
 
             .then(response => {
                 let commentsArray = [];
@@ -106,11 +103,11 @@ function DisplayedFollowersHoot(props) {
             })
 
             .catch(error => {console.log(error)});
-    }, [props.hoot.slug]);
+    }, [props.element.slug]);
 
     // UseEffect pour récupérer le nombre de likes.
     useEffect(() => {
-        axios.get('/like/' + props.hoot.slug + '.json')
+        axios.get('/like/' + props.element.slug + '.json')
 
             .then(response => {
                 let commentsArray = [];
@@ -124,26 +121,24 @@ function DisplayedFollowersHoot(props) {
             })
             
             .catch(error => {console.log(error)})
-    }, [props.hoot.slug]);
+    }, [props.element.slug]);
 
-    // Render
     return (
-        // Lien vers le hoot en question.
         <Link 
-            to={routes.HOOT + '/' + props.hoot.slug}
-            style={{textDecoration: 'none'}}
+            to={routes.HOOT + '/' + props.element.slug}
+            style={{textDecoration: 'none', display: 'inline-block'}}
         >
             <StyledDiv>
                 <StyledProfile>
                     <StyledImg 
-                        src={props.hoot.auteurImg} 
+                        src={props.element.auteurImg} 
                         alt='Image du profil'
                     />
-                    <StyledSmall>{props.hoot.auteur}</StyledSmall>
+                    <StyledSmall>{props.element.auteur}</StyledSmall>
                 </StyledProfile>
-                <StyledP>{props.hoot.contenu}</StyledP>
-                {props.hoot.articleImg &&
-                <StyledHootImg src={props.hoot.articleImg} alt='Image de larticle' />
+                <StyledP>{props.element.contenu}</StyledP>
+                {props.element.articleImg &&
+                <StyledHootImg src={props.element.articleImg} alt='Image de larticle' />
                 }
                 
                 <StyledNumberOfComments>
@@ -158,10 +153,8 @@ function DisplayedFollowersHoot(props) {
 
                 </StyledNumberOfComments>
 
-                <StyledSpan>{props.hoot.date}</StyledSpan>
+                <StyledSpan>{props.element.date}</StyledSpan>
             </StyledDiv>
         </Link>
     );
 };
-
-export default DisplayedFollowersHoot;
