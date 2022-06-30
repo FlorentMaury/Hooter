@@ -17,14 +17,9 @@ const StyledDiv = styled.div`
     background    : white;
     width         : 250px;
     border-radius: 10px;
-        
-    @media (max-width: 950px) {
-           width  : 80vw;
-           padding: 15px;
-        }
 
     @media (max-width: 590px) {
-           width  : 90vw;
+           width  : 100%;
            padding: 10px;
         }
 `;

@@ -81,26 +81,39 @@ const StyledImg = styled.img`
 
 const StyledLine = styled.div`
     width     : 100%;
-    padding   : 30px;
     border-top: 3px solid #DDD;
     margin    : 10px 0 
 `;
 
 const StyledFollowerHoots = styled.div`
-    display       : flex;
-    flex-direction: row;
-    flex-wrap     : wrap;
-    width         : 60vw;
+    display        : flex;
+    justify-content: center;
+    align-items    : center;
+    width          : 60vw;
+
+    @media (max-width: 1200px) {
+            width: 70vw;
+        }
+
+    @media (max-width: 800px) {
+            width: 80vw;
+        }
 `;
 
+const StyledShowMoreTitle = styled.div`
+    display    : flex;
+    align-items: center;
+`;
 
 // Tableau de bord.
 export default function Dashboard(props) {
 
     // State
-    const [hoots, setHoots]   = useState([]);
-    const [modal, setModal]   = useState(false);
-    const [follow, setFollow] = useState([]);
+    const [hoots, setHoots]           = useState([]);
+    const [modal, setModal]           = useState(false);
+    const [follow, setFollow]         = useState([]);
+    const [showFollow, setShowFollow] = useState(false);
+    const [showNews, setShowNews]     = useState(false);
 
     // Nom de la page.
     useEffect(() => {
@@ -128,8 +141,6 @@ export default function Dashboard(props) {
             })
     });
 
-    // console.log(hoots)
-
     // ComponentDidMount ? pour afficher les hoots de ses abonnées. 
     useEffect(() => {
         // Récupère l'id des abonnements.
@@ -139,7 +150,7 @@ export default function Dashboard(props) {
                 let followArray = [];
                 for (let key in response.data) {
                     followArray.push({
-                        ...response.data,
+                        ...response.data[key],
                         id: key
                     });
                 }
@@ -154,28 +165,26 @@ export default function Dashboard(props) {
                 }
 
                 let closerToTheResult = [];
-                let otherRequest = [];
-                let anotherRequest = [];
-
 
                 // Résultat de la requête secondaire. 
-                axiosFollowersRequest.forEach((element, index) => {
-                        axios.get(element)
+                const getFollow = async () => {
+                    for (let value of axiosFollowersRequest) {
+                        await axios.get(value)
                         .then(response => {
                             for (let key in response.data) {
                             closerToTheResult.push({
-                                ...response.data,
-                                id: key
+                                ...response.data[key],
+                                id: value
                             });
-                            console.log(index)
-                            otherRequest.push(Object.values(closerToTheResult[index]))
-                            console.log(otherRequest[index]);
-                            setFollow(otherRequest);
-                            }
+                        }
                         })
                         // Potentielles erreurs de la requête secondaire. 
                         .catch(error => {console.log(error)})
-                        })
+                        setFollow(closerToTheResult);
+                    }
+                }
+
+                getFollow();
             })
             // Potentielles erreurs de la requête principale. 
             .catch(error => {
@@ -188,6 +197,14 @@ export default function Dashboard(props) {
         setModal(!modal);
     };
 
+    const showMoreToggler = () => {
+        setShowFollow(!showFollow);
+    }
+
+    const showMoreNewsToggler = () => {
+        setShowNews(!showNews);
+    }
+
     let styledButton = {
         width       : '100%',
         borderRadius: '30px',
@@ -199,6 +216,16 @@ export default function Dashboard(props) {
         alignItems  : 'center',
         paddingLeft : '50px',
         background  : '#EFEFEF',
+    };
+
+    let showMoreButton = {
+        border        : 'none',
+        color         : '#205375',
+        display       : 'flex',
+        justifyContent: 'center',
+        height        : '30px',
+        width         : '30px',
+        alignItems    : 'center',
     };
 
     // Render
@@ -218,26 +245,94 @@ export default function Dashboard(props) {
 
                     {follow.length !== 0 ?
                         <>
-                            <h2>Derniers Hoots de vos abonnements</h2>
-                            <StyledFollowerHoots>
-                                <DisplayedFollowers
-                                    follow={follow}
-                                />
-                            </StyledFollowerHoots>
+                            {showFollow ?
+                                <>
+                                    <StyledShowMoreTitle>
+                                        <h2>Derniers Hoots de vos abonnements &nbsp;</h2>
+                                        <Button 
+                                            style={showMoreButton}
+                                            onClick={showMoreToggler}
+                                        >
+                                            <span 
+                                                className="material-symbols-outlined"
+                                            >
+                                                expand_more
+                                            </span>
+                                        </Button>
+                                    </StyledShowMoreTitle>
+                                        </>
+                                    :
+                                    <>
+                                    <StyledShowMoreTitle>
+                                        <h2>Derniers Hoots de vos abonnements &nbsp;</h2>
+                                        <Button
+                                            style={showMoreButton} 
+                                            onClick={showMoreToggler}
+                                        >
+                                            <span 
+                                                className="material-symbols-outlined"
+                                            >
+                                                expand_less
+                                            </span>
+                                        </Button>
+                                    </StyledShowMoreTitle>
+
+                                    <StyledFollowerHoots>
+                                        <DisplayedFollowers
+                                            follow={follow}
+                                        />
+                                    </StyledFollowerHoots>
+                                </>
+                            }
                         </>
                     :
                         <h2>Vous ne suivez personne pour le moment</h2>
                     }
 
                 <StyledLine />
-                <StyledDisplayedHoots>
 
-                    <h2>Toute l'actualité</h2>
-                    <DisplayedHoots 
-                        hoots = {hoots}
-                        user  = {props.user}
-                    />
-                </StyledDisplayedHoots>
+                {showNews ? 
+                    <>
+                        <StyledDisplayedHoots>
+                            <StyledShowMoreTitle>
+                                <h2>Toute l'actualité &nbsp;</h2>
+                                <Button
+                                    style={showMoreButton} 
+                                    onClick={showMoreNewsToggler}
+                                >
+                                    <span 
+                                        className="material-symbols-outlined"
+                                    >
+                                        expand_more
+                                    </span>
+                                </Button>
+                            </StyledShowMoreTitle>
+                        </StyledDisplayedHoots>
+                    </>
+                :
+                    <>
+                    <StyledDisplayedHoots>
+                            <StyledShowMoreTitle>
+                                <h2>Toute l'actualité &nbsp;</h2>
+                                <Button
+                                    style={showMoreButton} 
+                                    onClick={showMoreNewsToggler}
+                                >
+                                    <span 
+                                        className="material-symbols-outlined"
+                                    >
+                                        expand_less
+                                    </span>
+                                </Button>
+                            </StyledShowMoreTitle>
+
+                            <DisplayedHoots 
+                                hoots = {hoots}
+                                user  = {props.user}
+                            />
+                        </StyledDisplayedHoots>
+                    </>
+                }
 
                 </StyledMain>
             </StyledDashboard>
