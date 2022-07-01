@@ -89,6 +89,7 @@ const StyledFollowerHoots = styled.div`
     display        : flex;
     justify-content: center;
     align-items    : center;
+    flex-wrap: wrap;
     width          : 60vw;
 
     @media (max-width: 1200px) {

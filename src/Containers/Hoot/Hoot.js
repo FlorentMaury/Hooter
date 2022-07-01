@@ -413,7 +413,7 @@ export default function Hoot(props) {
                                 >
                                     settings
                                 </span>
-                                        <p>&nbsp;Parametres</p>
+                                        <p>&nbsp;Paramètres</p>
                             </Button>
                         }
 

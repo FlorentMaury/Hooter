@@ -32,7 +32,7 @@ const StyledH1 = styled.h1`
 
 const StyledConnexionCard = styled.div`
     background     : #EFEFEF;
-    width          : 60vw;
+    width          : 80vw;
     display        : flex;
     flex-direction : column;
     align-items    : center;
@@ -50,7 +50,11 @@ const StyledConnexionCard = styled.div`
 `;
 
 const StyledForm = styled.form`
-    height: 40vh;
+    display        : flex;
+    flex-direction : column;
+    justify-content: center;
+    align-items    : center;
+    width          : 100%;
 `;
 
 const StyledBlueCard = styled.div`
@@ -241,6 +245,7 @@ export default function Authentification(props) {
 
     let form = (
         <StyledForm onSubmit={formHandler}>
+            
             {formElementArray.map(formElement => (
                 <Input
                     key          = {formElement.id}
@@ -253,7 +258,7 @@ export default function Authentification(props) {
                     touched      = {formElement.config.touched}
                     errorMessage = {formElement.config.errorMessage}
                     changed      = {(e) => inputChangedHandler(e, formElement.id)}
-                    style        = {{margin: '10px', borderRadius: '5px', border: "3px solid #EFEFEF", padding: '10px', width: '80%'}}
+                    style        = {{display: 'block', margin: '10px', borderRadius: '5px', border: "3px solid #EFEFEF", padding: '10px', width: '250px'}}
                 />
             ))}
 
@@ -275,7 +280,7 @@ export default function Authentification(props) {
 
                 <Button 
                     onClick = {renewPasswordHandler} 
-                    style   = {{border: 'none', color: '#205375', fontSize: '.9rem'}}
+                    style   = {{border: 'none', color: '#205375', fontSize: '.9rem', marginBottom: '10px'}}
                     id      = "renewPassword"    
                 >
                     Mot de passe oublié ?

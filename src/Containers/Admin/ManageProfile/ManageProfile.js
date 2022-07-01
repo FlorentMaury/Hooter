@@ -80,7 +80,7 @@ const StyledForm = styled.form`
     height        : 40vh;
     display       : flex;
     flex-direction: column;
-    width         : 100%;
+    width         : 60%;
     align-items   : center;
 `;
 
