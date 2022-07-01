@@ -1,0 +1,45 @@
+	Bonjour l'équipe de Believemy !
+
+
+Alors je vous présente mon Projet Passerelle N°3. Excusez-moi pour le retard, mais contrairement au Projet N°2 j'ai preféré rendre ce projet avec du retard mais fonctionnel plutôt que l'inverse.
+
+Ce projet est donc un clone de Twitter !
+
+La page d'accueil présentée par la mascotte Owlie mène vers une page d'inscription et de connexion. Une fois connecté vous êtes conduit sur votre Tableau de Bord ! 
+Un petit encart vous invite à vous rendre dans l'onglet paramètres pour y renseigner votre pseudo ainsi que votre image de profil... mais d'abord retournons à notre tableau de bord.
+
+D'ici vous avez accès à la navigation de manière générale mais surtout a l'espace pour générer vos Hoots ('Ululements', c'est pas comme twitter c'est vrai... mais il y à un lien !).
+Le bloc d'en dessous vous montre les derniers Hoots en date des personnes que vous suivez ; bloc qui peut disparaitre avec la fleche du menu.
+On retrouve cette même fléche pour le bloc suivant qui affiche, lui, tout les Hoots les plus récents dans la limite de 20 Hoots !
+
+Chaque Hoots mène à l'affichage de ce dernier en pleine page ainsi que les commentaires qui lui sont attribués. D'ici il est possible de 'Liker' mais aussi de répondre et de partager.
+Si vous êtes l'auteur de ce Hoots le bouton 'Paramètres' ouvre une fenêtre pour modifier ou supprimer son Hoot.
+
+le profil affiché mène, quant à lui, vers la page du profil en question qui liste tout les Hoots de cette personne et si vous le souhaitez vous pouvez vous abonnez à ce profil
+pour le retrouver dans votre Tableau de Bord. 
+
+L'onglet paramètres vous permet de modifier votre pseudo et image de profil en indiquant un lien vers votre image.
+Il vous est possible également de supprimer votre compte !
+
+
+Dans l'aspect un peu plus technique,
+
+	- Je n'ai pas souhaité reprendre le design exact de Twitter car je voulais créer quelque chose entièrement de moi-même avec ma propre interface,
+	  et même si cela est loin d'être aussi beau et intuitif que Twitter j'en suis quand-même super fier !
+	- Toujours en termes de design je n'ai pas souhaité utiliser Bootstrap (même si je trouve ça complètement génial) car j'ai voulu appliquer cette même logique du 'tout par soit même' ; quitte à
+	  faire ça un peu plus difficilement.
+	- J'ai utilisé FireBase même si avec le recul, j'ai réalisé que je devrais travailler plus PHP pour la prochaine fois et ne dépendre plus de rien. D'autant que j'ai trouvé plutôt compliqué la gestion
+	  du nom et de la photo de l'utilisateur...
+	- ... En parlant de ça l'image de l'utilisateur n'est qu'un lien vers une image malheureseument.
+
+
+Et pour finir comme c'est mon dernier projet et potentiellemnt la dernière fois que je peux vous envoyer un petit brief (si je valide ce projet evidemment), je tenais à très sincèrement vous remercier pour tout ce que vous m'avez appris, 
+c'est assez bizarre en fait de se dire que j'écoute Louis-Nicolas parler quasimment tout les jours ! 
+Mais surtout je m'étais lancé dans la formation Developpeur Web Full Stack avec Studi et je dois admettre que l'apprentissage était super laborieux et vraiment pas humain finalement. Mais heureusement vous êtes apparus et 
+je suis super fier et reconnaissant de ce Programme Rocket et cette promo !  
+
+
+Merci beaucoup mille fois ! 
+
+
+Florent.  

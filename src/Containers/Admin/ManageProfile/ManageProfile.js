@@ -4,7 +4,7 @@ import fire                           from '../../../config/firebase';
 import { toast }                      from 'react-toastify';
 import styled                         from 'styled-components';
 import axios                          from '../../../config/axios-firebase';
-import { Link, useNavigate }          from 'react-router-dom';
+import { useNavigate }          from 'react-router-dom';
 import routes                         from '../../../config/routes';
 
 
@@ -77,7 +77,6 @@ const StyledManageProfileCard = styled.div`
 `;
 
 const StyledForm = styled.form`
-    height        : 40vh;
     display       : flex;
     flex-direction: column;
     width         : 60%;

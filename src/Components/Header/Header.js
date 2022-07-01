@@ -127,15 +127,22 @@ export default function Header(props) {
                     <div>
                         { props.user && 
                             <Button style={{
-                                    background: '#F66B0E', 
-                                    color     : 'white', 
-                                    display   : 'flex', 
-                                    alignItems: 'center', 
-                                    marginLeft: '10px', 
-                                    fontWeight: '100'
+                                    background    : '#F66B0E', 
+                                    color         : 'white', 
+                                    display       : 'flex',
+                                    justifyContent: 'center', 
+                                    alignItems    : 'center', 
+                                    marginLeft    : '10px', 
+                                    fontWeight    : '100',
+                                    height        : '40px',
+                                    width         : '40px'
                                 }} 
                                     onClick={logoutClickedHandler}
-                        >Déconnexion</Button> }
+                        >
+                            <span className="material-symbols-outlined">
+                                logout
+                            </span>
+                        </Button> }
                     </div>
                 </StyledRightSide>
                 </StyledHeaderLayout>
