@@ -37,33 +37,51 @@ const StyledP = styled.p`
 `;
 
 const StyledInput = styled.input`
-    padding      : 8px;
     border-radius: 5px;
     background   : white;
     border       : 3px solid #EFEFEF;
     margin       : 10px;
     padding      : 10px;
-    width        : 300px;
+    width        : 100%;
+    display      : block;
+    align-self: center;
+
+        @media (max-width: 450px) {
+            width: 80%;
+        }
+
+        @media (max-width: 3500px) {
+            width: 65%;
+        }
 `; 
 
 const StyledManageProfileCard = styled.div`
-    background    : white;
-    width         : 60vw;
+    background     : white;
+    width          : 60vw;
+    display        : flex;
+    flex-direction : column;
+    align-items    : center;
+    justify-content: center;
+    border-radius  : 10px;
+    background     : white;
+    box-shadow     : 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    margin         : 20px;
+
+        @media (max-width: 815px) {
+            width: 80vw;
+            }
+
+        @media (max-width: 400px) {
+            width: 90vw;
+            }
+`;
+
+const StyledForm = styled.form`
+    height        : 40vh;
     display       : flex;
     flex-direction: column;
+    width         : 100%;
     align-items   : center;
-    border-radius : 10px;
-    background    : white;
-    box-shadow    : 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    margin        : 20px;
-
-    @media (max-width: 815px) {
-           width: 80vw;
-        }
-
-    @media (max-width: 400px) {
-           width: 90vw;
-        }
 `;
 
 const StyledImg = styled.img`
@@ -186,7 +204,7 @@ export default function ManageProfile(props) {
                                                 <StyledP>{userName}</StyledP>
 
                         <StyledH2>Modifier votre profil</StyledH2>
-                        <form onSubmit={formHandler} method='post'>
+                        <StyledForm onSubmit={formHandler} method='post'>
                             <label>Nouveau pseudo</label><br />
                             <StyledInput 
                                 type       = "text" 
@@ -195,28 +213,23 @@ export default function ManageProfile(props) {
                                 id         = "userNewName"
                                 maxLength  = '18'
                                 minLength  = '3'
-                                autoFocus
+                                autoFocus                             
                             /><br />
                             <label>Image du profil</label><br />
                             <StyledInput type='text' placeholder='Lien vers votre image' id='userNewImg' /><br />
                             <Button
-                                style = {{display: 'block', width: '300px', border: '2px solid #205375', color: '#205375', margin: '80px'}}
+                                style = {{display: 'block', width: '60%', border: '2px solid #205375', color: '#205375', margin: '15px'}}
                                 type='submit' 
-                                value='Confirmer'>Confirmer</Button>
-                        </form>
-
-                        {/* <Link 
-                            to    = {routes.PROFILE + '/' + props.user.displayName}
-                            style = {{display: 'block', border: '2px solid #205375', color: '#205375', margin: '10px'}} 
-                        >
-                            Voir mon profil
-                        </Link> */}
-                        <Button 
-                            style = {{display: 'block', width: '300px', background: '#F66B0E', margin: '-70px', color:'white'}}
+                                value='Confirmer'>Confirmer
+                            </Button>
+                            <Button 
+                            style = {{display: 'block', width: '60%', background: '#F66B0E', color:'white', margin: '15px'}}
                             onClick = {toggleModalHandler}
                         >
                             Supprimer mon compte
                         </Button>
+                        </StyledForm>
+
 
                     </StyledManageProfileCard>
 

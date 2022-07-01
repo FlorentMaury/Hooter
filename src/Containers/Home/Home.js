@@ -10,7 +10,7 @@ import Button     from '../../Components/Button/Button';
 
 // Styled Components.
 const StyledOwlie = styled.img`
-    width: 120%;
+    width: 150%;
 `;
 
 const StyledHome = styled.div`
@@ -26,9 +26,9 @@ const StyledHomeLayout = styled.div`
     width: 60vw;
     display: flex;
 
-        /* @media (max-width: 1500px) {
+        @media (max-width: 1500px) {
             width  : 70vw;
-        } */
+        }
 
         @media (max-width: 1150px) {
             width  : 75vw;
@@ -38,6 +38,7 @@ const StyledHomeLayout = styled.div`
             flex-direction : column;
             justify-content: center;
             align-items    : center;
+            width          : 90w;
         }
 
         @media (max-width: 590px) {
@@ -92,15 +93,24 @@ const StyledSharedSpaceText = styled.div`
         @media (max-width: 1200px) {
                 margin-top: 10%;
             }
+            
+        @media (max-width: 873px) {
+                width: 80%;
+                margin-bottom: 30px;
+            }
 `;
 
 const StyledSharedSpaceOwlie = styled.div`
     width: 50%;
 
     @media (max-width: 1550px) {
-            display: flex;
+            display        : flex;
             justify-content: center;
-            align-items: center;
+            align-items    : center;
+        }
+
+    @media (max-width: 873px) {
+            width: 80%;
         }
 `;
 

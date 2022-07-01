@@ -31,7 +31,6 @@ const StyledH1 = styled.h1`
 `;
 
 const StyledConnexionCard = styled.div`
-    border-radius  : 10px;
     background     : #EFEFEF;
     width          : 60vw;
     display        : flex;
@@ -60,6 +59,22 @@ const StyledBlueCard = styled.div`
     border-radius: 10px;
     background   : white;
     box-shadow   : 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+
+    @media (max-width: 1600px) {
+           width  : 50%;
+        }
+
+    @media (max-width: 1050px) {
+        width  : 75%;
+    }
+
+    @media (max-width: 550px) {
+        width  : 90%;
+    } 
+    
+    @media (max-width: 420px) {
+        width  : 100%;
+    }   
 `;
 
 // Authentification.
@@ -238,7 +253,7 @@ export default function Authentification(props) {
                     touched      = {formElement.config.touched}
                     errorMessage = {formElement.config.errorMessage}
                     changed      = {(e) => inputChangedHandler(e, formElement.id)}
-                    style        = {{margin: '10px', borderRadius: '5px', border: "3px solid #EFEFEF", padding: '10px', width: '300px'}}
+                    style        = {{margin: '10px', borderRadius: '5px', border: "3px solid #EFEFEF", padding: '10px', width: '80%'}}
                 />
             ))}
 
@@ -246,14 +261,14 @@ export default function Authentification(props) {
                 <Button
                     onClick   = {loginClickedHandler}
                     disabled  = {!valid} 
-                    style     = {{marginTop: '40px', width: '300px'}}
+                    style     = {{marginTop: '40px', width: '80%'}}
                 >
                     Connexion
                 </Button> 
                 <Button
                     onClick  = {registerClickedHandler}
                     disabled = {!valid} 
-                    style    = {{background: '#205375', border: '2px solid #205375', color: 'white', marginTop: '8px', width: '300px'}}
+                    style    = {{background: '#205375', border: '2px solid #205375', color: 'white', marginTop: '8px', width: '80%'}}
                 >
                     Inscription
                 </Button>

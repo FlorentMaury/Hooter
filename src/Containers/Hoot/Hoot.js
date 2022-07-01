@@ -105,6 +105,10 @@ const StyledInteractiveDiv = styled.div`
     display        : flex;
     align-items    : center;
     justify-content: center;
+
+        @media (max-width: 550px) {
+            flex-wrap: wrap;
+            }
 `;
 
 
@@ -169,6 +173,10 @@ export default function Hoot(props) {
                         id: key
                     });
                 }
+                console.log(commentsArray)
+                commentsArray.sort((a, b) => {
+                    return a.fireDate - b.fireDate;
+                });
                 setComments(commentsArray);
             })
             .catch(error => {
@@ -415,14 +423,14 @@ export default function Hoot(props) {
                         >
                             { !answer ? 
                             <>
-                                <span class="material-symbols-outlined">
+                                <span className="material-symbols-outlined">
                                     reply
                                 </span>
                                     <p>&nbsp; Répondre</p>
                             </> 
                             : 
                             <>
-                                <span class="material-symbols-outlined">
+                                <span className="material-symbols-outlined">
                                     close
                                 </span>
                                     <p>&nbsp; Fermer</p>
@@ -436,14 +444,14 @@ export default function Hoot(props) {
                         >
                             { share ?
                                 <>
-                                    <span class="material-symbols-outlined">
+                                    <span className="material-symbols-outlined">
                                         share
                                     </span>
                                         <p>&nbsp; Partager</p>
                                  </>  
                             : 
                                 <>
-                                    <span class="material-symbols-outlined">
+                                    <span className="material-symbols-outlined">
                                         close
                                     </span>
                                         <p>&nbsp; Fermer</p>
